@@ -5,10 +5,13 @@ import {
   isMXRecord,
   isTXTRecord,
   isNSRecord,
+  isPTRRecord,
   isSOARecord,
   isSRVRecord,
   isCAARecord,
+  isNAPTRRecord,
   isTLSARecord,
+  isANYRecord,
   isDNSRecord,
   validateDNSRecord
 } from '../src/validators';
@@ -49,6 +52,32 @@ describe('DNS Record Validators', () => {
       };
       expect(isARecord(validARecord)).toBe(true);
     });
+
+    it('should reject non-object inputs', () => {
+      expect(isARecord(null)).toBe(false);
+      expect(isARecord(undefined)).toBe(false);
+      expect(isARecord('string')).toBe(false);
+      expect(isARecord(123)).toBe(false);
+      expect(isARecord([])).toBe(false);
+    });
+
+    it('should reject records with wrong type', () => {
+      const wrongTypeRecord = {
+        type: 'AAAA',
+        address: '192.168.1.1',
+        ttl: 300
+      };
+      expect(isARecord(wrongTypeRecord)).toBe(false);
+    });
+
+    it('should reject records with invalid TTL', () => {
+      const invalidTTLRecord = {
+        type: 'A',
+        address: '192.168.1.1',
+        ttl: -1
+      };
+      expect(isARecord(invalidTTLRecord)).toBe(false);
+    });
   });
 
   describe('isAAAARecord', () => {
@@ -77,6 +106,21 @@ describe('DNS Record Validators', () => {
         ttl: 300
       };
       expect(isAAAARecord(invalidAAAARecord)).toBe(false);
+    });
+
+    it('should work without TTL', () => {
+      const validAAAARecord = {
+        type: 'AAAA',
+        address: '::1'
+      };
+      expect(isAAAARecord(validAAAARecord)).toBe(true);
+    });
+
+    it('should reject non-object inputs', () => {
+      expect(isAAAARecord(null)).toBe(false);
+      expect(isAAAARecord(undefined)).toBe(false);
+      expect(isAAAARecord('string')).toBe(false);
+      expect(isAAAARecord([])).toBe(false);
     });
   });
 
@@ -159,6 +203,32 @@ describe('DNS Record Validators', () => {
       };
       expect(isTXTRecord(validTXTRecord)).toBe(true);
     });
+
+    it('should reject entries with non-string values', () => {
+      const invalidTXTRecord = {
+        type: 'TXT',
+        entries: ['valid string', 123, 'another string'],
+        ttl: 300
+      };
+      expect(isTXTRecord(invalidTXTRecord)).toBe(false);
+    });
+
+    it('should handle single entry', () => {
+      const validTXTRecord = {
+        type: 'TXT',
+        entries: ['single entry'],
+        ttl: 300
+      };
+      expect(isTXTRecord(validTXTRecord)).toBe(true);
+    });
+
+    it('should work without TTL', () => {
+      const validTXTRecord = {
+        type: 'TXT',
+        entries: ['test entry']
+      };
+      expect(isTXTRecord(validTXTRecord)).toBe(true);
+    });
   });
 
   describe('isNSRecord', () => {
@@ -178,6 +248,135 @@ describe('DNS Record Validators', () => {
         ttl: 300
       };
       expect(isNSRecord(invalidNSRecord)).toBe(false);
+    });
+  });
+
+  describe('isPTRRecord', () => {
+    it('should validate valid PTR records', () => {
+      const validPTRRecord = {
+        type: 'PTR',
+        value: 'example.com',
+        ttl: 300
+      };
+      expect(isPTRRecord(validPTRRecord)).toBe(true);
+    });
+
+    it('should reject invalid domain names', () => {
+      const invalidPTRRecord = {
+        type: 'PTR',
+        value: 'invalid..domain',
+        ttl: 300
+      };
+      expect(isPTRRecord(invalidPTRRecord)).toBe(false);
+    });
+
+    it('should work without TTL', () => {
+      const validPTRRecord = {
+        type: 'PTR',
+        value: 'host.example.com'
+      };
+      expect(isPTRRecord(validPTRRecord)).toBe(true);
+    });
+  });
+
+  describe('isNAPTRRecord', () => {
+    it('should validate valid NAPTR records', () => {
+      const validNAPTRRecord = {
+        type: 'NAPTR',
+        order: 100,
+        preference: 10,
+        flags: 'S',
+        service: 'SIP+D2U',
+        regexp: '',
+        replacement: 'sip.example.com',
+        ttl: 300
+      };
+      expect(isNAPTRRecord(validNAPTRRecord)).toBe(true);
+    });
+
+    it('should validate NAPTR with empty replacement', () => {
+      const validNAPTRRecord = {
+        type: 'NAPTR',
+        order: 100,
+        preference: 10,
+        flags: 'U',
+        service: 'E2U+sip',
+        regexp: '!^.*$!sip:info@example.com!',
+        replacement: '',
+        ttl: 300
+      };
+      expect(isNAPTRRecord(validNAPTRRecord)).toBe(true);
+    });
+
+    it('should reject invalid order values', () => {
+      const invalidNAPTRRecord = {
+        type: 'NAPTR',
+        order: -1,
+        preference: 10,
+        flags: 'S',
+        service: 'SIP+D2U',
+        regexp: '',
+        replacement: 'sip.example.com',
+        ttl: 300
+      };
+      expect(isNAPTRRecord(invalidNAPTRRecord)).toBe(false);
+    });
+
+    it('should reject invalid flags', () => {
+      const invalidNAPTRRecord = {
+        type: 'NAPTR',
+        order: 100,
+        preference: 10,
+        flags: 'Z', // Invalid flag
+        service: 'SIP+D2U',
+        regexp: '',
+        replacement: 'sip.example.com',
+        ttl: 300
+      };
+      expect(isNAPTRRecord(invalidNAPTRRecord)).toBe(false);
+    });
+  });
+
+  describe('isANYRecord', () => {
+    it('should validate valid ANY records', () => {
+      const validANYRecord = {
+        type: 'ANY',
+        value: 'some data',
+        ttl: 300
+      };
+      expect(isANYRecord(validANYRecord)).toBe(true);
+    });
+
+    it('should validate ANY records with various value types', () => {
+      const anyRecordWithObject = {
+        type: 'ANY',
+        value: { nested: 'data' },
+        ttl: 300
+      };
+      expect(isANYRecord(anyRecordWithObject)).toBe(true);
+
+      const anyRecordWithArray = {
+        type: 'ANY',
+        value: ['array', 'data'],
+        ttl: 300
+      };
+      expect(isANYRecord(anyRecordWithArray)).toBe(true);
+    });
+
+    it('should work without TTL', () => {
+      const validANYRecord = {
+        type: 'ANY',
+        value: 'some data'
+      };
+      expect(isANYRecord(validANYRecord)).toBe(true);
+    });
+
+    it('should reject records without value', () => {
+      const invalidANYRecord = {
+        type: 'ANY',
+        ttl: 300
+      };
+      expect(isANYRecord(invalidANYRecord)).toBe(false);
     });
   });
 
@@ -210,6 +409,50 @@ describe('DNS Record Validators', () => {
         ttl: 300
       };
       expect(isSOARecord(invalidSOARecord)).toBe(false);
+    });
+
+    it('should reject invalid admin format', () => {
+      const invalidSOARecord = {
+        type: 'SOA',
+        primary: 'ns1.example.com',
+        admin: 'invalid-admin-format',
+        serial: 2023010101,
+        refresh: 86400,
+        retry: 7200,
+        expiration: 3600000,
+        minimum: 86400,
+        ttl: 300
+      };
+      expect(isSOARecord(invalidSOARecord)).toBe(false);
+    });
+
+    it('should reject invalid refresh values', () => {
+      const invalidSOARecord = {
+        type: 'SOA',
+        primary: 'ns1.example.com',
+        admin: 'admin.example.com',
+        serial: 2023010101,
+        refresh: -1,
+        retry: 7200,
+        expiration: 3600000,
+        minimum: 86400,
+        ttl: 300
+      };
+      expect(isSOARecord(invalidSOARecord)).toBe(false);
+    });
+
+    it('should work without TTL', () => {
+      const validSOARecord = {
+        type: 'SOA',
+        primary: 'ns1.example.com',
+        admin: 'admin.example.com',
+        serial: 2023010101,
+        refresh: 86400,
+        retry: 7200,
+        expiration: 3600000,
+        minimum: 86400
+      };
+      expect(isSOARecord(validSOARecord)).toBe(true);
     });
   });
 

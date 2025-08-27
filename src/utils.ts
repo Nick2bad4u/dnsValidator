@@ -13,35 +13,34 @@ export function isValidDNSQueryResult(result: unknown): result is DNSQueryResult
     return false;
   }
 
-  const r = result as any;
+  const r = result as Record<string, unknown>;
 
   // Check required question field
-  if (!r.question || typeof r.question !== 'object') {
+  if (!r['question'] || typeof r['question'] !== 'object') {
     return false;
   }
 
-  if (!r.question.name || typeof r.question.name !== 'string' ||
-      !r.question.type || typeof r.question.type !== 'string' ||
-      !r.question.class || typeof r.question.class !== 'string') {
+  const question = r['question'] as Record<string, unknown>;
+  if (!question['name'] || typeof question['name'] !== 'string' ||
+      !question['type'] || typeof question['type'] !== 'string' ||
+      !question['class'] || typeof question['class'] !== 'string') {
     return false;
   }
 
   // Check answers array
-  if (!Array.isArray(r.answers)) {
+  if (!Array.isArray(r['answers'])) {
     return false;
   }
 
   // Validate each answer record
-  for (const answer of r.answers) {
+  for (const answer of r['answers']) {
     if (!isValidDNSRecord(answer)) {
       return false;
     }
   }
 
   return true;
-}
-
-/**
+}/**
  * Validates if a DNS record structure is valid
  */
 export function isValidDNSRecord(record: unknown): record is DNSRecord {
@@ -49,19 +48,19 @@ export function isValidDNSRecord(record: unknown): record is DNSRecord {
     return false;
   }
 
-  const r = record as any;
+  const r = record as Record<string, unknown>;
 
-  if (!r.type || typeof r.type !== 'string') {
+  if (!r['type'] || typeof r['type'] !== 'string') {
     return false;
   }
 
   const validTypes: DNSRecordType[] = ['A', 'AAAA', 'ANY', 'CAA', 'CNAME', 'MX', 'NAPTR', 'NS', 'PTR', 'SOA', 'SRV', 'TLSA', 'TXT'];
-  if (!validTypes.includes(r.type)) {
+  if (!validTypes.includes(r['type'] as DNSRecordType)) {
     return false;
   }
 
   // Optional TTL validation
-  if (r.ttl !== undefined && (!Number.isInteger(r.ttl) || r.ttl < 0 || r.ttl > 2147483647)) {
+  if (r['ttl'] !== undefined && (!Number.isInteger(r['ttl']) || (r['ttl'] as number) < 0 || (r['ttl'] as number) > 2147483647)) {
     return false;
   }
 

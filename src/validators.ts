@@ -31,6 +31,13 @@ import {
 } from './utils';
 
 /**
+ * Helper function to safely cast unknown to a record type
+ */
+function toRecord(obj: unknown): Record<string, unknown> {
+  return obj as Record<string, unknown>;
+}
+
+/**
  * Validates an A record
  */
 export function isARecord(record: unknown): record is ARecord {
@@ -38,13 +45,13 @@ export function isARecord(record: unknown): record is ARecord {
     return false;
   }
 
-  const r = record as any;
+  const r = toRecord(record);
 
   return (
-    r.type === 'A' &&
-    typeof r.address === 'string' &&
-    validator.isIP(r.address, 4) &&
-    (r.ttl === undefined || isValidTTL(r.ttl))
+    r['type'] === 'A' &&
+    typeof r['address'] === 'string' &&
+    validator['isIP'](r['address'], 4) &&
+    (r['ttl'] === undefined || isValidTTL(r['ttl'] as number))
   );
 }
 
@@ -56,13 +63,13 @@ export function isAAAARecord(record: unknown): record is AAAARecord {
     return false;
   }
 
-  const r = record as any;
+  const r = toRecord(record);
 
   return (
-    r.type === 'AAAA' &&
-    typeof r.address === 'string' &&
-    validator.isIP(r.address, 6) &&
-    (r.ttl === undefined || isValidTTL(r.ttl))
+    r['type'] === 'AAAA' &&
+    typeof r['address'] === 'string' &&
+    validator['isIP'](r['address'], 6) &&
+    (r['ttl'] === undefined || isValidTTL(r['ttl'] as number))
   );
 }
 
@@ -74,13 +81,13 @@ export function isCNAMERecord(record: unknown): record is CNAMERecord {
     return false;
   }
 
-  const r = record as any;
+  const r = toRecord(record);
 
   return (
-    r.type === 'CNAME' &&
-    typeof r.value === 'string' &&
-    validator.isFQDN(r.value, { require_tld: true }) &&
-    (r.ttl === undefined || isValidTTL(r.ttl))
+    r['type'] === 'CNAME' &&
+    typeof r['value'] === 'string' &&
+    validator['isFQDN'](r['value'], { require_tld: true }) &&
+    (r['ttl'] === undefined || (typeof r['ttl'] === 'number' && isValidTTL(r['ttl'])))
   );
 }
 
@@ -92,15 +99,15 @@ export function isMXRecord(record: unknown): record is MXRecord {
     return false;
   }
 
-  const r = record as any;
+  const r = toRecord(record);
 
   return (
-    r.type === 'MX' &&
-    typeof r.exchange === 'string' &&
-    validator.isFQDN(r.exchange, { require_tld: true }) &&
-    typeof r.priority === 'number' &&
-    isValidPriority(r.priority) &&
-    (r.ttl === undefined || isValidTTL(r.ttl))
+    r['type'] === 'MX' &&
+    typeof r['exchange'] === 'string' &&
+    validator['isFQDN'](r['exchange'], { require_tld: true }) &&
+    typeof r['priority'] === 'number' &&
+    isValidPriority(r['priority']) &&
+    (r['ttl'] === undefined || (typeof r['ttl'] === 'number' && isValidTTL(r['ttl'])))
   );
 }
 
@@ -112,15 +119,15 @@ export function isTXTRecord(record: unknown): record is TXTRecord {
     return false;
   }
 
-  const r = record as any;
+  const r = toRecord(record);
 
   return (
-    r.type === 'TXT' &&
-    Array.isArray(r.entries) &&
-    r.entries.every((entry: unknown) =>
+    r['type'] === 'TXT' &&
+    Array.isArray(r['entries']) &&
+    r['entries'].every((entry: unknown) =>
       typeof entry === 'string' && isValidTextRecord(entry)
     ) &&
-    (r.ttl === undefined || isValidTTL(r.ttl))
+    (r['ttl'] === undefined || (typeof r['ttl'] === 'number' && isValidTTL(r['ttl'])))
   );
 }
 
@@ -132,13 +139,13 @@ export function isNSRecord(record: unknown): record is NSRecord {
     return false;
   }
 
-  const r = record as any;
+  const r = toRecord(record);
 
   return (
-    r.type === 'NS' &&
-    typeof r.value === 'string' &&
-    validator.isFQDN(r.value, { require_tld: true }) &&
-    (r.ttl === undefined || isValidTTL(r.ttl))
+    r['type'] === 'NS' &&
+    typeof r['value'] === 'string' &&
+    validator['isFQDN'](r['value'], { require_tld: true }) &&
+    (r['ttl'] === undefined || (typeof r['ttl'] === 'number' && isValidTTL(r['ttl'])))
   );
 }
 
@@ -150,13 +157,13 @@ export function isPTRRecord(record: unknown): record is PTRRecord {
     return false;
   }
 
-  const r = record as any;
+  const r = toRecord(record);
 
   return (
-    r.type === 'PTR' &&
-    typeof r.value === 'string' &&
-    validator.isFQDN(r.value, { require_tld: true }) &&
-    (r.ttl === undefined || isValidTTL(r.ttl))
+    r['type'] === 'PTR' &&
+    typeof r['value'] === 'string' &&
+    validator['isFQDN'](r['value'], { require_tld: true }) &&
+    (r['ttl'] === undefined || (typeof r['ttl'] === 'number' && isValidTTL(r['ttl'])))
   );
 }
 
@@ -168,30 +175,30 @@ export function isSOARecord(record: unknown): record is SOARecord {
     return false;
   }
 
-  const r = record as any;
+  const r = toRecord(record);
 
   return (
-    r.type === 'SOA' &&
-    typeof r.primary === 'string' &&
-    validator.isFQDN(r.primary, { require_tld: true }) &&
-    typeof r.admin === 'string' &&
-    validator.isEmail(r.admin.replace('.', '@', 1)) && // SOA admin format: user.domain.tld
-    typeof r.serial === 'number' &&
-    Number.isInteger(r.serial) &&
-    r.serial >= 0 &&
-    typeof r.refresh === 'number' &&
-    Number.isInteger(r.refresh) &&
-    r.refresh >= 0 &&
-    typeof r.retry === 'number' &&
-    Number.isInteger(r.retry) &&
-    r.retry >= 0 &&
-    typeof r.expiration === 'number' &&
-    Number.isInteger(r.expiration) &&
-    r.expiration >= 0 &&
-    typeof r.minimum === 'number' &&
-    Number.isInteger(r.minimum) &&
-    r.minimum >= 0 &&
-    (r.ttl === undefined || isValidTTL(r.ttl))
+    r['type'] === 'SOA' &&
+    typeof r['primary'] === 'string' &&
+    validator['isFQDN'](r['primary'], { require_tld: true }) &&
+    typeof r['admin'] === 'string' &&
+    validator['isEmail'](r['admin'].replace('.', '@')) && // SOA admin format: user['domain'].tld
+    typeof r['serial'] === 'number' &&
+    Number['isInteger'](r['serial']) &&
+    r['serial'] >= 0 &&
+    typeof r['refresh'] === 'number' &&
+    Number['isInteger'](r['refresh']) &&
+    r['refresh'] >= 0 &&
+    typeof r['retry'] === 'number' &&
+    Number['isInteger'](r['retry']) &&
+    r['retry'] >= 0 &&
+    typeof r['expiration'] === 'number' &&
+    Number['isInteger'](r['expiration']) &&
+    r['expiration'] >= 0 &&
+    typeof r['minimum'] === 'number' &&
+    Number['isInteger'](r['minimum']) &&
+    r['minimum'] >= 0 &&
+    (r['ttl'] === undefined || (typeof r['ttl'] === 'number' && isValidTTL(r['ttl'])))
   );
 }
 
@@ -203,19 +210,19 @@ export function isSRVRecord(record: unknown): record is SRVRecord {
     return false;
   }
 
-  const r = record as any;
+  const r = toRecord(record);
 
   return (
-    r.type === 'SRV' &&
-    typeof r.name === 'string' &&
-    validator.isFQDN(r.name, { require_tld: true }) &&
-    typeof r.priority === 'number' &&
-    isValidPriority(r.priority) &&
-    typeof r.weight === 'number' &&
-    isValidWeight(r.weight) &&
-    typeof r.port === 'number' &&
-    isValidPort(r.port) &&
-    (r.ttl === undefined || isValidTTL(r.ttl))
+    r['type'] === 'SRV' &&
+    typeof r['name'] === 'string' &&
+    validator['isFQDN'](r['name'], { require_tld: true }) &&
+    typeof r['priority'] === 'number' &&
+    isValidPriority(r['priority']) &&
+    typeof r['weight'] === 'number' &&
+    isValidWeight(r['weight']) &&
+    typeof r['port'] === 'number' &&
+    isValidPort(r['port']) &&
+    (r['ttl'] === undefined || (typeof r['ttl'] === 'number' && isValidTTL(r['ttl'])))
   );
 }
 
@@ -227,22 +234,22 @@ export function isCAARecord(record: unknown): record is CAARecord {
     return false;
   }
 
-  const r = record as any;
+  const r = toRecord(record);
 
-  if (r.type !== 'CAA' || !isValidCAAFlags(r.critical)) {
+  if (r['type'] !== 'CAA' || !(typeof r['critical'] === 'number' && isValidCAAFlags(r['critical']))) {
     return false;
   }
 
   // At least one CAA property should be present
   const hasValidProperty = (
-    (r.issue !== undefined && typeof r.issue === 'string') ||
-    (r.issuewild !== undefined && typeof r.issuewild === 'string') ||
-    (r.iodef !== undefined && typeof r.iodef === 'string') ||
-    (r.contactemail !== undefined && typeof r.contactemail === 'string' && validator.isEmail(r.contactemail)) ||
-    (r.contactphone !== undefined && typeof r.contactphone === 'string')
+    (r['issue'] !== undefined && typeof r['issue'] === 'string') ||
+    (r['issuewild'] !== undefined && typeof r['issuewild'] === 'string') ||
+    (r['iodef'] !== undefined && typeof r['iodef'] === 'string') ||
+    (r['contactemail'] !== undefined && typeof r['contactemail'] === 'string' && validator['isEmail'](r['contactemail'])) ||
+    (r['contactphone'] !== undefined && typeof r['contactphone'] === 'string')
   );
 
-  return hasValidProperty && (r.ttl === undefined || isValidTTL(r.ttl));
+  return hasValidProperty && (r['ttl'] === undefined || (typeof r['ttl'] === 'number' && isValidTTL(r['ttl'])));
 }
 
 /**
@@ -253,25 +260,25 @@ export function isNAPTRRecord(record: unknown): record is NAPTRRecord {
     return false;
   }
 
-  const r = record as any;
+  const r = toRecord(record);
 
   return (
-    r.type === 'NAPTR' &&
-    typeof r.order === 'number' &&
-    Number.isInteger(r.order) &&
-    r.order >= 0 &&
-    r.order <= 65535 &&
-    typeof r.preference === 'number' &&
-    Number.isInteger(r.preference) &&
-    r.preference >= 0 &&
-    r.preference <= 65535 &&
-    typeof r.flags === 'string' &&
-    isValidNAPTRFlags(r.flags) &&
-    typeof r.service === 'string' &&
-    typeof r.regexp === 'string' &&
-    typeof r.replacement === 'string' &&
-    (r.replacement === '' || validator.isFQDN(r.replacement, { require_tld: true })) &&
-    (r.ttl === undefined || isValidTTL(r.ttl))
+    r['type'] === 'NAPTR' &&
+    typeof r['order'] === 'number' &&
+    Number['isInteger'](r['order']) &&
+    r['order'] >= 0 &&
+    r['order'] <= 65535 &&
+    typeof r['preference'] === 'number' &&
+    Number['isInteger'](r['preference']) &&
+    r['preference'] >= 0 &&
+    r['preference'] <= 65535 &&
+    typeof r['flags'] === 'string' &&
+    isValidNAPTRFlags(r['flags']) &&
+    typeof r['service'] === 'string' &&
+    typeof r['regexp'] === 'string' &&
+    typeof r['replacement'] === 'string' &&
+    (r['replacement'] === '' || validator['isFQDN'](r['replacement'], { require_tld: true })) &&
+    (r['ttl'] === undefined || (typeof r['ttl'] === 'number' && isValidTTL(r['ttl'])))
   );
 }
 
@@ -283,19 +290,19 @@ export function isTLSARecord(record: unknown): record is TLSARecord {
     return false;
   }
 
-  const r = record as any;
+  const r = toRecord(record);
 
   return (
-    r.type === 'TLSA' &&
-    typeof r.usage === 'number' &&
-    isValidTLSAUsage(r.usage) &&
-    typeof r.selector === 'number' &&
-    isValidTLSASelector(r.selector) &&
-    typeof r.matchingType === 'number' &&
-    isValidTLSAMatchingType(r.matchingType) &&
-    typeof r.certificate === 'string' &&
-    isValidHexString(r.certificate) &&
-    (r.ttl === undefined || isValidTTL(r.ttl))
+    r['type'] === 'TLSA' &&
+    typeof r['usage'] === 'number' &&
+    isValidTLSAUsage(r['usage']) &&
+    typeof r['selector'] === 'number' &&
+    isValidTLSASelector(r['selector']) &&
+    typeof r['matchingType'] === 'number' &&
+    isValidTLSAMatchingType(r['matchingType']) &&
+    typeof r['certificate'] === 'string' &&
+    isValidHexString(r['certificate']) &&
+    (r['ttl'] === undefined || (typeof r['ttl'] === 'number' && isValidTTL(r['ttl'])))
   );
 }
 
@@ -307,12 +314,12 @@ export function isANYRecord(record: unknown): record is ANYRecord {
     return false;
   }
 
-  const r = record as any;
+  const r = toRecord(record);
 
   return (
-    r.type === 'ANY' &&
-    r.value !== undefined &&
-    (r.ttl === undefined || isValidTTL(r.ttl))
+    r['type'] === 'ANY' &&
+    r['value'] !== undefined &&
+    (r['ttl'] === undefined || (typeof r['ttl'] === 'number' && isValidTTL(r['ttl'])))
   );
 }
 
@@ -324,9 +331,9 @@ export function isDNSRecord(record: unknown): record is DNSRecord {
     return false;
   }
 
-  const r = record as any;
+  const r = toRecord(record);
 
-  switch (r.type) {
+  switch (r['type']) {
     case 'A':
       return isARecord(record);
     case 'AAAA':
@@ -370,15 +377,15 @@ export function validateDNSRecord(record: unknown): ValidationResult {
     return { isValid: false, errors, warnings };
   }
 
-  const r = record as any;
+  const r = toRecord(record);
 
-  if (!r.type || typeof r.type !== 'string') {
+  if (!r['type'] || typeof r['type'] !== 'string') {
     errors.push('Record must have a valid type field');
     return { isValid: false, errors, warnings };
   }
 
   if (!isDNSRecord(record)) {
-    errors.push(`Invalid ${r.type} record structure or values`);
+    errors.push(`Invalid ${r['type']} record structure or values`);
   }
 
   return {

@@ -2,7 +2,10 @@ import {
   isValidDNSQueryResult,
   validateDNSResponse,
   isValidPort,
+  isValidPriority,
+  isValidWeight,
   isValidTTL,
+  isValidCAAFlags,
   isValidNAPTRFlags,
   isValidTLSAUsage,
   isValidTLSASelector,
@@ -125,7 +128,7 @@ describe('DNS Utility Functions', () => {
       };
       const result = validateDNSResponse(response);
       expect(result.isValid).toBe(true);
-      expect(result.warnings).toHaveLength(1); // Only "no answers" check, but we have answers
+      expect(result.warnings).toHaveLength(0); // No warnings for ANY type
     });
   });
 
@@ -224,6 +227,53 @@ describe('DNS Utility Functions', () => {
 
       it('should handle empty strings', () => {
         expect(isValidTextRecord('')).toBe(true);
+      });
+    });
+
+    describe('isValidPriority', () => {
+      it('should validate valid priority values', () => {
+        expect(isValidPriority(0)).toBe(true);
+        expect(isValidPriority(10)).toBe(true);
+        expect(isValidPriority(65535)).toBe(true);
+      });
+
+      it('should reject invalid priority values', () => {
+        expect(isValidPriority(-1)).toBe(false);
+        expect(isValidPriority(65536)).toBe(false);
+        expect(isValidPriority(1.5)).toBe(false);
+        expect(isValidPriority(NaN)).toBe(false);
+        expect(isValidPriority(Infinity)).toBe(false);
+      });
+    });
+
+    describe('isValidWeight', () => {
+      it('should validate valid weight values', () => {
+        expect(isValidWeight(0)).toBe(true);
+        expect(isValidWeight(20)).toBe(true);
+        expect(isValidWeight(65535)).toBe(true);
+      });
+
+      it('should reject invalid weight values', () => {
+        expect(isValidWeight(-1)).toBe(false);
+        expect(isValidWeight(65536)).toBe(false);
+        expect(isValidWeight(2.5)).toBe(false);
+        expect(isValidWeight(NaN)).toBe(false);
+        expect(isValidWeight(Infinity)).toBe(false);
+      });
+    });
+
+    describe('isValidCAAFlags', () => {
+      it('should validate valid CAA flags', () => {
+        expect(isValidCAAFlags(0)).toBe(true);
+        expect(isValidCAAFlags(128)).toBe(true);
+        expect(isValidCAAFlags(255)).toBe(true);
+      });
+
+      it('should reject invalid CAA flags', () => {
+        expect(isValidCAAFlags(-1)).toBe(false);
+        expect(isValidCAAFlags(256)).toBe(false);
+        expect(isValidCAAFlags(1.5)).toBe(false);
+        expect(isValidCAAFlags(NaN)).toBe(false);
       });
     });
   });
