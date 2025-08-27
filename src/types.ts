@@ -2,19 +2,19 @@
  * DNS record types supported by the validator
  */
 export type DNSRecordType =
-  | 'A'
-  | 'AAAA'
-  | 'ANY'
-  | 'CAA'
-  | 'CNAME'
-  | 'MX'
-  | 'NAPTR'
-  | 'NS'
-  | 'PTR'
-  | 'SOA'
-  | 'SRV'
-  | 'TLSA'
-  | 'TXT';
+  | "A"
+  | "AAAA"
+  | "ANY"
+  | "CAA"
+  | "CNAME"
+  | "MX"
+  | "NAPTR"
+  | "NS"
+  | "PTR"
+  | "SOA"
+  | "SRV"
+  | "TLSA"
+  | "TXT";
 
 /**
  * Base interface for all DNS records
@@ -28,7 +28,7 @@ export interface BaseDNSRecord {
  * A record - IPv4 address
  */
 export interface ARecord extends BaseDNSRecord {
-  type: 'A';
+  type: "A";
   address: string;
 }
 
@@ -36,7 +36,7 @@ export interface ARecord extends BaseDNSRecord {
  * AAAA record - IPv6 address
  */
 export interface AAAARecord extends BaseDNSRecord {
-  type: 'AAAA';
+  type: "AAAA";
   address: string;
 }
 
@@ -44,7 +44,7 @@ export interface AAAARecord extends BaseDNSRecord {
  * CNAME record - Canonical name
  */
 export interface CNAMERecord extends BaseDNSRecord {
-  type: 'CNAME';
+  type: "CNAME";
   value: string;
 }
 
@@ -52,7 +52,7 @@ export interface CNAMERecord extends BaseDNSRecord {
  * MX record - Mail exchange
  */
 export interface MXRecord extends BaseDNSRecord {
-  type: 'MX';
+  type: "MX";
   priority: number;
   exchange: string;
 }
@@ -61,7 +61,7 @@ export interface MXRecord extends BaseDNSRecord {
  * TXT record - Text record
  */
 export interface TXTRecord extends BaseDNSRecord {
-  type: 'TXT';
+  type: "TXT";
   entries: string[];
 }
 
@@ -69,7 +69,7 @@ export interface TXTRecord extends BaseDNSRecord {
  * NS record - Name server
  */
 export interface NSRecord extends BaseDNSRecord {
-  type: 'NS';
+  type: "NS";
   value: string;
 }
 
@@ -77,7 +77,7 @@ export interface NSRecord extends BaseDNSRecord {
  * PTR record - Pointer record
  */
 export interface PTRRecord extends BaseDNSRecord {
-  type: 'PTR';
+  type: "PTR";
   value: string;
 }
 
@@ -85,7 +85,7 @@ export interface PTRRecord extends BaseDNSRecord {
  * SOA record - Start of authority
  */
 export interface SOARecord extends BaseDNSRecord {
-  type: 'SOA';
+  type: "SOA";
   primary: string;
   admin: string;
   serial: number;
@@ -99,7 +99,7 @@ export interface SOARecord extends BaseDNSRecord {
  * SRV record - Service record
  */
 export interface SRVRecord extends BaseDNSRecord {
-  type: 'SRV';
+  type: "SRV";
   priority: number;
   weight: number;
   port: number;
@@ -110,7 +110,7 @@ export interface SRVRecord extends BaseDNSRecord {
  * CAA record - Certification Authority Authorization
  */
 export interface CAARecord extends BaseDNSRecord {
-  type: 'CAA';
+  type: "CAA";
   critical: number;
   issue?: string;
   issuewild?: string;
@@ -123,7 +123,7 @@ export interface CAARecord extends BaseDNSRecord {
  * NAPTR record - Naming Authority Pointer
  */
 export interface NAPTRRecord extends BaseDNSRecord {
-  type: 'NAPTR';
+  type: "NAPTR";
   order: number;
   preference: number;
   flags: string;
@@ -136,7 +136,7 @@ export interface NAPTRRecord extends BaseDNSRecord {
  * TLSA record - DNS-based Authentication of Named Entities
  */
 export interface TLSARecord extends BaseDNSRecord {
-  type: 'TLSA';
+  type: "TLSA";
   usage: number;
   selector: number;
   matchingType: number;
@@ -147,7 +147,7 @@ export interface TLSARecord extends BaseDNSRecord {
  * ANY record - Can represent any type of DNS record
  */
 export interface ANYRecord extends BaseDNSRecord {
-  type: 'ANY';
+  type: "ANY";
   value: unknown;
 }
 

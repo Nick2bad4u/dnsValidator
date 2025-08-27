@@ -6,13 +6,13 @@
  */
 
 // Export all types
-export * from './types';
+export * from "./types";
 
 // Export validation utilities
-export * from './utils';
+export * from "./utils";
 
 // Export individual record validators
-export * from './validators';
+export * from "./validators";
 
 // Re-export commonly used functions for convenience
 export {
@@ -30,11 +30,11 @@ export {
   isTLSARecord,
   isANYRecord,
   isDNSRecord,
-  validateDNSRecord
-} from './validators';
+  validateDNSRecord,
+} from "./validators";
 
 export {
   isValidDNSQueryResult,
   isValidDNSRecord,
-  validateDNSResponse
-} from './utils';
+  validateDNSResponse,
+} from "./utils";

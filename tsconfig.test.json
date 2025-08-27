@@ -12,8 +12,5 @@
     "types": ["jest", "node"],
     "moduleResolution": "node"
   },
-  "include": [
-    "src/**/*",
-    "tests/**/*"
-  ]
+  "include": ["src/**/*", "tests/**/*"]
 }
