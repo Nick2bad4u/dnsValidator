@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [main, develop]
 
-permissions:  # added using https://github.com/step-security/secure-repo
+permissions: # added using https://github.com/step-security/secure-repo
   contents: read
 
 jobs:
@@ -61,7 +61,7 @@ jobs:
 
   build-docs:
     permissions:
-      contents: write  # for peaceiris/actions-gh-pages to push pages branch
+      contents: write # for peaceiris/actions-gh-pages to push pages branch
     runs-on: ubuntu-latest
     needs: test
 
