@@ -43,7 +43,7 @@ export declare const NodeDNSErrorCodes: Readonly<{
     readonly ADDRGETNETWORKPARAMS: "ADDRGETNETWORKPARAMS";
     readonly CANCELLED: "CANCELLED";
 }>;
-export type NodeDNSErrorCode = typeof NodeDNSErrorCodes[keyof typeof NodeDNSErrorCodes];
+export type NodeDNSErrorCode = (typeof NodeDNSErrorCodes)[keyof typeof NodeDNSErrorCodes];
 export declare function isNodeDNSErrorCode(code: unknown): code is NodeDNSErrorCode;
 /**
  * Error thrown when a DNS record type is invalid or unsupported

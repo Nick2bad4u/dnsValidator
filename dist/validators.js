@@ -200,21 +200,36 @@ function isSOARecord(record) {
         return false;
     // Support either internal canonical field names (primary, admin, expiration, minimum)
     // or Node.js dns.resolveSoa field names (nsname, hostmaster, expire, minttl)
-    const primary = (typeof r['primary'] === 'string' && r['primary']) || (typeof r['nsname'] === 'string' && r['nsname']);
-    const admin = (typeof r['admin'] === 'string' && r['admin']) || (typeof r['hostmaster'] === 'string' && r['hostmaster']);
-    const expiration = (typeof r['expiration'] === 'number' && r['expiration']) || (typeof r['expire'] === 'number' && r['expire']);
-    const minimum = (typeof r['minimum'] === 'number' && r['minimum']) || (typeof r['minttl'] === 'number' && r['minttl']);
+    const primary = (typeof r['primary'] === 'string' && r['primary']) ||
+        (typeof r['nsname'] === 'string' && r['nsname']);
+    const admin = (typeof r['admin'] === 'string' && r['admin']) ||
+        (typeof r['hostmaster'] === 'string' && r['hostmaster']);
+    const expiration = (typeof r['expiration'] === 'number' && r['expiration']) ||
+        (typeof r['expire'] === 'number' && r['expire']);
+    const minimum = (typeof r['minimum'] === 'number' && r['minimum']) ||
+        (typeof r['minttl'] === 'number' && r['minttl']);
     return !!(primary &&
         validator_1.default['isFQDN'](primary, { require_tld: true }) &&
         admin &&
         // Convert first dot to @ for validation heuristic; SOA hostmaster uses dot format
         validator_1.default['isEmail'](admin.replace(/\./, '@')) &&
-        typeof r['serial'] === 'number' && Number['isInteger'](r['serial']) && r['serial'] >= 0 &&
-        typeof r['refresh'] === 'number' && Number['isInteger'](r['refresh']) && r['refresh'] >= 0 &&
-        typeof r['retry'] === 'number' && Number['isInteger'](r['retry']) && r['retry'] >= 0 &&
-        typeof expiration === 'number' && Number['isInteger'](expiration) && expiration >= 0 &&
-        typeof minimum === 'number' && Number['isInteger'](minimum) && minimum >= 0 &&
-        (r['ttl'] === undefined || (typeof r['ttl'] === 'number' && (0, utils_1.isValidTTL)(r['ttl']))));
+        typeof r['serial'] === 'number' &&
+        Number['isInteger'](r['serial']) &&
+        r['serial'] >= 0 &&
+        typeof r['refresh'] === 'number' &&
+        Number['isInteger'](r['refresh']) &&
+        r['refresh'] >= 0 &&
+        typeof r['retry'] === 'number' &&
+        Number['isInteger'](r['retry']) &&
+        r['retry'] >= 0 &&
+        typeof expiration === 'number' &&
+        Number['isInteger'](expiration) &&
+        expiration >= 0 &&
+        typeof minimum === 'number' &&
+        Number['isInteger'](minimum) &&
+        minimum >= 0 &&
+        (r['ttl'] === undefined ||
+            (typeof r['ttl'] === 'number' && (0, utils_1.isValidTTL)(r['ttl']))));
 }
 exports.isSOARecord = isSOARecord;
 /**
@@ -301,18 +316,30 @@ function isTLSARecord(record) {
     const r = toRecord(record);
     if (r['type'] !== 'TLSA')
         return false;
-    const usage = typeof r['usage'] === 'number' ? r['usage'] : typeof r['certUsage'] === 'number' ? r['certUsage'] : undefined;
-    const matching = typeof r['matchingType'] === 'number' ? r['matchingType'] : typeof r['match'] === 'number' ? r['match'] : undefined;
+    const usage = typeof r['usage'] === 'number'
+        ? r['usage']
+        : typeof r['certUsage'] === 'number'
+            ? r['certUsage']
+            : undefined;
+    const matching = typeof r['matchingType'] === 'number'
+        ? r['matchingType']
+        : typeof r['match'] === 'number'
+            ? r['match']
+            : undefined;
     const certData = (typeof r['certificate'] === 'string' && r['certificate']) ||
         (typeof r['data'] === 'string' && r['data']);
     const certOk = (typeof certData === 'string' && (0, utils_1.isValidHexString)(certData)) ||
         r['data'] instanceof ArrayBuffer ||
         r['data'] instanceof Uint8Array;
-    return !!(usage !== undefined && (0, utils_1.isValidTLSAUsage)(usage) &&
-        typeof r['selector'] === 'number' && (0, utils_1.isValidTLSASelector)(r['selector']) &&
-        matching !== undefined && (0, utils_1.isValidTLSAMatchingType)(matching) &&
+    return !!(usage !== undefined &&
+        (0, utils_1.isValidTLSAUsage)(usage) &&
+        typeof r['selector'] === 'number' &&
+        (0, utils_1.isValidTLSASelector)(r['selector']) &&
+        matching !== undefined &&
+        (0, utils_1.isValidTLSAMatchingType)(matching) &&
         certOk &&
-        (r['ttl'] === undefined || (typeof r['ttl'] === 'number' && (0, utils_1.isValidTTL)(r['ttl']))));
+        (r['ttl'] === undefined ||
+            (typeof r['ttl'] === 'number' && (0, utils_1.isValidTTL)(r['ttl']))));
 }
 exports.isTLSARecord = isTLSARecord;
 /**
@@ -328,10 +355,11 @@ function isANYRecord(record) {
     const hasValue = r['value'] !== undefined;
     const hasRecordsArray = Array['isArray'](r['records']);
     const recordsValid = hasRecordsArray
-        ? r['records'].every((entry) => entry && typeof entry === 'object' && 'type' in entry)
+        ? r['records'].every(entry => entry && typeof entry === 'object' && 'type' in entry)
         : false;
     return !!((hasValue || recordsValid) &&
-        (r['ttl'] === undefined || (typeof r['ttl'] === 'number' && (0, utils_1.isValidTTL)(r['ttl']))));
+        (r['ttl'] === undefined ||
+            (typeof r['ttl'] === 'number' && (0, utils_1.isValidTTL)(r['ttl']))));
 }
 exports.isANYRecord = isANYRecord;
 /**

@@ -6,12 +6,12 @@
  * DNSSEC algorithms as defined in RFC 8624
  */
 export declare enum DNSSECAlgorithm {
-    RSAMD5 = 1,// Deprecated
+    RSAMD5 = 1,// Deprecated // DevSkim: ignore DS126858
     DH = 2,// Not recommended
     DSA = 3,// Not recommended
-    RSASHA1 = 5,// Not recommended
-    DSA_NSEC3_SHA1 = 6,// Not recommended
-    RSASHA1_NSEC3_SHA1 = 7,// Not recommended
+    RSASHA1 = 5,// Not recommended // DevSkim: ignore DS126858
+    DSA_NSEC3_SHA1 = 6,// Not recommended // DevSkim: ignore DS126858
+    RSASHA1_NSEC3_SHA1 = 7,// Not recommended // DevSkim: ignore DS126858 DS440010
     RSASHA256 = 8,// Recommended
     RSASHA512 = 10,// Recommended
     ECC_GOST = 12,// Optional
@@ -24,7 +24,7 @@ export declare enum DNSSECAlgorithm {
  * DNSSEC digest algorithms
  */
 export declare enum DigestAlgorithm {
-    SHA1 = 1,// Not recommended
+    SHA1 = 1,// Not recommended // DevSkim: ignore DS126858
     SHA256 = 2,// Recommended
     GOST = 3,// Optional
     SHA384 = 4

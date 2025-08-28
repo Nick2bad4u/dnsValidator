@@ -351,22 +351,22 @@ export interface ANYRecord extends BaseDNSRecord {
     /** Raw value (deprecated - prefer specific typed arrays) */
     value?: unknown;
     /** Optional collection of mixed record results (Node resolveAny style) */
-    records?: Array<({
+    records?: Array<{
         type: 'A';
         address: string;
         ttl?: number;
-    }) | ({
+    } | {
         type: 'AAAA';
         address: string;
         ttl?: number;
-    }) | ({
+    } | {
         type: 'CNAME';
         value: string;
-    }) | ({
+    } | {
         type: 'MX';
         exchange: string;
         priority: number;
-    }) | ({
+    } | {
         type: 'NAPTR';
         flags: string;
         service: string;
@@ -374,13 +374,13 @@ export interface ANYRecord extends BaseDNSRecord {
         replacement: string;
         order: number;
         preference: number;
-    }) | ({
+    } | {
         type: 'NS';
         value: string;
-    }) | ({
+    } | {
         type: 'PTR';
         value: string;
-    }) | ({
+    } | {
         type: 'SOA';
         nsname: string;
         hostmaster: string;
@@ -389,22 +389,22 @@ export interface ANYRecord extends BaseDNSRecord {
         retry: number;
         expire: number;
         minttl: number;
-    }) | ({
+    } | {
         type: 'SRV';
         priority: number;
         weight: number;
         port: number;
         name: string;
-    }) | ({
+    } | {
         type: 'TLSA';
         certUsage: number;
         selector: number;
         match: number;
         data: ArrayBuffer | string;
-    }) | ({
+    } | {
         type: 'TXT';
         entries: string[];
-    })>;
+    }>;
 }
 /**
  * DNSKEY record - Contains a public key used for DNSSEC validation.

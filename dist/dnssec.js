@@ -6,6 +6,15 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateSignatureTimestamps = exports.isRecommendedDigestAlgorithm = exports.isRecommendedAlgorithm = exports.calculateKeyTag = exports.validateNSEC3PARAM = exports.validateNSEC3 = exports.validateNSEC = exports.validateDS = exports.validateDNSKEY = exports.validateRRSIG = exports.DNSKEYFlags = exports.NSEC3HashAlgorithm = exports.DigestAlgorithm = exports.DNSSECAlgorithm = void 0;
 const errors_1 = require("./errors");
+/*
+ * DevSkim suppressions:
+ * The following enums intentionally include deprecated / weak algorithms (MD5, SHA-1, DSA, etc.)
+ * because DNSSEC validation tooling frequently needs to recognize and potentially reject or report
+ * records that specify them. They are defined here for completeness of the public algorithm registry
+ * (see RFC 8624 / IANA DNSSEC Algorithm Numbers) and are NOT used to perform cryptographic operations
+ * within this library. Suppress DevSkim warnings about weak algorithms in these enum declarations.
+ * DevSkim: ignore DS126858,DS440010
+ */
 /**
  * DNSSEC algorithms as defined in RFC 8624
  */
@@ -320,7 +329,8 @@ function validateNSEC3(record) {
     }
     // Validate hash algorithm (SHA-1 is specified by RFC but is weak)
     if (!Number.isInteger(record.hashAlgorithm) || record.hashAlgorithm !== 1) {
-        throw new errors_1.DNSValidationError('NSEC3 hashAlgorithm must be 1 (SHA-1)', 'INVALID_NSEC3_HASH_ALGORITHM', 'hashAlgorithm', record.hashAlgorithm);
+        throw new errors_1.DNSValidationError('NSEC3 hashAlgorithm must be 1 (SHA-1)', // DevSkim: ignore DS126858
+        'INVALID_NSEC3_HASH_ALGORITHM', 'hashAlgorithm', record.hashAlgorithm);
     }
     // Validate flags
     if (!Number.isInteger(record.flags) ||
@@ -443,7 +453,8 @@ function validateNSEC3PARAM(record) {
     }
     // Validate hash algorithm (SHA-1 is specified by RFC but is weak)
     if (!Number.isInteger(record.hashAlgorithm) || record.hashAlgorithm !== 1) {
-        throw new errors_1.DNSValidationError('NSEC3PARAM hashAlgorithm must be 1 (SHA-1)', 'INVALID_NSEC3PARAM_HASH_ALGORITHM', 'hashAlgorithm', record.hashAlgorithm);
+        throw new errors_1.DNSValidationError('NSEC3PARAM hashAlgorithm must be 1 (SHA-1)', // DevSkim: ignore DS126858
+        'INVALID_NSEC3PARAM_HASH_ALGORITHM', 'hashAlgorithm', record.hashAlgorithm);
     }
     // Validate flags
     if (!Number.isInteger(record.flags) ||

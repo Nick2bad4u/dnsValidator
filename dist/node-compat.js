@@ -66,7 +66,9 @@ function isNodeTLSAShape(obj) {
         typeof obj.certUsage === 'number' &&
         typeof obj.selector === 'number' &&
         typeof obj.match === 'number' &&
-        (typeof obj.data === 'string' || obj.data instanceof ArrayBuffer || obj.data instanceof Uint8Array));
+        (typeof obj.data === 'string' ||
+            obj.data instanceof ArrayBuffer ||
+            obj.data instanceof Uint8Array));
 }
 exports.isNodeTLSAShape = isNodeTLSAShape;
 /** Convert Node resolveAny array to internal ANYRecord */

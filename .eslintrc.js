@@ -13,7 +13,7 @@ module.exports = {
     'no-undef': 'off',
 
     // Basic rules
-    'no-console': 'warn',
+    'no-console': 'off',
     'prefer-const': 'error',
     'no-var': 'error',
 

@@ -2,6 +2,7 @@
  * Performance optimizations for DNS validation
  */
 import { DNSRecordType } from './types';
+export declare const __testGetCachedRegex: (pattern: string, flags?: string) => RegExp;
 /**
  * Pre-compiled regex patterns for common validations
  */

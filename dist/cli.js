@@ -6,6 +6,7 @@
  * A command-line interface for validating DNS records and queries
  */
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.runCLI = void 0;
 const commander_1 = require("commander");
 const fs_1 = require("fs");
 const index_1 = require("./index");
@@ -416,9 +417,19 @@ Sample DNS query JSON:
 `);
 });
 // Parse command line arguments
-commander_1.program.parse();
-// If no command provided, show help
-if (!process.argv.slice(2).length) {
-    commander_1.program.outputHelp();
+/**
+ * Run the CLI with the provided argv (excluding the first two node/script entries).
+ * Exposed for testing so we can invoke the command definitions without spawning a child process.
+ */
+function runCLI(argv = process.argv.slice(2)) {
+    commander_1.program.parse(['node', 'dns-response-validator', ...argv]);
+    if (!argv.length) {
+        commander_1.program.outputHelp();
+    }
+}
+exports.runCLI = runCLI;
+// Execute only when run as a script, not when imported for tests
+if (require.main === module) {
+    runCLI();
 }
 //# sourceMappingURL=cli.js.map

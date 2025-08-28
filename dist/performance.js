@@ -3,7 +3,7 @@
  * Performance optimizations for DNS validation
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.trackPerformance = exports.globalPerformanceTracker = exports.ValidationPerformanceTracker = exports.isValidRecordType = exports.getOptionalField = exports.getRequiredField = exports.isValidIntegerInRange = exports.isPlainObject = exports.fastPreValidate = exports.ValidationPatterns = void 0;
+exports.trackPerformance = exports.globalPerformanceTracker = exports.ValidationPerformanceTracker = exports.isValidRecordType = exports.getOptionalField = exports.getRequiredField = exports.isValidIntegerInRange = exports.isPlainObject = exports.fastPreValidate = exports.ValidationPatterns = exports.__testGetCachedRegex = void 0;
 /**
  * Cache for compiled regular expressions to avoid recompilation
  */
@@ -18,6 +18,10 @@ function getCachedRegex(pattern, flags) {
     }
     return regexCache.get(key);
 }
+// Test hook (non-public) to exercise cache miss/hit branches explicitly
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const __testGetCachedRegex = (pattern, flags) => getCachedRegex(pattern, flags);
+exports.__testGetCachedRegex = __testGetCachedRegex;
 /**
  * Pre-compiled regex patterns for common validations
  */

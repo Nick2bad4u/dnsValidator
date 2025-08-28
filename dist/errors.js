@@ -58,7 +58,8 @@ exports.NodeDNSErrorCodes = Object.freeze({
     CANCELLED: 'CANCELLED',
 });
 function isNodeDNSErrorCode(code) {
-    return typeof code === 'string' && Object.values(exports.NodeDNSErrorCodes).includes(code);
+    return (typeof code === 'string' &&
+        Object.values(exports.NodeDNSErrorCodes).includes(code));
 }
 exports.isNodeDNSErrorCode = isNodeDNSErrorCode;
 /**
