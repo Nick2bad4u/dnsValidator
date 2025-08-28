@@ -5,16 +5,26 @@
 
 import { DNSValidationError } from './errors';
 
+/*
+ * DevSkim suppressions:
+ * The following enums intentionally include deprecated / weak algorithms (MD5, SHA-1, DSA, etc.)
+ * because DNSSEC validation tooling frequently needs to recognize and potentially reject or report
+ * records that specify them. They are defined here for completeness of the public algorithm registry
+ * (see RFC 8624 / IANA DNSSEC Algorithm Numbers) and are NOT used to perform cryptographic operations
+ * within this library. Suppress DevSkim warnings about weak algorithms in these enum declarations.
+ * DevSkim: ignore DS126858,DS440010
+ */
+
 /**
  * DNSSEC algorithms as defined in RFC 8624
  */
 export enum DNSSECAlgorithm {
-  RSAMD5 = 1, // Deprecated
+  RSAMD5 = 1, // Deprecated // DevSkim: ignore DS126858
   DH = 2, // Not recommended
   DSA = 3, // Not recommended
-  RSASHA1 = 5, // Not recommended
-  DSA_NSEC3_SHA1 = 6, // Not recommended
-  RSASHA1_NSEC3_SHA1 = 7, // Not recommended
+  RSASHA1 = 5, // Not recommended // DevSkim: ignore DS126858
+  DSA_NSEC3_SHA1 = 6, // Not recommended // DevSkim: ignore DS126858
+  RSASHA1_NSEC3_SHA1 = 7, // Not recommended // DevSkim: ignore DS126858 DS440010
   RSASHA256 = 8, // Recommended
   RSASHA512 = 10, // Recommended
   ECC_GOST = 12, // Optional
@@ -28,7 +38,7 @@ export enum DNSSECAlgorithm {
  * DNSSEC digest algorithms
  */
 export enum DigestAlgorithm {
-  SHA1 = 1, // Not recommended
+  SHA1 = 1, // Not recommended // DevSkim: ignore DS126858
   SHA256 = 2, // Recommended
   GOST = 3, // Optional
   SHA384 = 4, // Recommended
@@ -587,7 +597,7 @@ export function validateNSEC3(record: any): NSEC3Record {
   // Validate hash algorithm (SHA-1 is specified by RFC but is weak)
   if (!Number.isInteger(record.hashAlgorithm) || record.hashAlgorithm !== 1) {
     throw new DNSValidationError(
-      'NSEC3 hashAlgorithm must be 1 (SHA-1)',
+      'NSEC3 hashAlgorithm must be 1 (SHA-1)', // DevSkim: ignore DS126858
       'INVALID_NSEC3_HASH_ALGORITHM',
       'hashAlgorithm',
       record.hashAlgorithm
@@ -775,7 +785,7 @@ export function validateNSEC3PARAM(record: any): NSEC3PARAMRecord {
   // Validate hash algorithm (SHA-1 is specified by RFC but is weak)
   if (!Number.isInteger(record.hashAlgorithm) || record.hashAlgorithm !== 1) {
     throw new DNSValidationError(
-      'NSEC3PARAM hashAlgorithm must be 1 (SHA-1)',
+      'NSEC3PARAM hashAlgorithm must be 1 (SHA-1)', // DevSkim: ignore DS126858
       'INVALID_NSEC3PARAM_HASH_ALGORITHM',
       'hashAlgorithm',
       record.hashAlgorithm

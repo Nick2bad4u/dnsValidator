@@ -96,7 +96,14 @@ Key points:
 ### Examples
 
 ```typescript
-import { normalizeSOA, normalizeTLSA, fromNodeTxt, toNodeTxt, fromNodeResolveAny, NodeDNSErrorCodes } from 'dns-response-validator';
+import {
+  normalizeSOA,
+  normalizeTLSA,
+  fromNodeTxt,
+  toNodeTxt,
+  fromNodeResolveAny,
+  NodeDNSErrorCodes,
+} from 'dns-response-validator';
 
 const soa = normalizeSOA({
   type: 'SOA',
@@ -124,7 +131,10 @@ const internalTxt = fromNodeTxt(nodeTxt, 300);
 const backToNode = toNodeTxt(internalTxt);
 
 // ANY conversion
-const anyNode = [ { type: 'A', address: '127.0.0.1', ttl: 60 }, { type: 'CNAME', value: 'example.com' } ];
+const anyNode = [
+  { type: 'A', address: '127.0.0.1', ttl: 60 },
+  { type: 'CNAME', value: 'example.com' },
+];
 const anyRecord = fromNodeResolveAny(anyNode);
 ```
 

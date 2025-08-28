@@ -385,17 +385,46 @@ export interface ANYRecord extends BaseDNSRecord {
   value?: unknown;
   /** Optional collection of mixed record results (Node resolveAny style) */
   records?: Array<
-    | ({ type: 'A'; address: string; ttl?: number })
-    | ({ type: 'AAAA'; address: string; ttl?: number })
-    | ({ type: 'CNAME'; value: string })
-    | ({ type: 'MX'; exchange: string; priority: number })
-    | ({ type: 'NAPTR'; flags: string; service: string; regexp: string; replacement: string; order: number; preference: number })
-    | ({ type: 'NS'; value: string })
-    | ({ type: 'PTR'; value: string })
-    | ({ type: 'SOA'; nsname: string; hostmaster: string; serial: number; refresh: number; retry: number; expire: number; minttl: number })
-    | ({ type: 'SRV'; priority: number; weight: number; port: number; name: string })
-    | ({ type: 'TLSA'; certUsage: number; selector: number; match: number; data: ArrayBuffer | string })
-    | ({ type: 'TXT'; entries: string[] })
+    | { type: 'A'; address: string; ttl?: number }
+    | { type: 'AAAA'; address: string; ttl?: number }
+    | { type: 'CNAME'; value: string }
+    | { type: 'MX'; exchange: string; priority: number }
+    | {
+        type: 'NAPTR';
+        flags: string;
+        service: string;
+        regexp: string;
+        replacement: string;
+        order: number;
+        preference: number;
+      }
+    | { type: 'NS'; value: string }
+    | { type: 'PTR'; value: string }
+    | {
+        type: 'SOA';
+        nsname: string;
+        hostmaster: string;
+        serial: number;
+        refresh: number;
+        retry: number;
+        expire: number;
+        minttl: number;
+      }
+    | {
+        type: 'SRV';
+        priority: number;
+        weight: number;
+        port: number;
+        name: string;
+      }
+    | {
+        type: 'TLSA';
+        certUsage: number;
+        selector: number;
+        match: number;
+        data: ArrayBuffer | string;
+      }
+    | { type: 'TXT'; entries: string[] }
   >;
 }
 

@@ -1,4 +1,9 @@
-import { fastPreValidate, isValidRecordType, ValidationPerformanceTracker, trackPerformance } from '../src/performance';
+import {
+  fastPreValidate,
+  isValidRecordType,
+  ValidationPerformanceTracker,
+  trackPerformance,
+} from '../src/performance';
 
 describe('performance helpers extra coverage', () => {
   test('fastPreValidate early false and null path', () => {
@@ -13,7 +18,10 @@ describe('performance helpers extra coverage', () => {
   });
   test('ValidationPerformanceTracker metrics update', () => {
     const tracker = new ValidationPerformanceTracker();
-    const wrapped = trackPerformance((valid: boolean) => ({ isValid: valid }), tracker);
+    const wrapped = trackPerformance(
+      (valid: boolean) => ({ isValid: valid }),
+      tracker
+    );
     wrapped(true);
     wrapped(false);
     const m = tracker.getMetrics();

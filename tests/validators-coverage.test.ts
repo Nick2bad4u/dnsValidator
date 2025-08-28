@@ -5,7 +5,7 @@ import {
   isANYRecord,
   isTLSARecord,
   validateDNSRecord,
-  isDNSRecord
+  isDNSRecord,
 } from '../src/validators';
 
 describe('Validators Coverage Improvements', () => {
@@ -17,7 +17,7 @@ describe('Validators Coverage Improvements', () => {
         priority: -1, // Invalid negative priority
         weight: 0,
         port: 80,
-        target: 'target.example.com'
+        target: 'target.example.com',
       };
       expect(isSRVRecord(invalidPriority)).toBe(false);
 
@@ -27,7 +27,7 @@ describe('Validators Coverage Improvements', () => {
         priority: 65536, // Too high
         weight: 0,
         port: 80,
-        target: 'target.example.com'
+        target: 'target.example.com',
       };
       expect(isSRVRecord(invalidPriorityMax)).toBe(false);
     });
@@ -39,7 +39,7 @@ describe('Validators Coverage Improvements', () => {
         priority: 10,
         weight: -1, // Invalid negative weight
         port: 80,
-        target: 'target.example.com'
+        target: 'target.example.com',
       };
       expect(isSRVRecord(invalidWeight)).toBe(false);
 
@@ -49,7 +49,7 @@ describe('Validators Coverage Improvements', () => {
         priority: 10,
         weight: 65536, // Too high
         port: 80,
-        target: 'target.example.com'
+        target: 'target.example.com',
       };
       expect(isSRVRecord(invalidWeightMax)).toBe(false);
     });
@@ -61,7 +61,7 @@ describe('Validators Coverage Improvements', () => {
         priority: 10,
         weight: 0,
         port: 0, // Port 0 is actually valid
-        target: 'target.example.com'
+        target: 'target.example.com',
       };
       expect(isSRVRecord(validPort0)).toBe(true);
 
@@ -71,7 +71,7 @@ describe('Validators Coverage Improvements', () => {
         priority: 10,
         weight: 0,
         port: 65536, // Too high
-        target: 'target.example.com'
+        target: 'target.example.com',
       };
       expect(isSRVRecord(invalidPortMax)).toBe(false);
     });
@@ -82,14 +82,14 @@ describe('Validators Coverage Improvements', () => {
       const invalidFlags = {
         type: 'CAA',
         critical: 256, // Invalid flag value
-        issue: 'ca.example.net'
+        issue: 'ca.example.net',
       };
       expect(isCAARecord(invalidFlags)).toBe(false);
 
       const negativeFlags = {
         type: 'CAA',
         critical: -1, // Invalid negative flag
-        issue: 'ca.example.net'
+        issue: 'ca.example.net',
       };
       expect(isCAARecord(negativeFlags)).toBe(false);
     });
@@ -103,7 +103,7 @@ describe('Validators Coverage Improvements', () => {
       const wrongType = {
         type: 'A',
         critical: 0,
-        issue: 'ca.example.net'
+        issue: 'ca.example.net',
       };
       expect(isCAARecord(wrongType)).toBe(false);
     });
@@ -113,14 +113,14 @@ describe('Validators Coverage Improvements', () => {
       const valid0 = {
         type: 'CAA',
         critical: 0,
-        issue: 'ca.example.net'
+        issue: 'ca.example.net',
       };
       expect(isCAARecord(valid0)).toBe(true);
 
       const valid128 = {
         type: 'CAA',
         critical: 128,
-        issue: 'ca.example.net'
+        issue: 'ca.example.net',
       };
       expect(isCAARecord(valid128)).toBe(true);
 
@@ -128,7 +128,7 @@ describe('Validators Coverage Improvements', () => {
       const invalidString = {
         type: 'CAA',
         critical: 'invalid',
-        issue: 'ca.example.net'
+        issue: 'ca.example.net',
       };
       expect(isCAARecord(invalidString)).toBe(false);
     });
@@ -143,7 +143,7 @@ describe('Validators Coverage Improvements', () => {
         flags: 'S',
         service: 'SIP+D2U',
         regexp: '',
-        replacement: 'sip.example.com'
+        replacement: 'sip.example.com',
       };
       expect(isNAPTRRecord(invalidOrderNegative)).toBe(false);
 
@@ -154,7 +154,7 @@ describe('Validators Coverage Improvements', () => {
         flags: 'S',
         service: 'SIP+D2U',
         regexp: '',
-        replacement: 'sip.example.com'
+        replacement: 'sip.example.com',
       };
       expect(isNAPTRRecord(invalidOrderMax)).toBe(false);
     });
@@ -167,7 +167,7 @@ describe('Validators Coverage Improvements', () => {
         flags: 'S',
         service: 'SIP+D2U',
         regexp: '',
-        replacement: 'sip.example.com'
+        replacement: 'sip.example.com',
       };
       expect(isNAPTRRecord(invalidPrefNegative)).toBe(false);
 
@@ -178,7 +178,7 @@ describe('Validators Coverage Improvements', () => {
         flags: 'S',
         service: 'SIP+D2U',
         regexp: '',
-        replacement: 'sip.example.com'
+        replacement: 'sip.example.com',
       };
       expect(isNAPTRRecord(invalidPrefMax)).toBe(false);
     });
@@ -191,7 +191,7 @@ describe('Validators Coverage Improvements', () => {
         flags: 'INVALID', // Invalid flags
         service: 'SIP+D2U',
         regexp: '',
-        replacement: 'sip.example.com'
+        replacement: 'sip.example.com',
       };
       expect(isNAPTRRecord(invalidFlags)).toBe(false);
     });
@@ -204,7 +204,7 @@ describe('Validators Coverage Improvements', () => {
         flags: 'S',
         service: 'SIP+D2U',
         regexp: '',
-        replacement: '' // Empty replacement should be valid
+        replacement: '', // Empty replacement should be valid
       };
       expect(isNAPTRRecord(emptyReplacement)).toBe(true);
 
@@ -215,7 +215,7 @@ describe('Validators Coverage Improvements', () => {
         flags: 'S',
         service: 'SIP+D2U',
         regexp: '',
-        replacement: 'invalid..domain' // Invalid FQDN
+        replacement: 'invalid..domain', // Invalid FQDN
       };
       expect(isNAPTRRecord(invalidFQDN)).toBe(false);
     });
@@ -225,19 +225,19 @@ describe('Validators Coverage Improvements', () => {
     it('should validate ANY record structure', () => {
       const validAny = {
         type: 'ANY',
-        value: 'any-value'
+        value: 'any-value',
       };
       expect(isANYRecord(validAny)).toBe(true);
 
       const validAnyWithTTL = {
         type: 'ANY',
         value: 'any-value',
-        ttl: 300
+        ttl: 300,
       };
       expect(isANYRecord(validAnyWithTTL)).toBe(true);
 
       const invalidNoValue = {
-        type: 'ANY'
+        type: 'ANY',
         // Missing value
       };
       expect(isANYRecord(invalidNoValue)).toBe(false);
@@ -245,7 +245,7 @@ describe('Validators Coverage Improvements', () => {
       const invalidTTL = {
         type: 'ANY',
         value: 'any-value',
-        ttl: -1 // Invalid TTL
+        ttl: -1, // Invalid TTL
       };
       expect(isANYRecord(invalidTTL)).toBe(false);
     });
@@ -259,7 +259,7 @@ describe('Validators Coverage Improvements', () => {
         priority: 10,
         weight: 0,
         port: 80,
-        target: 'target.example.com'
+        target: 'target.example.com',
       };
       const srvResult = validateDNSRecord(srvRecord);
       expect(srvResult.isValid).toBe(true);
@@ -267,7 +267,7 @@ describe('Validators Coverage Improvements', () => {
       const caaRecord = {
         type: 'CAA',
         critical: 0,
-        issue: 'ca.example.net'
+        issue: 'ca.example.net',
       };
       const caaResult = validateDNSRecord(caaRecord);
       expect(caaResult.isValid).toBe(true);
@@ -281,7 +281,7 @@ describe('Validators Coverage Improvements', () => {
         flags: 'S',
         service: 'SIP+D2U',
         regexp: '',
-        replacement: 'sip.example.com'
+        replacement: 'sip.example.com',
       };
       const naptrResult = validateDNSRecord(naptrRecord);
       console.log('NAPTR validation result:', naptrResult);
@@ -291,7 +291,7 @@ describe('Validators Coverage Improvements', () => {
     it('should handle ANY records correctly', () => {
       const anyRecord = {
         type: 'ANY',
-        value: 'any-value'
+        value: 'any-value',
       };
       const anyResult = validateDNSRecord(anyRecord);
       expect(anyResult.isValid).toBe(true);
@@ -305,7 +305,7 @@ describe('Validators Coverage Improvements', () => {
         usage: 3,
         selector: 1,
         matchingType: 1,
-        certificate: 'abcd1234'
+        certificate: 'abcd1234',
       };
       expect(isTLSARecord(validTLSA)).toBe(true);
 
@@ -320,7 +320,7 @@ describe('Validators Coverage Improvements', () => {
         usage: 3,
         selector: 0,
         matchingType: 1,
-        certificate: 'abcd1234'
+        certificate: 'abcd1234',
       };
       expect(isTLSARecord(validTLSA)).toBe(true);
 
@@ -335,7 +335,7 @@ describe('Validators Coverage Improvements', () => {
         usage: 3,
         selector: 1,
         matchingType: 2,
-        certificate: 'abcd1234'
+        certificate: 'abcd1234',
       };
       expect(isTLSARecord(validTLSA)).toBe(true);
 
@@ -350,7 +350,7 @@ describe('Validators Coverage Improvements', () => {
         usage: 3,
         selector: 1,
         matchingType: 1,
-        certificate: 'ABCDEF123456'
+        certificate: 'ABCDEF123456',
       };
       expect(isTLSARecord(validTLSA)).toBe(true);
 
@@ -364,7 +364,7 @@ describe('Validators Coverage Improvements', () => {
     it('should handle records without explicit type validation', () => {
       const unknownTypeRecord = {
         type: 'UNKNOWN_TYPE',
-        data: 'some-data'
+        data: 'some-data',
       };
       // Should return false for unknown types
       expect(isDNSRecord(unknownTypeRecord)).toBe(false);

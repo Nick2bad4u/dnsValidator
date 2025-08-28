@@ -20,6 +20,11 @@ function getCachedRegex(pattern: string, flags?: string): RegExp {
   return regexCache.get(key)!;
 }
 
+// Test hook (non-public) to exercise cache miss/hit branches explicitly
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const __testGetCachedRegex = (pattern: string, flags?: string) =>
+  getCachedRegex(pattern, flags);
+
 /**
  * Pre-compiled regex patterns for common validations
  */

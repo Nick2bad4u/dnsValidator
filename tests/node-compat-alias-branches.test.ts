@@ -1,4 +1,12 @@
-import { normalizeSOA, normalizeTLSA, toANYRecord, isNodeSOAShape, isNodeTLSAShape, fromNodeTxt, toNodeTxt } from '../src/node-compat';
+import {
+  normalizeSOA,
+  normalizeTLSA,
+  toANYRecord,
+  isNodeSOAShape,
+  isNodeTLSAShape,
+  fromNodeTxt,
+  toNodeTxt,
+} from '../src/node-compat';
 import { isSOARecord, isTLSARecord } from '../src/validators';
 
 describe('node-compat alias branch coverage', () => {
@@ -35,7 +43,13 @@ describe('node-compat alias branch coverage', () => {
     expect(isNodeSOAShape(soa)).toBe(true);
   });
   test('TLSA normalization when only usage/matchingType/certificate provided', () => {
-    const tlsa = normalizeTLSA({ type: 'TLSA', usage: 3, selector: 1, matchingType: 1, certificate: 'abcd' } as any);
+    const tlsa = normalizeTLSA({
+      type: 'TLSA',
+      usage: 3,
+      selector: 1,
+      matchingType: 1,
+      certificate: 'abcd',
+    } as any);
     expect(isTLSARecord(tlsa)).toBe(true);
     expect(tlsa.certUsage).toBe(3);
     expect(tlsa.match).toBe(1);
@@ -43,7 +57,13 @@ describe('node-compat alias branch coverage', () => {
     expect(isNodeTLSAShape(tlsa)).toBe(true);
   });
   test('TLSA normalization when only certUsage/match/data provided', () => {
-    const tlsa = normalizeTLSA({ type: 'TLSA', certUsage: 2, selector: 0, match: 2, data: 'ef01' } as any);
+    const tlsa = normalizeTLSA({
+      type: 'TLSA',
+      certUsage: 2,
+      selector: 0,
+      match: 2,
+      data: 'ef01',
+    } as any);
     expect(isTLSARecord(tlsa)).toBe(true);
     expect(tlsa.usage).toBe(2);
     expect(tlsa.matchingType).toBe(2);

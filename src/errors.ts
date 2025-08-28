@@ -58,10 +58,14 @@ export const NodeDNSErrorCodes = Object.freeze({
   CANCELLED: 'CANCELLED',
 } as const);
 
-export type NodeDNSErrorCode = typeof NodeDNSErrorCodes[keyof typeof NodeDNSErrorCodes];
+export type NodeDNSErrorCode =
+  (typeof NodeDNSErrorCodes)[keyof typeof NodeDNSErrorCodes];
 
 export function isNodeDNSErrorCode(code: unknown): code is NodeDNSErrorCode {
-  return typeof code === 'string' && Object.values(NodeDNSErrorCodes).includes(code as any);
+  return (
+    typeof code === 'string' &&
+    Object.values(NodeDNSErrorCodes).includes(code as any)
+  );
 }
 
 /**

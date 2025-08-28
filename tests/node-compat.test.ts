@@ -1,5 +1,16 @@
-import { normalizeSOA, normalizeTLSA, fromNodeTxt, toNodeTxt, fromNodeResolveAny } from '../src/node-compat';
-import { isSOARecord, isTLSARecord, isANYRecord, isTXTRecord } from '../src/validators';
+import {
+  normalizeSOA,
+  normalizeTLSA,
+  fromNodeTxt,
+  toNodeTxt,
+  fromNodeResolveAny,
+} from '../src/node-compat';
+import {
+  isSOARecord,
+  isTLSARecord,
+  isANYRecord,
+  isTXTRecord,
+} from '../src/validators';
 import { NodeDNSErrorCodes, isNodeDNSErrorCode } from '../src/errors';
 
 describe('Node compatibility helpers', () => {
