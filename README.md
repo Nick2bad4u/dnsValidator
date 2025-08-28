@@ -1,39 +1,57 @@
 # DNS Validator
 
-A production-ready TypeScript library for validating DNS query results and individual DNS records. Supports validation of all major DNS record types including A, AAAA, ANY, CAA, CNAME, MX, NAPTR, NS, PTR, SOA, SRV, TLSA, and TXT records.
+A comprehensive TypeScript library for validating DNS query results and individual DNS records. Supports traditional DNS records (A, AAAA, MX, TXT, etc.) and DNSSEC records (DNSKEY, DS, RRSIG, NSEC, etc.) with enhanced error reporting and performance optimization.
 
-[![npm version](https://badge.fury.io/js/dns-validator.svg)](https://badge.fury.io/js/dns-validator)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![npm version](https://badge.fury.io/js/dns-response-validator.svg)](https://badge.fury.io/js/dns-response-validator)
 [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](http://www.typescriptlang.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Features
 
-- 🔍 **Comprehensive DNS Record Validation** - Supports 13 different DNS record types
-- 📏 **Type-Safe** - Full TypeScript support with strict type checking
-- 🛡️ **Production Ready** - Thoroughly tested with comprehensive test suite
-- 🎯 **Zero Dependencies** - Uses only the lightweight `validator.js` library
-- 📦 **Small Bundle Size** - Optimized for minimal footprint
-- 🔧 **Easy to Use** - Simple, intuitive API design
+- ✅ **Comprehensive DNS Record Support** - Validates 19+ DNS record types including DNSSEC
+- � **DNSSEC Ready** - Full support for DNSKEY, DS, RRSIG, NSEC, NSEC3, and SSHFP records
+- � **Enhanced Error Reporting** - Detailed validation results with specific error messages and suggestions
+- ⚡ **Performance Optimized** - Built-in caching, pre-validation, and performance tracking
+- 🎯 **Type Safe** - Full TypeScript support with strict typing
+- 🧪 **Well Tested** - Comprehensive test suite with 100% coverage
+- � **Excellent Documentation** - Complete API docs with examples
 
 ## Installation
 
 ```bash
-npm install dns-validator
+npm install dns-response-validator
 ```
 
 ```bash
-yarn add dns-validator
+yarn add dns-response-validator
+```
+
+```bash
+pnpm add dns-response-validator
 ```
 
 ## Quick Start
 
+### Basic Validation
+
 ```typescript
-import { isARecord, validateDNSRecord } from "dns-validator";
+import { isARecord, isMXRecord, validateARecord } from 'dns-response-validator';
+
+// Simple validation
+const aRecord = { type: 'A', address: '192.168.1.1', ttl: 300 };
+console.log(isARecord(aRecord)); // true
+
+// Enhanced validation with detailed feedback
+const result = validateARecord(aRecord);
+console.log(result.isValid); // true
+console.log(result.errors); // []
+console.log(result.warnings); // []
+import { isARecord, validateDNSRecord } from 'dns-response-validator';
 
 // Validate an A record
 const aRecord = {
-  type: "A",
-  address: "192.168.1.1",
+  type: 'A',
+  address: '192.168.1.1',
   ttl: 300,
 };
 
@@ -63,6 +81,67 @@ console.log(validation);
 | TLSA        | `isTLSARecord()`  | DANE TLSA records                   |
 | TXT         | `isTXTRecord()`   | Text records                        |
 
+## Node.js `dns` Module Compatibility
+
+This library now provides optional compatibility helpers for the core Node.js `dns` module API.
+
+Key points:
+
+- SOA records accept both internal field names (`primary`, `admin`, `expiration`, `minimum`) and Node.js names (`nsname`, `hostmaster`, `expire`, `minttl`). Both sets are normalized via `normalizeSOA()`.
+- TLSA records accept both (`usage`, `matchingType`, `certificate`) and Node.js forms (`certUsage`, `match`, `data`). Use `normalizeTLSA()` convenience helper.
+- ANY queries can be represented with a heterogeneous `records` array (similar to `dns.resolveAny`) in addition to the legacy `value` field.
+- Node DNS error code constants are exported as `NodeDNSErrorCodes` along with a type guard `isNodeDNSErrorCode()`.
+- Compatibility helpers are exported from `node-compat` and re-exported at the root.
+
+### Examples
+
+```typescript
+import { normalizeSOA, normalizeTLSA, fromNodeTxt, toNodeTxt, fromNodeResolveAny, NodeDNSErrorCodes } from 'dns-response-validator';
+
+const soa = normalizeSOA({
+  type: 'SOA',
+  nsname: 'ns1.example.com',
+  hostmaster: 'hostmaster.example.com',
+  serial: 2024010101,
+  refresh: 3600,
+  retry: 600,
+  expire: 1209600,
+  minttl: 300,
+});
+
+const tlsa = normalizeTLSA({
+  type: 'TLSA',
+  certUsage: 3,
+  selector: 1,
+  match: 1,
+  data: 'abcdef1234',
+});
+
+console.log(NodeDNSErrorCodes.DNS_ENOTFOUND); // 'ENOTFOUND'
+// TXT conversion
+const nodeTxt = [['v=spf1', 'include:_spf.example.com', '~all']];
+const internalTxt = fromNodeTxt(nodeTxt, 300);
+const backToNode = toNodeTxt(internalTxt);
+
+// ANY conversion
+const anyNode = [ { type: 'A', address: '127.0.0.1', ttl: 60 }, { type: 'CNAME', value: 'example.com' } ];
+const anyRecord = fromNodeResolveAny(anyNode);
+```
+
+### Supported DNS Error Codes
+
+The following constants mirror `node:dns` and `dns.promises` error codes:
+
+`NODATA`, `FORMERR`, `SERVFAIL`, `NOTFOUND`, `NOTIMP`, `REFUSED`, `BADQUERY`, `BADNAME`, `BADFAMILY`, `BADRESP`, `CONNREFUSED`, `TIMEOUT`, `EOF`, `FILE`, `NOMEM`, `DESTRUCTION`, `BADSTR`, `BADFLAGS`, `NONAME`, `BADHINTS`, `NOTINITIALIZED`, `LOADIPHLPAPI`, `ADDRGETNETWORKPARAMS`, `CANCELLED`.
+
+### Intentional Extensions
+
+The library includes DNSSEC-related record validators (DNSKEY, DS, RRSIG, NSEC, NSEC3, SSHFP) that are not part of Node's core `dns` output. These are additive and do not affect Node compatibility.
+
+### Backward Compatibility
+
+Previous field names still work; new Node-style names are additive. When both aliases are supplied the normalization helpers populate missing counterparts to create a fully dual-access shape.
+
 ## API Reference
 
 ### Individual Record Validation
@@ -75,29 +154,29 @@ import {
   isAAAARecord,
   isMXRecord,
   isTXTRecord,
-} from "dns-validator";
+} from 'dns-response-validator';
 
 // A Record (IPv4)
-const aRecord = { type: "A", address: "8.8.8.8", ttl: 300 };
+const aRecord = { type: 'A', address: '8.8.8.8', ttl: 300 };
 console.log(isARecord(aRecord)); // true
 
 // AAAA Record (IPv6)
-const aaaaRecord = { type: "AAAA", address: "2001:db8::1", ttl: 300 };
+const aaaaRecord = { type: 'AAAA', address: '2001:db8::1', ttl: 300 };
 console.log(isAAAARecord(aaaaRecord)); // true
 
 // MX Record
 const mxRecord = {
-  type: "MX",
+  type: 'MX',
   priority: 10,
-  exchange: "mail.example.com",
+  exchange: 'mail.example.com',
   ttl: 300,
 };
 console.log(isMXRecord(mxRecord)); // true
 
 // TXT Record
 const txtRecord = {
-  type: "TXT",
-  entries: ["v=spf1 include:_spf.google.com ~all"],
+  type: 'TXT',
+  entries: ['v=spf1 include:_spf.google.com ~all'],
   ttl: 300,
 };
 console.log(isTXTRecord(txtRecord)); // true
@@ -106,11 +185,11 @@ console.log(isTXTRecord(txtRecord)); // true
 ### Generic Record Validation
 
 ```typescript
-import { isDNSRecord, validateDNSRecord } from "dns-validator";
+import { isDNSRecord, validateDNSRecord } from 'dns-response-validator';
 
 const unknownRecord = {
-  type: "A",
-  address: "192.168.1.1",
+  type: 'A',
+  address: '192.168.1.1',
   ttl: 300,
 };
 
@@ -132,18 +211,18 @@ console.log(result);
 Validate complete DNS query responses:
 
 ```typescript
-import { validateDNSResponse, DNSQueryResult } from "dns-validator";
+import { validateDNSResponse, DNSQueryResult } from 'dns-response-validator';
 
 const dnsResponse: DNSQueryResult = {
   question: {
-    name: "example.com",
-    type: "A",
-    class: "IN",
+    name: 'example.com',
+    type: 'A',
+    class: 'IN',
   },
   answers: [
     {
-      type: "A",
-      address: "93.184.216.34",
+      type: 'A',
+      address: '93.184.216.34',
       ttl: 86400,
     },
   ],
@@ -163,19 +242,24 @@ console.log(validation);
 The library is written in TypeScript and provides comprehensive type definitions:
 
 ```typescript
-import { ARecord, MXRecord, DNSRecord, ValidationResult } from "dns-validator";
+import {
+  ARecord,
+  MXRecord,
+  DNSRecord,
+  ValidationResult,
+} from 'dns-response-validator';
 
 // Strict typing for DNS records
 const aRecord: ARecord = {
-  type: "A",
-  address: "192.168.1.1",
+  type: 'A',
+  address: '192.168.1.1',
   ttl: 300,
 };
 
 const mxRecord: MXRecord = {
-  type: "MX",
+  type: 'MX',
   priority: 10,
-  exchange: "mail.example.com",
+  exchange: 'mail.example.com',
   ttl: 300,
 };
 
@@ -195,12 +279,12 @@ const result: ValidationResult = {
 ### SOA Record
 
 ```typescript
-import { isSOARecord } from "dns-validator";
+import { isSOARecord } from 'dns-response-validator';
 
 const soaRecord = {
-  type: "SOA",
-  primary: "ns1.example.com",
-  admin: "admin.example.com",
+  type: 'SOA',
+  primary: 'ns1.example.com',
+  admin: 'admin.example.com',
   serial: 2023010101,
   refresh: 86400,
   retry: 7200,
@@ -215,14 +299,14 @@ console.log(isSOARecord(soaRecord)); // true
 ### SRV Record
 
 ```typescript
-import { isSRVRecord } from "dns-validator";
+import { isSRVRecord } from 'dns-response-validator';
 
 const srvRecord = {
-  type: "SRV",
+  type: 'SRV',
   priority: 10,
   weight: 20,
   port: 443,
-  name: "target.example.com",
+  name: 'target.example.com',
   ttl: 300,
 };
 
@@ -232,12 +316,12 @@ console.log(isSRVRecord(srvRecord)); // true
 ### CAA Record
 
 ```typescript
-import { isCAARecord } from "dns-validator";
+import { isCAARecord } from 'dns-response-validator';
 
 const caaRecord = {
-  type: "CAA",
+  type: 'CAA',
   critical: 0,
-  issue: "letsencrypt.org",
+  issue: 'letsencrypt.org',
   ttl: 86400,
 };
 
@@ -247,14 +331,14 @@ console.log(isCAARecord(caaRecord)); // true
 ### TLSA Record
 
 ```typescript
-import { isTLSARecord } from "dns-validator";
+import { isTLSARecord } from 'dns-response-validator';
 
 const tlsaRecord = {
-  type: "TLSA",
+  type: 'TLSA',
   usage: 3,
   selector: 1,
   matchingType: 1,
-  certificate: "abcdef1234567890abcdef1234567890",
+  certificate: 'abcdef1234567890abcdef1234567890',
   ttl: 300,
 };
 
@@ -266,11 +350,11 @@ console.log(isTLSARecord(tlsaRecord)); // true
 The library provides detailed error information for invalid records:
 
 ```typescript
-import { validateDNSRecord } from "dns-validator";
+import { validateDNSRecord } from 'dns-response-validator';
 
 const invalidRecord = {
-  type: "A",
-  address: "999.999.999.999", // Invalid IP
+  type: 'A',
+  address: '999.999.999.999', // Invalid IP
   ttl: 300,
 };
 
@@ -281,6 +365,130 @@ console.log(result);
 //   errors: ['Invalid A record structure or values'],
 //   warnings: []
 // }
+```
+
+## Command Line Interface (CLI)
+
+The DNS Validator includes a powerful CLI tool for validating DNS records and queries from the command line.
+
+### Installation
+
+After installing the package globally:
+
+```bash
+npm install -g dns-response-validator
+```
+
+Or run directly with npx:
+
+```bash
+npx dns-response-validator --help
+```
+
+### CLI Usage
+
+#### Validate a Single Record
+
+```bash
+# Validate an A record
+dns-response-validator record --type A --data '{"name":"example.com","address":"192.168.1.1","ttl":300}'
+
+# Validate a record from file
+dns-response-validator record --file record.json --format table
+
+# Validate with strict mode
+dns-response-validator record --file record.json --strict --format table
+```
+
+#### Validate DNS Query Response
+
+```bash
+# Validate a DNS query response
+dns-response-validator query --file query.json --verbose
+
+# Validate with custom output format
+dns-response-validator query --data '{"answers":[...]}' --format csv
+```
+
+#### Bulk Validation
+
+```bash
+# Validate multiple records from file
+dns-response-validator bulk --file records.json --format csv --output results.csv
+
+# Strict mode bulk validation
+dns-response-validator bulk --file records.json --strict --verbose
+```
+
+#### CLI Options
+
+- `--type <type>`: DNS record type (A, AAAA, MX, TXT, etc.)
+- `--data <json>`: DNS record/query data as JSON string
+- `--file <file>`: Read data from JSON file
+- `--output <file>`: Write results to file
+- `--format <format>`: Output format (json, table, csv)
+- `--verbose`: Show detailed output
+- `--strict`: Enable strict validation mode
+
+#### Sample Record Files
+
+**A Record (record.json):**
+
+```json
+{
+  "type": "A",
+  "name": "example.com",
+  "address": "192.168.1.1",
+  "ttl": 300
+}
+```
+
+**DNS Query Response (query.json):**
+
+```json
+{
+  "question": {
+    "name": "example.com",
+    "type": "A",
+    "class": "IN"
+  },
+  "answers": [
+    {
+      "type": "A",
+      "name": "example.com",
+      "address": "192.168.1.1",
+      "ttl": 300
+    }
+  ]
+}
+```
+
+**Multiple Records (records.json):**
+
+```json
+[
+  {
+    "type": "A",
+    "name": "example.com",
+    "address": "192.168.1.1",
+    "ttl": 300
+  },
+  {
+    "type": "MX",
+    "name": "example.com",
+    "exchange": "mail.example.com",
+    "priority": 10,
+    "ttl": 3600
+  }
+]
+```
+
+#### CLI Examples
+
+View all available examples:
+
+```bash
+dns-response-validator examples
 ```
 
 ## Development

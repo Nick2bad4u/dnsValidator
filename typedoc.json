@@ -1,0 +1,31 @@
+{
+  "entryPoints": ["src/index.ts"],
+  "out": "docs",
+  "theme": "default",
+  "name": "DNS Validator",
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeExternals": true,
+  "readme": "README.md",
+  "includes": "./src",
+  "exclude": ["**/*.test.ts", "**/*.spec.ts", "**/tests/**/*"],
+  "categorizeByGroup": true,
+  "categoryOrder": [
+    "Types",
+    "Validators",
+    "Enhanced Validators",
+    "DNSSEC Validators",
+    "Utilities",
+    "Performance",
+    "Errors"
+  ],
+  "sort": ["source-order"],
+  "gitRevision": "main",
+  "validation": {
+    "notExported": true,
+    "invalidLink": true,
+    "notDocumented": false
+  },
+  "treatWarningsAsErrors": true,
+  "logLevel": "Warn"
+}

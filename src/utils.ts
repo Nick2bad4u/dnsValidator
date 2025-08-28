@@ -1,10 +1,10 @@
-import validator from "validator";
+import validator from 'validator';
 import {
   DNSRecord,
   DNSQueryResult,
   ValidationResult,
   DNSRecordType,
-} from "./types";
+} from './types';
 
 /**
  * Utility functions for DNS query response validation
@@ -14,38 +14,38 @@ import {
  * Validates if a DNS query result structure is valid
  */
 export function isValidDNSQueryResult(
-  result: unknown,
+  result: unknown
 ): result is DNSQueryResult {
-  if (!result || typeof result !== "object") {
+  if (!result || typeof result !== 'object') {
     return false;
   }
 
   const r = result as Record<string, unknown>;
 
   // Check required question field
-  if (!r["question"] || typeof r["question"] !== "object") {
+  if (!r['question'] || typeof r['question'] !== 'object') {
     return false;
   }
 
-  const question = r["question"] as Record<string, unknown>;
+  const question = r['question'] as Record<string, unknown>;
   if (
-    !question["name"] ||
-    typeof question["name"] !== "string" ||
-    !question["type"] ||
-    typeof question["type"] !== "string" ||
-    !question["class"] ||
-    typeof question["class"] !== "string"
+    !question['name'] ||
+    typeof question['name'] !== 'string' ||
+    !question['type'] ||
+    typeof question['type'] !== 'string' ||
+    !question['class'] ||
+    typeof question['class'] !== 'string'
   ) {
     return false;
   }
 
   // Check answers array
-  if (!Array.isArray(r["answers"])) {
+  if (!Array.isArray(r['answers'])) {
     return false;
   }
 
   // Validate each answer record
-  for (const answer of r["answers"]) {
+  for (const answer of r['answers']) {
     if (!isValidDNSRecord(answer)) {
       return false;
     }
@@ -56,41 +56,41 @@ export function isValidDNSQueryResult(
  * Validates if a DNS record structure is valid
  */
 export function isValidDNSRecord(record: unknown): record is DNSRecord {
-  if (!record || typeof record !== "object") {
+  if (!record || typeof record !== 'object') {
     return false;
   }
 
   const r = record as Record<string, unknown>;
 
-  if (!r["type"] || typeof r["type"] !== "string") {
+  if (!r['type'] || typeof r['type'] !== 'string') {
     return false;
   }
 
   const validTypes: DNSRecordType[] = [
-    "A",
-    "AAAA",
-    "ANY",
-    "CAA",
-    "CNAME",
-    "MX",
-    "NAPTR",
-    "NS",
-    "PTR",
-    "SOA",
-    "SRV",
-    "TLSA",
-    "TXT",
+    'A',
+    'AAAA',
+    'ANY',
+    'CAA',
+    'CNAME',
+    'MX',
+    'NAPTR',
+    'NS',
+    'PTR',
+    'SOA',
+    'SRV',
+    'TLSA',
+    'TXT',
   ];
-  if (!validTypes.includes(r["type"] as DNSRecordType)) {
+  if (!validTypes.includes(r['type'] as DNSRecordType)) {
     return false;
   }
 
   // Optional TTL validation
   if (
-    r["ttl"] !== undefined &&
-    (!Number.isInteger(r["ttl"]) ||
-      (r["ttl"] as number) < 0 ||
-      (r["ttl"] as number) > 2147483647)
+    r['ttl'] !== undefined &&
+    (!Number.isInteger(r['ttl']) ||
+      (r['ttl'] as number) < 0 ||
+      (r['ttl'] as number) > 2147483647)
   ) {
     return false;
   }
@@ -111,11 +111,11 @@ export function validateDNSResponse(result: DNSQueryResult): ValidationResult {
   }
 
   // Validate answers match question type
-  if (result.question.type !== "ANY") {
+  if (result.question.type !== 'ANY') {
     for (const answer of result.answers) {
       if (answer.type !== result.question.type) {
         warnings.push(
-          `Answer type ${answer.type} does not match question type ${result.question.type}`,
+          `Answer type ${answer.type} does not match question type ${result.question.type}`
         );
       }
     }
@@ -123,7 +123,7 @@ export function validateDNSResponse(result: DNSQueryResult): ValidationResult {
 
   // Check for empty answers
   if (result.answers.length === 0) {
-    warnings.push("No answers found in DNS response");
+    warnings.push('No answers found in DNS response');
   }
 
   return {
@@ -172,7 +172,7 @@ export function isValidCAAFlags(flags: number): boolean {
  * Validates if a NAPTR flags value is valid
  */
 export function isValidNAPTRFlags(flags: string): boolean {
-  const validFlags = ["S", "A", "U", "P", ""];
+  const validFlags = ['S', 'A', 'U', 'P', ''];
   return validFlags.includes(flags.toUpperCase());
 }
 
