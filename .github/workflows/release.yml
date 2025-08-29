@@ -5,6 +5,15 @@ on:
     tags:
       - 'v*'
   workflow_dispatch:
+    inputs:
+      bump:
+        description: 'Version bump type (patch, minor, major, prerelease, none)'
+        required: false
+        default: 'patch'
+      preid:
+        description: 'Prerelease identifier (used only when bump=prerelease)'
+        required: false
+        default: 'rc'
 
 permissions:
   contents: write
@@ -12,9 +21,73 @@ permissions:
   id-token: write # required for npm provenance
 
 jobs:
+  auto-tag:
+    name: Auto create tag (manual dispatch)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' && !startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 18
+
+      - name: Configure Git User
+        run: |
+          git config user.name "nick2bad4u"
+          git config user.email "nick2bad4u@users.noreply.github.com"
+
+      - name: Create tag from package.json version if missing
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          BUMP="${{ github.event.inputs.bump }}"
+          PREID="${{ github.event.inputs.preid }}"
+          echo "Requested bump: ${BUMP:-patch}"
+          git fetch --tags --quiet
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          echo "Current version: ${CURRENT_VERSION}"
+          if [ -z "$BUMP" ]; then BUMP=patch; fi
+          if [ "$BUMP" = "none" ]; then
+            TAG="v${CURRENT_VERSION}"
+            if git rev-parse -q --verify "refs/tags/${TAG}" >/dev/null; then
+              echo "Tag ${TAG} already exists. Nothing to do."
+              exit 0
+            fi
+            echo "Creating tag ${TAG} without version bump"
+            git tag -a "${TAG}" -m "Release ${TAG}"
+            git push origin "${TAG}"
+            echo "Tag ${TAG} pushed. New workflow run will publish."
+            exit 0
+          fi
+          # Perform version bump
+          if [ "$BUMP" = "prerelease" ]; then
+            echo "Running prerelease bump with preid=${PREID}"
+            npm version prerelease --preid "$PREID" -m "chore(release): v%s"
+          else
+            echo "Running npm version $BUMP"
+            npm version "$BUMP" -m "chore(release): v%s"
+          fi
+          NEW_VERSION=$(node -p "require('./package.json').version")
+            TAG="v${NEW_VERSION}"
+          echo "New version: ${NEW_VERSION} (tag ${TAG})"
+          git push origin HEAD:main --follow-tags
+          echo "Pushed commit and tag ${TAG}. A new workflow run will publish the release."
+
   publish-npm:
     name: Publish to npm
     runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
 
     steps:
       - name: Harden the runner (Audit all outbound calls)
@@ -58,6 +131,7 @@ jobs:
         continue-on-error: true
 
       - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@72f2c25fcb47643c292f7107632f7a47c1df5cd8 # v2.3.2
         with:
           generate_release_notes: true
@@ -66,6 +140,7 @@ jobs:
     name: Publish to GitHub Packages
     runs-on: ubuntu-latest
     needs: publish-npm
+    if: startsWith(github.ref, 'refs/tags/v')
 
     steps:
       - name: Harden the runner (Audit all outbound calls)

@@ -69,7 +69,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\" \"*.{json,md}\"",
     "format:check": "prettier --check \"src/**/*.ts\" \"tests/**/*.ts\" \"*.{json,md}\"",
     "docs": "rimraf docs && typedoc",
-    "prepublishOnly": "npm run typecheck && npm run build",
+    "prepublishOnly": "npm run typecheck && npm run build && npm run build:esm",
     "clean": "rimraf dist coverage",
     "dev": "npm run build:watch",
     "size": "size-limit",
@@ -102,7 +102,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nick2bad4u/dnsValidator.git"
+    "url": "https://github.com/nick2bad4u/dnsValidator"
   },
   "bugs": {
     "url": "https://github.com/nick2bad4u/dnsValidator/issues"
