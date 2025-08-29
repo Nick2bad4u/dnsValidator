@@ -1,6 +1,6 @@
 {
   "entryPoints": [
-    "C:/Users/Nick/Dropbox/PC (2)/Documents/GitHub/dnsValidator/src"
+    "./src"
   ],
   "out": "docs",
   "theme": "markdown",
