@@ -82,6 +82,58 @@ console.log(validation);
 | TLSA        | `isTLSARecord()`  | DANE TLSA records                   |
 | TXT         | `isTXTRecord()`   | Text records                        |
 
+## Deep Imports & Tree Shaking
+
+For optimal bundle size you can import only the modules you need using subpath exports (NodeNext / modern bundlers).
+
+Examples:
+
+```typescript
+// Core validators only
+import { validateDNSRecord } from 'dns-response-validator/validators';
+
+// DNSSEC utilities only
+import { validateRRSIG, DNSSECAlgorithm } from 'dns-response-validator/dnssec';
+
+// Performance helpers
+import { trackPerformance } from 'dns-response-validator/performance';
+
+// Types only (erased at compile time)
+import type { ARecord, DNSRecord } from 'dns-response-validator/types';
+```
+
+Available subpaths:
+
+- `dns-response-validator/validators`
+- `dns-response-validator/dnssec`
+- `dns-response-validator/dnssec-validators`
+- `dns-response-validator/enhanced-validators`
+- `dns-response-validator/errors`
+- `dns-response-validator/performance`
+- `dns-response-validator/utils`
+- `dns-response-validator/types` (types only)
+
+The package declares `sideEffects` only for the CLI entry, enabling aggressive tree-shaking for library code.
+
+## Dual CJS + ESM Builds
+
+This package ships both CommonJS and native ES Module builds:
+
+- CommonJS: `dist/*.js` referenced via the `require` condition.
+- ESM: `dist/esm/*.js` referenced via the `import` condition.
+
+Most bundlers / Node (>=18) will automatically pick the optimal variant. You can explicitly force one:
+
+```js
+// Force CommonJS
+const { validateDNSRecord } = require('dns-response-validator');
+
+// Force ESM (Node >=18 with type=module or .mjs)
+import { validateDNSRecord } from 'dns-response-validator';
+```
+
+Deep subpath imports also resolve to dual builds (e.g. `dns-response-validator/validators`).
+
 ## Node.js `dns` Module Compatibility
 
 This library now provides optional compatibility helpers for the core Node.js `dns` module API.
@@ -555,3 +607,19 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Comprehensive TypeScript support
 - Full test coverage
 - Production-ready validation functions
+
+## ESM / CommonJS
+
+After running `npm run build`:
+
+CommonJS:
+```js
+const lib = require('dns-validator-library');
+```
+
+ESM:
+```js
+import * as lib from 'dns-validator-library';
+// or direct path (tests):
+const m = await import('./dist/index.mjs');
+```

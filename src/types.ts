@@ -745,4 +745,3 @@ export interface ValidationResult {
  *
  * @internal
  */
-export const TYPES_MODULE_LOADED: true = true;

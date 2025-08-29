@@ -692,5 +692,4 @@ export interface ValidationResult {
  *
  * @internal
  */
-export declare const TYPES_MODULE_LOADED: true;
 //# sourceMappingURL=types.d.ts.map

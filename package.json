@@ -2,8 +2,8 @@
   "name": "dns-response-validator",
   "version": "1.2.0",
   "description": "A production-ready TypeScript library for validating DNS query results and individual DNS records",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "bin": {
     "dns-response-validator": "dist/cli.js"
   },
@@ -11,12 +11,51 @@
     ".": {
       "types": "./dist/index.d.ts",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
+      "import": "./dist/esm/index.js"
+    },
+    "./validators": {
+      "types": "./dist/validators.d.ts",
+      "require": "./dist/validators.js",
+      "import": "./dist/esm/validators.js"
+    },
+    "./dnssec": {
+      "types": "./dist/dnssec.d.ts",
+      "require": "./dist/dnssec.js",
+      "import": "./dist/esm/dnssec.js"
+    },
+    "./dnssec-validators": {
+      "types": "./dist/dnssec-validators.d.ts",
+      "require": "./dist/dnssec-validators.js",
+      "import": "./dist/esm/dnssec-validators.js"
+    },
+    "./enhanced-validators": {
+      "types": "./dist/enhanced-validators.d.ts",
+      "require": "./dist/enhanced-validators.js",
+      "import": "./dist/esm/enhanced-validators.js"
+    },
+    "./errors": {
+      "types": "./dist/errors.d.ts",
+      "require": "./dist/errors.js",
+      "import": "./dist/esm/errors.js"
+    },
+    "./performance": {
+      "types": "./dist/performance.d.ts",
+      "require": "./dist/performance.js",
+      "import": "./dist/esm/performance.js"
+    },
+    "./utils": {
+      "types": "./dist/utils.d.ts",
+      "require": "./dist/utils.js",
+      "import": "./dist/esm/utils.js"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "default": "./dist/types.d.ts"
     },
     "./package.json": "./package.json"
   },
   "scripts": {
-    "build": "npm run clean && tsc",
+  "build": "npm run clean && tsc -p tsconfig.json && tsc -p tsconfig.esm.json",
     "build:watch": "tsc --watch",
     "build:esm": "tsc --module ES2020 --outDir dist/esm",
     "test": "jest",
@@ -34,7 +73,8 @@
     "clean": "rimraf dist coverage",
     "dev": "npm run build:watch",
     "size": "size-limit",
-    "validate": "npm run typecheck && npm run lint && npm run test"
+  "validate": "npm run typecheck && npm run lint && npm run test",
+  "postbuild": "echo postbuild noop"
   },
   "keywords": [
     "dns",
@@ -74,10 +114,27 @@
     "LICENSE",
     "CHANGELOG.md"
   ],
+  "sideEffects": ["dist/cli.js"],
   "size-limit": [
     {
       "path": "dist/index.js",
       "limit": "50 KB"
+    },
+    {
+      "path": "dist/validators.js",
+      "limit": "40 KB"
+    },
+    {
+      "path": "dist/dnssec.js",
+      "limit": "30 KB"
+    },
+    {
+      "path": "dist/enhanced-validators.js",
+      "limit": "36 KB"
+    },
+    {
+      "path": "dist/performance.js",
+      "limit": "15 KB"
     }
   ],
   "devDependencies": {
@@ -98,8 +155,8 @@
     "ts-jest": "^29.4.1",
     "typedoc": "^0.28.11",
     "typedoc-plugin-markdown": "^4.2.0",
-    "typescript": "^5.9.2"
-  ,"@size-limit/preset-small-lib": "^11.2.0"
+    "typescript": "^5.9.2",
+    "@size-limit/preset-small-lib": "^11.2.0"
   },
   "dependencies": {
     "chalk": "^5.6.0",

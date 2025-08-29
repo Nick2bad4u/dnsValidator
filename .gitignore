@@ -236,3 +236,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .prettierignore
+
+# Keep ESM wrapper (if dist is generally ignored, uncomment the next line):
+#!dist/index.mjs

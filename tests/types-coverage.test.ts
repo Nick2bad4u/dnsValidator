@@ -1,9 +1,9 @@
-import { TYPES_MODULE_LOADED } from '../src/types';
+// Importing the module ensures type declarations are compiled and tree-shaken where appropriate.
+// This test intentionally has no runtime assertions; it simply confirms the module loads without side effects.
+import * as Types from '../src/types';
 
-// This trivial test ensures the runtime constant is executed, giving the file statement coverage.
-
-describe('types module coverage anchor', () => {
-  it('should export TYPES_MODULE_LOADED as true', () => {
-    expect(TYPES_MODULE_LOADED).toBe(true);
+describe('types module smoke import', () => {
+  it('should load exported type definitions object reference', () => {
+    expect(typeof Types).toBe('object');
   });
 });
