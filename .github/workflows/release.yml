@@ -9,6 +9,7 @@ on:
 permissions:
   contents: write
   packages: write
+  id-token: write # required for npm provenance
 
 jobs:
   publish-npm:
@@ -33,7 +34,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Test & coverage
+      - name: Lint
+        run: npm run lint
+
+      - name: Type Check
+        run: npm run typecheck
+
+      - name: Tests & Coverage
         run: npm run test:coverage
 
       - name: Build
@@ -42,6 +49,14 @@ jobs:
       - name: Verify package contents
         run: npm pack --dry-run
 
+      - name: Ensure tag matches package version
+        run: |
+          TAG_VERSION=${GITHUB_REF#refs/tags/v}
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          if [ "$TAG_VERSION" != "$PKG_VERSION" ]; then
+            echo "Tag v$TAG_VERSION does not match package.json version $PKG_VERSION" >&2
+            exit 1
+          fi
       - name: Publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

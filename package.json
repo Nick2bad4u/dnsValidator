@@ -99,6 +99,7 @@
     "typedoc": "^0.28.11",
     "typedoc-plugin-markdown": "^4.2.0",
     "typescript": "^5.9.2"
+  ,"@size-limit/preset-small-lib": "^11.2.0"
   },
   "dependencies": {
     "chalk": "^5.6.0",
