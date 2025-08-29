@@ -3,7 +3,14 @@
  * Performance optimizations for DNS validation
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.trackPerformance = exports.globalPerformanceTracker = exports.ValidationPerformanceTracker = exports.isValidRecordType = exports.getOptionalField = exports.getRequiredField = exports.isValidIntegerInRange = exports.isPlainObject = exports.fastPreValidate = exports.ValidationPatterns = exports.__testGetCachedRegex = void 0;
+exports.globalPerformanceTracker = exports.ValidationPerformanceTracker = exports.ValidationPatterns = exports.__testGetCachedRegex = void 0;
+exports.fastPreValidate = fastPreValidate;
+exports.isPlainObject = isPlainObject;
+exports.isValidIntegerInRange = isValidIntegerInRange;
+exports.getRequiredField = getRequiredField;
+exports.getOptionalField = getOptionalField;
+exports.isValidRecordType = isValidRecordType;
+exports.trackPerformance = trackPerformance;
 /**
  * Cache for compiled regular expressions to avoid recompilation
  */
@@ -19,7 +26,6 @@ function getCachedRegex(pattern, flags) {
     return regexCache.get(key);
 }
 // Test hook (non-public) to exercise cache miss/hit branches explicitly
-// eslint-disable-next-line @typescript-eslint/naming-convention
 const __testGetCachedRegex = (pattern, flags) => getCachedRegex(pattern, flags);
 exports.__testGetCachedRegex = __testGetCachedRegex;
 /**
@@ -50,7 +56,6 @@ function fastPreValidate(value, pattern) {
     // Passed pre-validation, proceed with full validation
     return null;
 }
-exports.fastPreValidate = fastPreValidate;
 /**
  * Optimized type checking with early returns
  */
@@ -60,7 +65,6 @@ function isPlainObject(value) {
         !Array.isArray(value) &&
         Object.getPrototypeOf(value) === Object.prototype);
 }
-exports.isPlainObject = isPlainObject;
 /**
  * Fast integer range validation
  */
@@ -70,7 +74,6 @@ function isValidIntegerInRange(value, min, max) {
         value >= min &&
         value <= max);
 }
-exports.isValidIntegerInRange = isValidIntegerInRange;
 /**
  * Optimized field access with type checking
  */
@@ -84,7 +87,6 @@ function getRequiredField(obj, field, expectedType) {
     }
     return typeof value === expectedType ? value : null;
 }
-exports.getRequiredField = getRequiredField;
 /**
  * Optimized field access for optional fields
  */
@@ -98,7 +100,6 @@ function getOptionalField(obj, field, expectedType) {
     }
     return typeof value === expectedType ? value : null;
 }
-exports.getOptionalField = getOptionalField;
 /**
  * Record type validation cache
  */
@@ -129,7 +130,6 @@ const validRecordTypes = new Set([
 function isValidRecordType(type) {
     return (typeof type === 'string' && validRecordTypes.has(type));
 }
-exports.isValidRecordType = isValidRecordType;
 /**
  * Performance tracking for validation operations
  */
@@ -203,5 +203,4 @@ function trackPerformance(validationFn, tracker = exports.globalPerformanceTrack
         }
     });
 }
-exports.trackPerformance = trackPerformance;
 //# sourceMappingURL=performance.js.map

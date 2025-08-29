@@ -250,9 +250,9 @@ describe('Performance Utilities', () => {
 
     it('should calculate average time correctly', () => {
       // Mock performance.now to control timing
-      const originalNow = performance.now;
+      const originalNow = global.performance.now;
       let currentTime = 0;
-      performance.now = jest.fn(() => currentTime);
+      global.performance.now = jest.fn(() => currentTime);
 
       const endTracking1 = tracker.startValidation();
       currentTime = 100;
@@ -267,7 +267,7 @@ describe('Performance Utilities', () => {
       expect(metrics.averageTimeMs).toBe(150); // (100 + 200) / 2
 
       // Restore original performance.now
-      performance.now = originalNow;
+      global.performance.now = originalNow;
     });
   });
 

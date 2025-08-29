@@ -3,7 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isSSHFPRecord = exports.isRRSIGRecord = exports.isNSEC3Record = exports.isNSECRecord = exports.isDSRecord = exports.isDNSKEYRecord = void 0;
+exports.isDNSKEYRecord = isDNSKEYRecord;
+exports.isDSRecord = isDSRecord;
+exports.isNSECRecord = isNSECRecord;
+exports.isNSEC3Record = isNSEC3Record;
+exports.isRRSIGRecord = isRRSIGRecord;
+exports.isSSHFPRecord = isSSHFPRecord;
 const validator_1 = __importDefault(require("validator"));
 const utils_1 = require("./utils");
 /**
@@ -70,7 +75,6 @@ function isDNSKEYRecord(record) {
         (0, utils_1.isValidHexString)(r['publicKey']) &&
         (r['ttl'] === undefined || (0, utils_1.isValidTTL)(r['ttl'])));
 }
-exports.isDNSKEYRecord = isDNSKEYRecord;
 /**
  * Validates a DS record
  */
@@ -92,7 +96,6 @@ function isDSRecord(record) {
         (0, utils_1.isValidHexString)(r['digest']) &&
         (r['ttl'] === undefined || (0, utils_1.isValidTTL)(r['ttl'])));
 }
-exports.isDSRecord = isDSRecord;
 /**
  * Validates an NSEC record
  */
@@ -108,7 +111,6 @@ function isNSECRecord(record) {
         r['typeBitMaps'].every((type) => typeof type === 'string') &&
         (r['ttl'] === undefined || (0, utils_1.isValidTTL)(r['ttl'])));
 }
-exports.isNSECRecord = isNSECRecord;
 /**
  * Validates an NSEC3 record
  */
@@ -135,7 +137,6 @@ function isNSEC3Record(record) {
         r['typeBitMaps'].every((type) => typeof type === 'string') &&
         (r['ttl'] === undefined || (0, utils_1.isValidTTL)(r['ttl'])));
 }
-exports.isNSEC3Record = isNSEC3Record;
 /**
  * Validates an RRSIG record
  */
@@ -170,7 +171,6 @@ function isRRSIGRecord(record) {
         (0, utils_1.isValidHexString)(r['signature']) &&
         (r['ttl'] === undefined || (0, utils_1.isValidTTL)(r['ttl'])));
 }
-exports.isRRSIGRecord = isRRSIGRecord;
 /**
  * Validates an SSHFP record
  */
@@ -188,5 +188,4 @@ function isSSHFPRecord(record) {
         (0, utils_1.isValidHexString)(r['fingerprint']) &&
         (r['ttl'] === undefined || (0, utils_1.isValidTTL)(r['ttl'])));
 }
-exports.isSSHFPRecord = isSSHFPRecord;
 //# sourceMappingURL=dnssec-validators.js.map

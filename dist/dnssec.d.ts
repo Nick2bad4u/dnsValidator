@@ -2,6 +2,7 @@
  * DNSSEC validation utilities and record type definitions
  * @module DNSSEC
  */
+import { DNSKEYRecord, DSRecord, NSECRecord, NSEC3Record, NSEC3PARAMRecord, RRSIGRecord } from './types';
 /**
  * DNSSEC algorithms as defined in RFC 8624
  */
@@ -42,65 +43,6 @@ export declare enum DNSKEYFlags {
     ZONE_KEY = 256,// Zone Key flag
     SEP = 1,// Secure Entry Point
     REVOKE = 128
-}
-/**
- * RRSIG record structure
- */
-export interface RRSIGRecord {
-    typeCovered: string;
-    algorithm: DNSSECAlgorithm;
-    labels: number;
-    originalTTL: number;
-    signatureExpiration: number;
-    signatureInception: number;
-    keyTag: number;
-    signerName: string;
-    signature: string;
-}
-/**
- * DNSKEY record structure
- */
-export interface DNSKEYRecord {
-    flags: number;
-    protocol: number;
-    algorithm: DNSSECAlgorithm;
-    publicKey: string;
-}
-/**
- * DS record structure
- */
-export interface DSRecord {
-    keyTag: number;
-    algorithm: DNSSECAlgorithm;
-    digestType: DigestAlgorithm;
-    digest: string;
-}
-/**
- * NSEC record structure
- */
-export interface NSECRecord {
-    nextDomainName: string;
-    types: string[];
-}
-/**
- * NSEC3 record structure
- */
-export interface NSEC3Record {
-    hashAlgorithm: NSEC3HashAlgorithm;
-    flags: number;
-    iterations: number;
-    salt: string;
-    nextHashedOwnerName: string;
-    types: string[];
-}
-/**
- * NSEC3PARAM record structure
- */
-export interface NSEC3PARAMRecord {
-    hashAlgorithm: NSEC3HashAlgorithm;
-    flags: number;
-    iterations: number;
-    salt: string;
 }
 /**
  * Validates a RRSIG record

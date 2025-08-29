@@ -6,7 +6,7 @@
  *
  * @public
  */
-export type DNSRecordType = 'A' | 'AAAA' | 'ANY' | 'CAA' | 'CNAME' | 'DNSKEY' | 'DS' | 'MX' | 'NAPTR' | 'NS' | 'NSEC' | 'NSEC3' | 'PTR' | 'RRSIG' | 'SOA' | 'SRV' | 'SSHFP' | 'TLSA' | 'TXT';
+export type DNSRecordType = 'A' | 'AAAA' | 'ANY' | 'CAA' | 'CNAME' | 'DNSKEY' | 'DS' | 'MX' | 'NAPTR' | 'NS' | 'NSEC' | 'NSEC3' | 'NSEC3PARAM' | 'PTR' | 'RRSIG' | 'SOA' | 'SRV' | 'SSHFP' | 'TLSA' | 'TXT';
 /**
  * Base interface for all DNS records.
  *
@@ -483,6 +483,8 @@ export interface NSECRecord extends BaseDNSRecord {
     nextDomainName: string;
     /** Array of record types that exist at this name */
     typeBitMaps: string[];
+    /** @deprecated Use typeBitMaps instead */
+    types?: string[];
 }
 /**
  * NSEC3 record - Next Secure version 3, provides authenticated denial of existence with hashed names.
@@ -517,6 +519,36 @@ export interface NSEC3Record extends BaseDNSRecord {
     nextHashedOwnerName: string;
     /** Array of record types that exist at this name */
     typeBitMaps: string[];
+    /** @deprecated Use typeBitMaps instead */
+    types?: string[];
+}
+/**
+ * NSEC3PARAM record - Provides NSEC3 hashing parameters for a DNS zone.
+ *
+ * @example
+ * ```typescript
+ * const record: NSEC3PARAMRecord = {
+ *   type: 'NSEC3PARAM',
+ *   hashAlgorithm: 1,
+ *   flags: 0,
+ *   iterations: 12,
+ *   salt: 'aabbccdd',
+ *   ttl: 86400
+ * };
+ * ```
+ *
+ * @public
+ */
+export interface NSEC3PARAMRecord extends BaseDNSRecord {
+    type: 'NSEC3PARAM';
+    /** Hash algorithm used (currently 1 = SHA-1) */
+    hashAlgorithm: number;
+    /** Flags field */
+    flags: number;
+    /** Number of hash iterations */
+    iterations: number;
+    /** Salt value in hexadecimal or empty string for none */
+    salt: string;
 }
 /**
  * RRSIG record - Resource Record Signature, contains DNSSEC signature for a resource record set.
@@ -594,7 +626,7 @@ export interface SSHFPRecord extends BaseDNSRecord {
  *
  * @public
  */
-export type DNSRecord = ARecord | AAAARecord | CNAMERecord | MXRecord | TXTRecord | NSRecord | PTRRecord | SOARecord | SRVRecord | CAARecord | NAPTRRecord | TLSARecord | ANYRecord | DNSKEYRecord | DSRecord | NSECRecord | NSEC3Record | RRSIGRecord | SSHFPRecord;
+export type DNSRecord = ARecord | AAAARecord | CNAMERecord | MXRecord | TXTRecord | NSRecord | PTRRecord | SOARecord | SRVRecord | CAARecord | NAPTRRecord | TLSARecord | ANYRecord | DNSKEYRecord | DSRecord | NSECRecord | NSEC3Record | NSEC3PARAMRecord | RRSIGRecord | SSHFPRecord;
 /**
  * DNS query result interface representing a complete DNS response.
  *

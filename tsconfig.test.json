@@ -1,16 +1,8 @@
 {
+  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "commonjs",
-    "lib": ["ES2020"],
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "declaration": false,
-    "sourceMap": false,
-    "types": ["jest", "node"],
-    "moduleResolution": "node"
+    "outDir": "./dist/tests",
+    "types": ["jest", "node"]
   },
   "include": ["src/**/*", "tests/**/*"]
 }

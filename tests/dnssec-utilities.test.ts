@@ -84,7 +84,8 @@ describe('dnssec utilities', () => {
       nextDomainName: 'b.example.com',
       types: ['A', 'NS'],
     });
-    expect(rec.types.length).toBe(2);
+    // Prefer canonical property
+    expect(rec.typeBitMaps.length).toBe(2);
   });
   test('validateNSEC invalid type', () => {
     expect(() =>
@@ -136,6 +137,7 @@ describe('dnssec utilities', () => {
   });
   test('calculateKeyTag deterministic', () => {
     const key = {
+      type: 'DNSKEY' as const,
       flags: 256,
       protocol: 3,
       algorithm: 8,

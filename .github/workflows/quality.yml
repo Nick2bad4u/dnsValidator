@@ -118,4 +118,4 @@ jobs:
         run: npm audit --audit-level moderate
 
       - name: Run license check
-        run: npx license-checker --onlyAllow 'MIT;Apache-2.0;BSD-2-Clause;BSD-3-Clause;ISC'
+        run: npx license-checker --onlyAllow 'MIT;Apache-2.0;BSD-2-Clause;BSD-3-Clause;ISC;Python-2.0'

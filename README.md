@@ -5,6 +5,7 @@ A comprehensive TypeScript library for validating DNS query results and individu
 [![npm version](https://badge.fury.io/js/dns-response-validator.svg)](https://badge.fury.io/js/dns-response-validator)
 [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](http://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Docs](https://img.shields.io/badge/docs-latest-blue.svg)](https://nick2bad4u.github.io/dnsValidator/)
 
 ## Features
 

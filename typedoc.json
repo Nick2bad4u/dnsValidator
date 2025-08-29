@@ -1,13 +1,17 @@
 {
-  "entryPoints": ["src/index.ts"],
+  "entryPoints": [
+    "C:/Users/Nick/Dropbox/PC (2)/Documents/GitHub/dnsValidator/src"
+  ],
   "out": "docs",
-  "theme": "default",
+  "theme": "markdown",
+  "plugin": ["typedoc-plugin-markdown"],
+  "hidePageHeader": true,
+  "hideBreadcrumbs": true,
   "name": "DNS Validator",
   "excludePrivate": true,
   "excludeProtected": true,
   "excludeExternals": true,
   "readme": "README.md",
-  "includes": "./src",
   "exclude": ["**/*.test.ts", "**/*.spec.ts", "**/tests/**/*"],
   "categorizeByGroup": true,
   "categoryOrder": [

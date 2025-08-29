@@ -4,7 +4,17 @@
  * @module DNSSEC
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateSignatureTimestamps = exports.isRecommendedDigestAlgorithm = exports.isRecommendedAlgorithm = exports.calculateKeyTag = exports.validateNSEC3PARAM = exports.validateNSEC3 = exports.validateNSEC = exports.validateDS = exports.validateDNSKEY = exports.validateRRSIG = exports.DNSKEYFlags = exports.NSEC3HashAlgorithm = exports.DigestAlgorithm = exports.DNSSECAlgorithm = void 0;
+exports.DNSKEYFlags = exports.NSEC3HashAlgorithm = exports.DigestAlgorithm = exports.DNSSECAlgorithm = void 0;
+exports.validateRRSIG = validateRRSIG;
+exports.validateDNSKEY = validateDNSKEY;
+exports.validateDS = validateDS;
+exports.validateNSEC = validateNSEC;
+exports.validateNSEC3 = validateNSEC3;
+exports.validateNSEC3PARAM = validateNSEC3PARAM;
+exports.calculateKeyTag = calculateKeyTag;
+exports.isRecommendedAlgorithm = isRecommendedAlgorithm;
+exports.isRecommendedDigestAlgorithm = isRecommendedDigestAlgorithm;
+exports.validateSignatureTimestamps = validateSignatureTimestamps;
 const errors_1 = require("./errors");
 /*
  * DevSkim suppressions:
@@ -122,6 +132,7 @@ function validateRRSIG(record) {
         throw new errors_1.DNSValidationError('RRSIG signature must be base64-encoded', 'INVALID_RRSIG_SIGNATURE_FORMAT', 'signature', record.signature);
     }
     return {
+        type: 'RRSIG',
         typeCovered: record.typeCovered,
         algorithm: record.algorithm,
         labels: record.labels,
@@ -133,7 +144,6 @@ function validateRRSIG(record) {
         signature: record.signature,
     };
 }
-exports.validateRRSIG = validateRRSIG;
 /**
  * Validates a DNSKEY record
  */
@@ -166,13 +176,13 @@ function validateDNSKEY(record) {
         throw new errors_1.DNSValidationError('DNSKEY publicKey must be base64-encoded', 'INVALID_DNSKEY_PUBLIC_KEY_FORMAT', 'publicKey', record.publicKey);
     }
     return {
+        type: 'DNSKEY',
         flags: record.flags,
         protocol: record.protocol,
         algorithm: record.algorithm,
         publicKey: record.publicKey,
     };
 }
-exports.validateDNSKEY = validateDNSKEY;
 /**
  * Validates a DS record
  */
@@ -218,13 +228,13 @@ function validateDS(record) {
         throw new errors_1.DNSValidationError(`DS digest length must be ${expectedLength} characters for digest type ${record.digestType}`, 'INVALID_DS_DIGEST_LENGTH', 'digest', record.digest);
     }
     return {
+        type: 'DS',
         keyTag: record.keyTag,
         algorithm: record.algorithm,
         digestType: record.digestType,
         digest: record.digest,
     };
 }
-exports.validateDS = validateDS;
 /**
  * Validates an NSEC record
  */
@@ -315,11 +325,13 @@ function validateNSEC(record) {
         }
     }
     return {
+        type: 'NSEC',
         nextDomainName: record.nextDomainName,
+        typeBitMaps: record.types,
+        // Deprecated alias for backward compatibility
         types: record.types,
     };
 }
-exports.validateNSEC = validateNSEC;
 /**
  * Validates an NSEC3 record
  */
@@ -435,15 +447,17 @@ function validateNSEC3(record) {
         }
     }
     return {
+        type: 'NSEC3',
         hashAlgorithm: record.hashAlgorithm,
         flags: record.flags,
         iterations: record.iterations,
         salt: record.salt,
         nextHashedOwnerName: record.nextHashedOwnerName,
+        typeBitMaps: record.types,
+        // Deprecated alias for backward compatibility
         types: record.types,
     };
 }
-exports.validateNSEC3 = validateNSEC3;
 /**
  * Validates an NSEC3PARAM record
  */
@@ -476,13 +490,13 @@ function validateNSEC3PARAM(record) {
         throw new errors_1.DNSValidationError('NSEC3PARAM salt must be hexadecimal or "-" for no salt', 'INVALID_NSEC3PARAM_SALT_FORMAT', 'salt', record.salt);
     }
     return {
+        type: 'NSEC3PARAM',
         hashAlgorithm: record.hashAlgorithm,
         flags: record.flags,
         iterations: record.iterations,
         salt: record.salt,
     };
 }
-exports.validateNSEC3PARAM = validateNSEC3PARAM;
 /**
  * Calculates DNSKEY key tag (RFC 4034 Appendix B)
  */
@@ -503,7 +517,6 @@ function calculateKeyTag(dnskey) {
     tag += (tag >> 16) & 0xffff;
     return tag & 0xffff;
 }
-exports.calculateKeyTag = calculateKeyTag;
 /**
  * Checks if a DNSSEC algorithm is recommended for use
  */
@@ -518,7 +531,6 @@ function isRecommendedAlgorithm(algorithm) {
     ];
     return recommended.includes(algorithm);
 }
-exports.isRecommendedAlgorithm = isRecommendedAlgorithm;
 /**
  * Checks if a digest algorithm is recommended for use
  */
@@ -526,7 +538,6 @@ function isRecommendedDigestAlgorithm(algorithm) {
     const recommended = [DigestAlgorithm.SHA256, DigestAlgorithm.SHA384];
     return recommended.includes(algorithm);
 }
-exports.isRecommendedDigestAlgorithm = isRecommendedDigestAlgorithm;
 /**
  * Validates DNSSEC signature timestamps
  */
@@ -542,5 +553,4 @@ function validateSignatureTimestamps(inception, expiration, clockSkew = 300) {
     }
     return true;
 }
-exports.validateSignatureTimestamps = validateSignatureTimestamps;
 //# sourceMappingURL=dnssec.js.map

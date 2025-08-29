@@ -3,7 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getValidationSuggestions = exports.validateMXRecord = exports.validateAAAARecord = exports.validateARecord = void 0;
+exports.validateARecord = validateARecord;
+exports.validateAAAARecord = validateAAAARecord;
+exports.validateMXRecord = validateMXRecord;
+exports.getValidationSuggestions = getValidationSuggestions;
 const validator_1 = __importDefault(require("validator"));
 const utils_1 = require("./utils");
 /**
@@ -46,7 +49,6 @@ function validateARecord(record) {
     }
     return { isValid: errors.length === 0, errors, warnings };
 }
-exports.validateARecord = validateARecord;
 /**
  * Enhanced AAAA record validation with detailed error messages
  */
@@ -78,7 +80,6 @@ function validateAAAARecord(record) {
     }
     return { isValid: errors.length === 0, errors, warnings };
 }
-exports.validateAAAARecord = validateAAAARecord;
 /**
  * Enhanced MX record validation with detailed error messages
  */
@@ -117,7 +118,6 @@ function validateMXRecord(record) {
     }
     return { isValid: errors.length === 0, errors, warnings };
 }
-exports.validateMXRecord = validateMXRecord;
 /**
  * Provides suggestions for common DNS record validation issues
  */
@@ -147,5 +147,4 @@ function getValidationSuggestions(recordType) {
     }
     return suggestions;
 }
-exports.getValidationSuggestions = getValidationSuggestions;
 //# sourceMappingURL=enhanced-validators.js.map

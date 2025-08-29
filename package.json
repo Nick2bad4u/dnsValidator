@@ -24,12 +24,12 @@
     "test:coverage": "jest --coverage",
     "test:ci": "jest --ci --coverage --watchAll=false",
     "type-check": "tsc --noEmit",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc --project tsconfig.test.json --noEmit",
     "lint": "eslint src/**/*.ts tests/**/*.ts",
     "lint:fix": "eslint src/**/*.ts tests/**/*.ts --fix",
     "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\" \"*.{json,md}\"",
     "format:check": "prettier --check \"src/**/*.ts\" \"tests/**/*.ts\" \"*.{json,md}\"",
-    "docs": "typedoc",
+    "docs": "rimraf docs && typedoc",
     "prepublishOnly": "npm run typecheck && npm run lint && npm run format:check && npm run build && npm run test:ci",
     "clean": "rimraf dist coverage",
     "dev": "npm run build:watch",
@@ -97,6 +97,7 @@
     "size-limit": "^11.2.0",
     "ts-jest": "^29.4.1",
     "typedoc": "^0.28.11",
+    "typedoc-plugin-markdown": "^4.2.0",
     "typescript": "^5.9.2"
   },
   "dependencies": {

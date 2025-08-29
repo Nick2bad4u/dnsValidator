@@ -20,7 +20,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateDNSRecord = exports.isDNSRecord = exports.isANYRecord = exports.isTLSARecord = exports.isNAPTRRecord = exports.isCAARecord = exports.isSRVRecord = exports.isSOARecord = exports.isPTRRecord = exports.isNSRecord = exports.isTXTRecord = exports.isMXRecord = exports.isCNAMERecord = exports.isAAAARecord = exports.isARecord = void 0;
+exports.isARecord = isARecord;
+exports.isAAAARecord = isAAAARecord;
+exports.isCNAMERecord = isCNAMERecord;
+exports.isMXRecord = isMXRecord;
+exports.isTXTRecord = isTXTRecord;
+exports.isNSRecord = isNSRecord;
+exports.isPTRRecord = isPTRRecord;
+exports.isSOARecord = isSOARecord;
+exports.isSRVRecord = isSRVRecord;
+exports.isCAARecord = isCAARecord;
+exports.isNAPTRRecord = isNAPTRRecord;
+exports.isTLSARecord = isTLSARecord;
+exports.isANYRecord = isANYRecord;
+exports.isDNSRecord = isDNSRecord;
+exports.validateDNSRecord = validateDNSRecord;
 const validator_1 = __importDefault(require("validator"));
 const utils_1 = require("./utils");
 const dnssec_validators_1 = require("./dnssec-validators");
@@ -62,7 +76,6 @@ function isARecord(record) {
         validator_1.default['isIP'](r['address'], 4) &&
         (r['ttl'] === undefined || (0, utils_1.isValidTTL)(r['ttl'])));
 }
-exports.isARecord = isARecord;
 /**
  * Validates an AAAA record (IPv6 address mapping).
  *
@@ -93,7 +106,6 @@ function isAAAARecord(record) {
         validator_1.default['isIP'](r['address'], 6) &&
         (r['ttl'] === undefined || (0, utils_1.isValidTTL)(r['ttl'])));
 }
-exports.isAAAARecord = isAAAARecord;
 /**
  * Validates a CNAME record (canonical name alias).
  *
@@ -125,7 +137,6 @@ function isCNAMERecord(record) {
         (r['ttl'] === undefined ||
             (typeof r['ttl'] === 'number' && (0, utils_1.isValidTTL)(r['ttl']))));
 }
-exports.isCNAMERecord = isCNAMERecord;
 /**
  * Validates an MX record
  */
@@ -142,7 +153,6 @@ function isMXRecord(record) {
         (r['ttl'] === undefined ||
             (typeof r['ttl'] === 'number' && (0, utils_1.isValidTTL)(r['ttl']))));
 }
-exports.isMXRecord = isMXRecord;
 /**
  * Validates a TXT record
  */
@@ -157,7 +167,6 @@ function isTXTRecord(record) {
         (r['ttl'] === undefined ||
             (typeof r['ttl'] === 'number' && (0, utils_1.isValidTTL)(r['ttl']))));
 }
-exports.isTXTRecord = isTXTRecord;
 /**
  * Validates an NS record
  */
@@ -172,7 +181,6 @@ function isNSRecord(record) {
         (r['ttl'] === undefined ||
             (typeof r['ttl'] === 'number' && (0, utils_1.isValidTTL)(r['ttl']))));
 }
-exports.isNSRecord = isNSRecord;
 /**
  * Validates a PTR record
  */
@@ -187,7 +195,6 @@ function isPTRRecord(record) {
         (r['ttl'] === undefined ||
             (typeof r['ttl'] === 'number' && (0, utils_1.isValidTTL)(r['ttl']))));
 }
-exports.isPTRRecord = isPTRRecord;
 /**
  * Validates an SOA record
  */
@@ -231,7 +238,6 @@ function isSOARecord(record) {
         (r['ttl'] === undefined ||
             (typeof r['ttl'] === 'number' && (0, utils_1.isValidTTL)(r['ttl']))));
 }
-exports.isSOARecord = isSOARecord;
 /**
  * Validates an SRV record
  */
@@ -252,7 +258,6 @@ function isSRVRecord(record) {
         (r['ttl'] === undefined ||
             (typeof r['ttl'] === 'number' && (0, utils_1.isValidTTL)(r['ttl']))));
 }
-exports.isSRVRecord = isSRVRecord;
 /**
  * Validates a CAA record
  */
@@ -277,7 +282,6 @@ function isCAARecord(record) {
         (r['ttl'] === undefined ||
             (typeof r['ttl'] === 'number' && (0, utils_1.isValidTTL)(r['ttl']))));
 }
-exports.isCAARecord = isCAARecord;
 /**
  * Validates a NAPTR record
  */
@@ -305,7 +309,6 @@ function isNAPTRRecord(record) {
         (r['ttl'] === undefined ||
             (typeof r['ttl'] === 'number' && (0, utils_1.isValidTTL)(r['ttl']))));
 }
-exports.isNAPTRRecord = isNAPTRRecord;
 /**
  * Validates a TLSA record
  */
@@ -341,7 +344,6 @@ function isTLSARecord(record) {
         (r['ttl'] === undefined ||
             (typeof r['ttl'] === 'number' && (0, utils_1.isValidTTL)(r['ttl']))));
 }
-exports.isTLSARecord = isTLSARecord;
 /**
  * Validates an ANY record (can be any type)
  */
@@ -361,7 +363,6 @@ function isANYRecord(record) {
         (r['ttl'] === undefined ||
             (typeof r['ttl'] === 'number' && (0, utils_1.isValidTTL)(r['ttl']))));
 }
-exports.isANYRecord = isANYRecord;
 /**
  * Validates any DNS record based on its type
  */
@@ -413,7 +414,6 @@ function isDNSRecord(record) {
             return false;
     }
 }
-exports.isDNSRecord = isDNSRecord;
 /**
  * Validates a DNS record and returns detailed validation result
  */
@@ -498,5 +498,4 @@ function validateDNSRecord(record) {
         warnings,
     };
 }
-exports.validateDNSRecord = validateDNSRecord;
 //# sourceMappingURL=validators.js.map

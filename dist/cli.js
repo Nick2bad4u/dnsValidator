@@ -6,7 +6,7 @@
  * A command-line interface for validating DNS records and queries
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.runCLI = void 0;
+exports.runCLI = runCLI;
 const commander_1 = require("commander");
 const fs_1 = require("fs");
 const index_1 = require("./index");
@@ -427,7 +427,6 @@ function runCLI(argv = process.argv.slice(2)) {
         commander_1.program.outputHelp();
     }
 }
-exports.runCLI = runCLI;
 // Execute only when run as a script, not when imported for tests
 if (require.main === module) {
     runCLI();

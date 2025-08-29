@@ -3,7 +3,8 @@
  * Custom error classes for DNS validation
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ValidationErrorFactory = exports.ValidationContext = exports.InvalidQueryStructureError = exports.MissingRequiredFieldError = exports.InvalidFieldValueError = exports.MalformedRecordError = exports.InvalidRecordTypeError = exports.isNodeDNSErrorCode = exports.NodeDNSErrorCodes = exports.DNSValidationError = void 0;
+exports.ValidationErrorFactory = exports.ValidationContext = exports.InvalidQueryStructureError = exports.MissingRequiredFieldError = exports.InvalidFieldValueError = exports.MalformedRecordError = exports.InvalidRecordTypeError = exports.NodeDNSErrorCodes = exports.DNSValidationError = void 0;
+exports.isNodeDNSErrorCode = isNodeDNSErrorCode;
 /**
  * Base class for all DNS validation errors
  */
@@ -61,7 +62,6 @@ function isNodeDNSErrorCode(code) {
     return (typeof code === 'string' &&
         Object.values(exports.NodeDNSErrorCodes).includes(code));
 }
-exports.isNodeDNSErrorCode = isNodeDNSErrorCode;
 /**
  * Error thrown when a DNS record type is invalid or unsupported
  */

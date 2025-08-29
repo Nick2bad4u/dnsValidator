@@ -4,6 +4,14 @@
  */
 
 import { DNSValidationError } from './errors';
+import {
+  DNSKEYRecord,
+  DSRecord,
+  NSECRecord,
+  NSEC3Record,
+  NSEC3PARAMRecord,
+  RRSIGRecord,
+} from './types';
 
 /*
  * DevSkim suppressions:
@@ -58,71 +66,6 @@ export enum DNSKEYFlags {
   ZONE_KEY = 0x0100, // Zone Key flag
   SEP = 0x0001, // Secure Entry Point
   REVOKE = 0x0080, // Revoke flag
-}
-
-/**
- * RRSIG record structure
- */
-export interface RRSIGRecord {
-  typeCovered: string;
-  algorithm: DNSSECAlgorithm;
-  labels: number;
-  originalTTL: number;
-  signatureExpiration: number;
-  signatureInception: number;
-  keyTag: number;
-  signerName: string;
-  signature: string;
-}
-
-/**
- * DNSKEY record structure
- */
-export interface DNSKEYRecord {
-  flags: number;
-  protocol: number;
-  algorithm: DNSSECAlgorithm;
-  publicKey: string;
-}
-
-/**
- * DS record structure
- */
-export interface DSRecord {
-  keyTag: number;
-  algorithm: DNSSECAlgorithm;
-  digestType: DigestAlgorithm;
-  digest: string;
-}
-
-/**
- * NSEC record structure
- */
-export interface NSECRecord {
-  nextDomainName: string;
-  types: string[];
-}
-
-/**
- * NSEC3 record structure
- */
-export interface NSEC3Record {
-  hashAlgorithm: NSEC3HashAlgorithm;
-  flags: number;
-  iterations: number;
-  salt: string;
-  nextHashedOwnerName: string;
-  types: string[];
-}
-
-/**
- * NSEC3PARAM record structure
- */
-export interface NSEC3PARAMRecord {
-  hashAlgorithm: NSEC3HashAlgorithm;
-  flags: number;
-  iterations: number;
-  salt: string;
 }
 
 /**
@@ -271,6 +214,7 @@ export function validateRRSIG(record: any): RRSIGRecord {
   }
 
   return {
+    type: 'RRSIG',
     typeCovered: record.typeCovered,
     algorithm: record.algorithm,
     labels: record.labels,
@@ -353,6 +297,7 @@ export function validateDNSKEY(record: any): DNSKEYRecord {
   }
 
   return {
+    type: 'DNSKEY',
     flags: record.flags,
     protocol: record.protocol,
     algorithm: record.algorithm,
@@ -452,6 +397,7 @@ export function validateDS(record: any): DSRecord {
   }
 
   return {
+    type: 'DS',
     keyTag: record.keyTag,
     algorithm: record.algorithm,
     digestType: record.digestType,
@@ -578,7 +524,10 @@ export function validateNSEC(record: any): NSECRecord {
   }
 
   return {
+    type: 'NSEC',
     nextDomainName: record.nextDomainName,
+    typeBitMaps: record.types,
+    // Deprecated alias for backward compatibility
     types: record.types,
   };
 }
@@ -762,11 +711,14 @@ export function validateNSEC3(record: any): NSEC3Record {
   }
 
   return {
+    type: 'NSEC3',
     hashAlgorithm: record.hashAlgorithm,
     flags: record.flags,
     iterations: record.iterations,
     salt: record.salt,
     nextHashedOwnerName: record.nextHashedOwnerName,
+    typeBitMaps: record.types,
+    // Deprecated alias for backward compatibility
     types: record.types,
   };
 }
@@ -840,6 +792,7 @@ export function validateNSEC3PARAM(record: any): NSEC3PARAMRecord {
   }
 
   return {
+    type: 'NSEC3PARAM',
     hashAlgorithm: record.hashAlgorithm,
     flags: record.flags,
     iterations: record.iterations,

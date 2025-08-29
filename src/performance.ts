@@ -21,7 +21,6 @@ function getCachedRegex(pattern: string, flags?: string): RegExp {
 }
 
 // Test hook (non-public) to exercise cache miss/hit branches explicitly
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export const __testGetCachedRegex = (pattern: string, flags?: string) =>
   getCachedRegex(pattern, flags);
 
