@@ -186,7 +186,7 @@ exports.globalPerformanceTracker = new ValidationPerformanceTracker();
  * Decorator for tracking validation performance
  */
 function trackPerformance(validationFn, tracker = exports.globalPerformanceTracker) {
-    return ( /** @__PURE__ */((...args) => {
+    return /** @__PURE__ */ ((...args) => {
         const endTracking = tracker.startValidation();
         try {
             const result = validationFn(...args);
@@ -201,6 +201,6 @@ function trackPerformance(validationFn, tracker = exports.globalPerformanceTrack
         finally {
             endTracking();
         }
-    }));
+    });
 }
 //# sourceMappingURL=performance.js.map
