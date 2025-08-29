@@ -1,7 +1,5 @@
 {
-  "entryPoints": [
-    "./src"
-  ],
+  "entryPoints": ["./src"],
   "out": "docs",
   "theme": "markdown",
   "plugin": ["typedoc-plugin-markdown"],
