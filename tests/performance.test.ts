@@ -251,7 +251,8 @@ describe('Performance Utilities', () => {
     it('should calculate average time correctly', () => {
       // Guard for environments where performance may not exist
       const originalPerf = global.performance;
-      const hasPerformance = !!originalPerf && typeof originalPerf.now === 'function';
+      const hasPerformance =
+        !!originalPerf && typeof originalPerf.now === 'function';
       const originalNow = hasPerformance ? originalPerf.now : undefined;
 
       let currentTime = 0;
@@ -261,7 +262,9 @@ describe('Performance Utilities', () => {
 
       // Install fake performance (construct minimal object if missing)
       // @ts-ignore
-      global.performance = hasPerformance ? (global.performance as any) : ({} as any);
+      global.performance = hasPerformance
+        ? (global.performance as any)
+        : ({} as any);
       // @ts-ignore
       global.performance.now = fakePerf.now;
 

@@ -3,8 +3,8 @@
   "compilerOptions": {
     "module": "NodeNext",
     "outDir": "./dist/esm",
-  "declaration": false,
-  "declarationMap": false,
+    "declaration": false,
+    "declarationMap": false,
     "emitDeclarationOnly": false,
     "moduleResolution": "NodeNext",
     "sourceMap": true

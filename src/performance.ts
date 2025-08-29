@@ -253,7 +253,7 @@ export function trackPerformance<T extends (...args: any[]) => any>(
   validationFn: T,
   tracker: ValidationPerformanceTracker = globalPerformanceTracker
 ): T {
-  return (/** @__PURE__ */ ((...args: Parameters<T>) => {
+  return /** @__PURE__ */ ((...args: Parameters<T>) => {
     const endTracking = tracker.startValidation();
     try {
       const result = validationFn(...args);
@@ -269,5 +269,5 @@ export function trackPerformance<T extends (...args: any[]) => any>(
     } finally {
       endTracking();
     }
-  })) as T;
+  }) as T;
 }

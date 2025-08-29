@@ -15,16 +15,26 @@ describe('ESM build entry', () => {
   }
 
   test('import root export', () => {
-  const esmPath = pathToFileURL(join(__dirname, '../dist/esm/index.js')).href;
-  const code = `import * as m from '${esmPath}';\nconsole.log(typeof m.validateDNSRecord);`;
+    const esmPath = pathToFileURL(join(__dirname, '../dist/esm/index.js')).href;
+    const code = `import * as m from '${esmPath}';\nconsole.log(typeof m.validateDNSRecord);`;
     const { stdout, stderr, status } = runESM(code);
-    expect({ status, stderr: stderr.trim(), out: stdout.trim() }).toEqual({ status: 0, stderr: '', out: 'function' });
+    expect({ status, stderr: stderr.trim(), out: stdout.trim() }).toEqual({
+      status: 0,
+      stderr: '',
+      out: 'function',
+    });
   });
 
   test('import validators subpath', () => {
-  const esmPath = pathToFileURL(join(__dirname, '../dist/esm/validators.js')).href;
-  const code = `import * as m from '${esmPath}';\nconsole.log(typeof m.isARecord);`;
+    const esmPath = pathToFileURL(
+      join(__dirname, '../dist/esm/validators.js')
+    ).href;
+    const code = `import * as m from '${esmPath}';\nconsole.log(typeof m.isARecord);`;
     const { stdout, stderr, status } = runESM(code);
-    expect({ status, stderr: stderr.trim(), out: stdout.trim() }).toEqual({ status: 0, stderr: '', out: 'function' });
+    expect({ status, stderr: stderr.trim(), out: stdout.trim() }).toEqual({
+      status: 0,
+      stderr: '',
+      out: 'function',
+    });
   });
 });

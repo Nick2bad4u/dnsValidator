@@ -55,7 +55,7 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-  "build": "npm run clean && tsc -p tsconfig.json && tsc -p tsconfig.esm.json",
+    "build": "npm run clean && tsc -p tsconfig.json && tsc -p tsconfig.esm.json",
     "build:watch": "tsc --watch",
     "build:esm": "tsc --module ES2020 --outDir dist/esm",
     "test": "jest",
@@ -73,8 +73,8 @@
     "clean": "rimraf dist coverage",
     "dev": "npm run build:watch",
     "size": "size-limit",
-  "validate": "npm run typecheck && npm run lint && npm run test",
-  "postbuild": "echo postbuild noop"
+    "validate": "npm run typecheck && npm run lint && npm run test",
+    "postbuild": "echo postbuild noop"
   },
   "keywords": [
     "dns",
@@ -114,7 +114,9 @@
     "LICENSE",
     "CHANGELOG.md"
   ],
-  "sideEffects": ["dist/cli.js"],
+  "sideEffects": [
+    "dist/cli.js"
+  ],
   "size-limit": [
     {
       "path": "dist/index.js",

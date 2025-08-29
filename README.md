@@ -613,11 +613,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 After running `npm run build`:
 
 CommonJS:
+
 ```js
 const lib = require('dns-validator-library');
 ```
 
 ESM:
+
 ```js
 import * as lib from 'dns-validator-library';
 // or direct path (tests):
