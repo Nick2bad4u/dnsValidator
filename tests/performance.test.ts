@@ -248,11 +248,22 @@ describe('Performance Utilities', () => {
       expect(metrics.averageTimeMs).toBe(0);
     });
 
-    it.skip('should calculate average time correctly', () => {
-      // Mock performance.now to control timing
-      const originalNow = global.performance.now;
+    it('should calculate average time correctly', () => {
+      // Guard for environments where performance may not exist
+      const originalPerf = global.performance;
+      const hasPerformance = !!originalPerf && typeof originalPerf.now === 'function';
+      const originalNow = hasPerformance ? originalPerf.now : undefined;
+
       let currentTime = 0;
-      global.performance.now = jest.fn(() => currentTime);
+      const fakePerf = {
+        now: jest.fn(() => currentTime),
+      } as unknown as Performance;
+
+      // Install fake performance (construct minimal object if missing)
+      // @ts-ignore
+      global.performance = hasPerformance ? (global.performance as any) : ({} as any);
+      // @ts-ignore
+      global.performance.now = fakePerf.now;
 
       const endTracking1 = tracker.startValidation();
       currentTime = 100;
@@ -266,8 +277,14 @@ describe('Performance Utilities', () => {
       expect(metrics.totalValidations).toBe(2);
       expect(metrics.averageTimeMs).toBe(150); // (100 + 200) / 2
 
-      // Restore original performance.now
-      global.performance.now = originalNow;
+      // Restore
+      if (hasPerformance && originalNow) {
+        // @ts-ignore
+        global.performance.now = originalNow;
+      } else {
+        // @ts-ignore
+        delete global.performance;
+      }
     });
   });
 

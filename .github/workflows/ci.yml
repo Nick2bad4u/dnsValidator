@@ -125,7 +125,12 @@ jobs:
         continue-on-error: false
 
       - name: Test ESM compatibility
-        run: node --input-type=module -e "import('./dist/index.mjs').then(m => console.log(m))"
+        run: |
+          node -e "const fs=require('fs');const pkg=JSON.parse(fs.readFileSync('package.json','utf8'));function resolveExport(p){if(p.module)return p.module;const exp=p.exports&&(p.exports['.']??p.exports);if(!exp)return null;if(typeof exp==='string')return exp;if(typeof exp==='object'){return exp.import||exp.module||exp.default||exp.require||null}return null}let target=resolveExport(pkg)||'./dist/index.js';if(!target.startsWith('./')&&!target.startsWith('../'))target='./'+target;console.log('Attempting ESM import of',target);(async()=>{try{const m=await import(target);console.log('ESM import ok. Export keys:',Object.keys(m))}catch(err){console.error('ESM import failed:',err);process.exit(1)}})();"
+        continue-on-error: false
+
+      - name: Test TypeScript definitions
+        run: npx tsc --noEmit --skipLibCheck examples/basic-usage.ts
         continue-on-error: false
 
       - name: Test TypeScript definitions
