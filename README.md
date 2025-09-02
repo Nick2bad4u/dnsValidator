@@ -3,9 +3,18 @@
 A comprehensive TypeScript library for validating DNS query results and individual DNS records. Supports traditional DNS records (A, AAAA, MX, TXT, etc.) and DNSSEC records (DNSKEY, DS, RRSIG, NSEC, etc.) with enhanced error reporting and performance optimization.
 
 [![npm version](https://badge.fury.io/js/dns-response-validator.svg)](https://badge.fury.io/js/dns-response-validator)
+[![npm downloads](https://img.shields.io/npm/dt/dns-response-validator)](https://www.npmjs.com/package/dns-response-validator)
 [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](http://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)](coverage/lcov-report/index.html)
+[![CI](https://github.com/Nick2bad4u/dnsValidator/workflows/CI/badge.svg)](https://github.com/Nick2bad4u/dnsValidator/actions)
 [![Docs](https://img.shields.io/badge/docs-latest-blue.svg)](https://nick2bad4u.github.io/dnsValidator/)
+[![GitHub stars](https://img.shields.io/github/stars/Nick2bad4u/dnsValidator?style=social)](https://github.com/Nick2bad4u/dnsValidator)
+
+<div align="center">
+  <img src="DNSValidatorLizard.png" alt="ChunkyLint">
+</div>
 
 ## Features
 
