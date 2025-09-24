@@ -1,0 +1,92 @@
+# Codecov Configuration for DNS Validator Library
+# https://docs.codecov.com/docs/codecov-yaml
+
+coverage:
+  # Overall coverage target
+  range: 80..100
+  round: down
+  precision: 2
+
+  # Coverage requirements for PR status checks
+  status:
+    project:
+      default:
+        target: 85%
+        threshold: 1%
+        branches:
+          - main
+          - develop
+    patch:
+      default:
+        target: 80%
+        threshold: 5%
+
+# Ignore certain files and directories from coverage
+ignore:
+  - 'dist/**/*' # Built JavaScript files
+  - 'coverage/**/*' # Coverage reports
+  - 'docs/**/*' # Documentation
+  - 'examples/**/*' # Example files
+  - 'scripts/**/*' # Build scripts
+  - 'tests/**/*.test.ts' # Test files themselves
+  - 'jest.config.js' # Jest configuration
+  - '*.config.js' # Configuration files
+  - '*.config.ts' # TypeScript configuration files
+
+# Configure how coverage is displayed in PR comments
+comment:
+  layout: 'reach,diff,flags,files,footer'
+  behavior: default
+  require_changes: false
+  require_base: false
+  require_head: true
+  branches:
+    - main
+    - develop
+
+# Component-based coverage tracking
+component_management:
+  individual_components:
+    - component_id: 'validators'
+      name: 'Core Validators'
+      paths:
+        - 'src/validators.ts'
+        - 'src/enhanced-validators.ts'
+    - component_id: 'dnssec'
+      name: 'DNSSEC Support'
+      paths:
+        - 'src/dnssec.ts'
+        - 'src/dnssec-validators.ts'
+    - component_id: 'cli'
+      name: 'CLI Tool'
+      paths:
+        - 'src/cli.ts'
+    - component_id: 'utils'
+      name: 'Utilities'
+      paths:
+        - 'src/utils.ts'
+        - 'src/types.ts'
+        - 'src/performance.ts'
+    - component_id: 'errors'
+      name: 'Error Handling'
+      paths:
+        - 'src/errors.ts'
+
+# Flag management for different test types
+flags:
+  unittests:
+    paths:
+      - 'src/'
+    carryforward: true
+  integration:
+    paths:
+      - 'src/'
+    carryforward: false
+
+# GitHub integration settings
+github_checks:
+  annotations: true
+
+# Profiling settings (helps identify slow uploads)
+profiling:
+  critical_files_paths: []

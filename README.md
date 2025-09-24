@@ -7,7 +7,7 @@ A comprehensive TypeScript library for validating DNS query results and individu
 [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](http://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)](coverage/lcov-report/index.html)
+[![Coverage](https://codecov.io/gh/Nick2bad4u/dnsValidator/branch/main/graph/badge.svg)](https://codecov.io/gh/Nick2bad4u/dnsValidator)
 [![CI](https://github.com/Nick2bad4u/dnsValidator/workflows/CI/badge.svg)](https://github.com/Nick2bad4u/dnsValidator/actions)
 [![Docs](https://img.shields.io/badge/docs-latest-blue.svg)](https://nick2bad4u.github.io/dnsValidator/)
 [![GitHub stars](https://img.shields.io/github/stars/Nick2bad4u/dnsValidator?style=social)](https://github.com/Nick2bad4u/dnsValidator)
@@ -579,7 +579,41 @@ npm run clean        # Clean dist directory
 npm test             # Run test suite
 npm run test:watch   # Run tests in watch mode
 npm run test:coverage # Run tests with coverage report
+npm run test:ci      # Run tests for CI (with coverage)
 ```
+
+### Code Coverage
+
+This project maintains high code coverage standards with **95%+ overall coverage**. Coverage reports are automatically generated and uploaded to [Codecov](https://codecov.io/gh/Nick2bad4u/dnsValidator) on every commit.
+
+**Coverage Thresholds:**
+
+- Global: 95% statements, 95% branches, 95% functions, 95% lines
+- Core validators: 90% (critical validation logic)
+- Enhanced validators: 100% (advanced features)
+- DNSSEC modules: 100% (security-critical code)
+
+**Viewing Coverage Reports:**
+
+```bash
+# Generate and view coverage report locally
+npm run test:coverage
+
+# Open HTML coverage report
+# Windows
+start coverage/lcov-report/index.html
+
+# macOS
+open coverage/lcov-report/index.html
+
+# Linux
+xdg-open coverage/lcov-report/index.html
+```
+
+The coverage configuration is defined in:
+
+- `jest.config.js` - Jest coverage settings
+- `codecov.yml` - Codecov configuration with component tracking
 
 ### Code Quality
 

@@ -8,6 +8,7 @@ on:
 
 permissions: # added using https://github.com/step-security/secure-repo
   contents: read
+  id-token: write # This is required for OIDC
 
 jobs:
   test:
@@ -55,11 +56,14 @@ jobs:
 
       - name: Upload coverage to Codecov
         if: matrix.os == 'ubuntu-latest' && matrix.node-version == '18.x'
-        uses: codecov/codecov-action@ab904c41d6ece82784817410c45d8b8c02684457 # v3.1.6
+        uses: codecov/codecov-action@v5
         with:
-          file: ./coverage/lcov.info
+          files: ./coverage/lcov.info
           flags: unittests
           name: codecov-umbrella
+          fail_ci_if_error: true
+          verbose: true
+          use_oidc: true
 
   build-docs:
     permissions:
