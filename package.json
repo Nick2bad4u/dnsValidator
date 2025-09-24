@@ -102,7 +102,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Nick2bad4u/dnsValidator"
+    "url": "git+https://github.com/Nick2bad4u/dnsValidator"
   },
   "bugs": {
     "url": "https://github.com/Nick2bad4u/dnsValidator/issues"
