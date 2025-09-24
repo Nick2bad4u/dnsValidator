@@ -1,6 +1,6 @@
 {
   "name": "dns-response-validator",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "A production-ready TypeScript library for validating DNS query results and individual DNS records",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
