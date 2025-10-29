@@ -47,25 +47,26 @@ jobs:
         run: npm run test:coverage
         continue-on-error: true
 
-      - name: Build package
-        run: npm run build
-
-      - name: Check bundle size
-        run: npm run size
-        continue-on-error: true
-
       - name: Upload coverage to Codecov
         if: matrix.os == 'windows-latest' && matrix.node-version == '20.x'
         run: |
-          $env:CODECOV_TOKEN = "${{ secrets.CODECOV_TOKEN }}"
           .\codecov.exe upload-coverage --file ./coverage/lcov.info
         continue-on-error: true
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload test results to Codecov
         if: matrix.os == 'windows-latest' && matrix.node-version == '20.x'
         uses: codecov/test-results-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Build package
+        run: npm run build
+
+      - name: Check bundle size
+        run: npm run size
+        continue-on-error: true
 
   build-docs:
     permissions:
