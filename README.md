@@ -11,6 +11,7 @@ A comprehensive TypeScript library for validating DNS query results and individu
 [![CI](https://github.com/Nick2bad4u/dnsValidator/workflows/CI/badge.svg)](https://github.com/Nick2bad4u/dnsValidator/actions)
 [![Docs](https://img.shields.io/badge/docs-latest-blue.svg)](https://nick2bad4u.github.io/dnsValidator/)
 [![GitHub stars](https://img.shields.io/github/stars/Nick2bad4u/dnsValidator?style=social)](https://github.com/Nick2bad4u/dnsValidator)
+[![DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Nick2bad4u/dnsValidator)
 
 <div align="center">
   <img src="DNSValidatorLizard.png" alt="ChunkyLint">
