@@ -192,6 +192,7 @@
         "release:check": "npm run release:verify",
         "release:verify": "cross-env NODE_OPTIONS= npm run build && cross-env NODE_OPTIONS= npm run lint:nocache && cross-env NODE_OPTIONS= npm run typecheck && cross-env NODE_OPTIONS= npm run test:coverage && cross-env NODE_OPTIONS= npm run lint:package-check:strict && npm pack --dry-run",
         "size": "size-limit",
+        "sync:node-version-files": "node scripts/sync-node-version-files.mjs",
         "test": "vitest run",
         "test:ci": "cross-env CI=true vitest run --reporter=default",
         "test:coverage": "vitest run --coverage --reporter=default",
@@ -200,6 +201,7 @@
         "type-check": "npm run typecheck",
         "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.build.json --noEmit && tsc -p tsconfig.eslint.json --noEmit && tsc -p tsconfig.js.json --noEmit",
         "typecheck:all": "npm run typecheck",
+        "update-deps": "npx ncu -i --install never && npm update --force && npm install --force && npm run sync:node-version-files",
         "validate": "npm run release:verify"
     },
     "dependencies": {
@@ -219,7 +221,7 @@
         "cross-env": "^10.1.0",
         "del-cli": "^7.0.0",
         "esbuild": "^0.28.0",
-        "eslint": "^10.3.0",
+        "eslint": "^10.4.0",
         "eslint-config-nick2bad4u": "^1.0.16",
         "git-cliff": "^2.13.1",
         "license-checker": "^25.0.1",
@@ -230,7 +232,7 @@
         "remark": "^15.0.1",
         "remark-cli": "^12.0.1",
         "remark-config-nick2bad4u": "^1.0.2",
-        "secretlint": "^13.0.0",
+        "secretlint": "^13.0.2",
         "secretlint-config-nick2bad4u": "^1.0.5",
         "size-limit": "^12.1.0",
         "sort-package-json": "^3.6.1",
@@ -244,12 +246,12 @@
     },
     "packageManager": "npm@11.14.1",
     "engines": {
-        "node": ">=22.9.0"
+        "node": ">=22.0.0"
     },
     "devEngines": {
         "runtime": {
             "name": "node",
-            "version": ">=22.9.0",
+            "version": ">=22.0.0",
             "onFail": "error"
         },
         "packageManager": {
