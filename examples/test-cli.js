@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 // Simple test script for the CLI
-const { execSync } = require("child_process");
-const path = require("path");
+const { execSync } = require("node:child_process");
+const path = require("node:path");
 
 const cliPath = path.join(__dirname, "..", "dist", "cli.js");
 

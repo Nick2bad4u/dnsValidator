@@ -101,9 +101,7 @@ const tableOutputFormatter = (
     const rows = results.map((result) => [
         typeof result.type === "string" ? result.type : "Query",
         result.success ? "✓ Valid" : "✗ Invalid",
-        isDefined(result.record)
-            ? `${JSON.stringify(result.record, null, 0).slice(0, 50)}...`
-            : `${JSON.stringify(result.query ?? null, null, 0).slice(0, 50)}...`,
+        `${JSON.stringify(result.record ?? result.query ?? null, null, 0).slice(0, 50)}...`,
         result.success
             ? "OK"
             : `${(typeof result.error === "string" ? result.error : "").slice(0, 50)}...`,

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* Copy select CommonJS outputs to .mjs if missing (already using NodeNext, but keep for safety) */
-const fs = require("fs");
-const path = require("path");
+const fs = require("node:fs");
+const path = require("node:path");
 const dist = path.join(__dirname, "..", "dist");
 const modules = [
     "validators",

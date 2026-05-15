@@ -5,40 +5,39 @@ import { writeFileSync, unlinkSync, readFileSync } from "node:fs";
 
 const testDirectory = import.meta.dirname;
 
-describe("cli.ts source coverage via runCLI", () => {
-    function capture(argv: string[]) {
-        const logs: string[] = [];
-        const errs: string[] = [];
-        let code: number | undefined;
-        const logSpy = vi
-            .spyOn(console, "log")
-            .mockImplementation((...args) => {
-                logs.push(args.join(" "));
-            });
-        const errorSpy = vi
-            .spyOn(console, "error")
-            .mockImplementation((...args) => {
-                errs.push(args.join(" "));
-            });
-        const exitSpy = vi.spyOn(process, "exit").mockImplementation(((
-            exitCode?: string | number | null | undefined
-        ) => {
-            code = typeof exitCode === "number" ? exitCode : undefined;
-            throw new Error("EXIT");
-        }) as typeof process.exit);
-        try {
-            runCLI(argv);
-        } catch (error: unknown) {
-            if (!(error instanceof Error) || error.message !== "EXIT")
-                throw error;
-        } finally {
-            logSpy.mockRestore();
-            errorSpy.mockRestore();
-            exitSpy.mockRestore();
+function capture(argv: string[]) {
+    const logs: string[] = [];
+    const errs: string[] = [];
+    let code: number | undefined;
+    const logSpy = vi.spyOn(console, "log").mockImplementation((...args) => {
+        logs.push(args.join(" "));
+    });
+    const errorSpy = vi
+        .spyOn(console, "error")
+        .mockImplementation((...args) => {
+            errs.push(args.join(" "));
+        });
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation(((
+        exitCode?: string | number | null | undefined
+    ) => {
+        code = typeof exitCode === "number" ? exitCode : undefined;
+        throw new Error("EXIT");
+    }) as typeof process.exit);
+    try {
+        runCLI(argv);
+    } catch (error: unknown) {
+        if (!(error instanceof Error) || error.message !== "EXIT") {
+            throw error;
         }
-        return { logs, errs, code };
+    } finally {
+        logSpy.mockRestore();
+        errorSpy.mockRestore();
+        exitSpy.mockRestore();
     }
+    return { logs, errs, code };
+}
 
+describe("cli.ts source coverage via runCLI", () => {
     it("record valid", () => {
         const res = capture([
             "record",

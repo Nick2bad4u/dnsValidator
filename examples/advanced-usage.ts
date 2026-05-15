@@ -297,18 +297,37 @@ queries.forEach(([domain, type]) => {
 
     if (response.answers) {
         response.answers.forEach((answer, i) => {
+            let isValidAnswer: boolean | "Unknown";
+
+            switch (answer.type) {
+                case "A": {
+                    isValidAnswer = validateARecord(answer).isValid;
+                    break;
+                }
+
+                case "DNSKEY": {
+                    isValidAnswer = isDNSKEYRecord(answer);
+                    break;
+                }
+
+                case "DS": {
+                    isValidAnswer = isDSRecord(answer);
+                    break;
+                }
+
+                case "MX": {
+                    isValidAnswer = validateMXRecord(answer).isValid;
+                    break;
+                }
+
+                default: {
+                    isValidAnswer = "Unknown";
+                    break;
+                }
+            }
+
             console.log(
-                `  Answer ${i + 1}: ${answer.type} record - Valid: ${
-                    answer.type === "A"
-                        ? validateARecord(answer).isValid
-                        : answer.type === "MX"
-                          ? validateMXRecord(answer).isValid
-                          : answer.type === "DNSKEY"
-                            ? isDNSKEYRecord(answer)
-                            : answer.type === "DS"
-                              ? isDSRecord(answer)
-                              : "Unknown"
-                }`
+                `  Answer ${i + 1}: ${answer.type} record - Valid: ${isValidAnswer}`
             );
         });
     }

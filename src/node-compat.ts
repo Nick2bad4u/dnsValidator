@@ -10,6 +10,30 @@ import { isDefined } from "ts-extras";
 
 import type { ANYRecord, SOARecord, TLSARecord, TXTRecord } from "./types";
 
+const soaFieldAliases = [
+    ["admin", "hostmaster"],
+    ["expiration", "expire"],
+    ["minimum", "minttl"],
+    ["primary", "nsname"],
+] as const satisfies readonly (readonly [keyof SOARecord, keyof SOARecord])[];
+
+const syncSOAFieldAlias = (
+    record: Readonly<SOARecord>,
+    left: keyof SOARecord,
+    right: keyof SOARecord
+): void => {
+    const leftValue = record[left];
+    const rightValue = record[right];
+
+    if (isDefined(leftValue) && !isDefined(rightValue)) {
+        Object.assign(record, { [right]: leftValue });
+    }
+
+    if (isDefined(rightValue) && !isDefined(leftValue)) {
+        Object.assign(record, { [left]: rightValue });
+    }
+};
+
 /** Convert Node resolveAny array to internal ANYRecord */
 export function fromNodeResolveAny(arr: Readonly<UnknownArray>): ANYRecord {
     const records = arr.filter(
@@ -80,30 +104,10 @@ export function isNodeTLSAShape(obj: unknown): boolean {
 export function normalizeSOA(record: Readonly<SOARecord>): SOARecord {
     const normalized: SOARecord = { ...record };
 
-    if (isDefined(normalized.primary) && !isDefined(normalized.nsname)) {
-        normalized.nsname = normalized.primary;
+    for (const [left, right] of soaFieldAliases) {
+        syncSOAFieldAlias(normalized, left, right);
     }
 
-    if (isDefined(normalized.nsname) && !isDefined(normalized.primary)) {
-        normalized.primary = normalized.nsname;
-    }
-
-    if (isDefined(normalized.admin) && !isDefined(normalized.hostmaster)) {
-        normalized.hostmaster = normalized.admin;
-    }
-
-    if (isDefined(normalized.hostmaster) && !isDefined(normalized.admin)) {
-        normalized.admin = normalized.hostmaster;
-    }
-
-    if (isDefined(normalized.expiration) && !isDefined(normalized.expire))
-        normalized.expire = normalized.expiration;
-    if (isDefined(normalized.expire) && !isDefined(normalized.expiration))
-        normalized.expiration = normalized.expire;
-    if (isDefined(normalized.minimum) && !isDefined(normalized.minttl))
-        normalized.minttl = normalized.minimum;
-    if (isDefined(normalized.minttl) && !isDefined(normalized.minimum))
-        normalized.minimum = normalized.minttl;
     return normalized;
 }
 

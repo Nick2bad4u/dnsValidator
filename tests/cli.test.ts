@@ -8,12 +8,15 @@ const cli = nodePath.join(testDirectory, "..", "dist", "cli.js");
 
 // Helper spawn
 function run(args: string[], input?: string) {
-    return spawnSync("node", [cli, ...args], { input, encoding: "utf8" });
+    return spawnSync(process.execPath, [cli, ...args], {
+        encoding: "utf8",
+        input,
+    });
 }
 
 describe("command line integration", () => {
     it("shows help when no args", () => {
-        const res = spawnSync("node", [cli], { encoding: "utf8" });
+        const res = spawnSync(process.execPath, [cli], { encoding: "utf8" });
 
         expect(res.stdout + res.stderr).toMatch(
             /Usage Examples|CLI tool for validating DNS/

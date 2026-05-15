@@ -482,18 +482,14 @@ export function isTLSARecord(record: unknown): record is TLSARecord {
     const r = record;
     if (r["type"] !== "TLSA") return false;
 
-    const usage =
-        typeof r["usage"] === "number"
-            ? r["usage"]
-            : typeof r["certUsage"] === "number"
-              ? r["certUsage"]
-              : undefined;
+    const usage = typeof r["usage"] === "number" ? r["usage"] : undefined;
+    const certUsage =
+        typeof r["certUsage"] === "number" ? r["certUsage"] : undefined;
+    const resolvedUsage = usage ?? certUsage;
     const matching =
-        typeof r["matchingType"] === "number"
-            ? r["matchingType"]
-            : typeof r["match"] === "number"
-              ? r["match"]
-              : undefined;
+        typeof r["matchingType"] === "number" ? r["matchingType"] : undefined;
+    const match = typeof r["match"] === "number" ? r["match"] : undefined;
+    const resolvedMatching = matching ?? match;
     const certData =
         (typeof r["certificate"] === "string" && r["certificate"]) ||
         (typeof r["data"] === "string" && r["data"]);
@@ -504,12 +500,12 @@ export function isTLSARecord(record: unknown): record is TLSARecord {
         r["data"] instanceof Uint8Array;
 
     return (
-        isDefined(usage) &&
-        isValidTLSAUsage(usage) &&
+        isDefined(resolvedUsage) &&
+        isValidTLSAUsage(resolvedUsage) &&
         typeof r["selector"] === "number" &&
         isValidTLSASelector(r["selector"]) &&
-        isDefined(matching) &&
-        isValidTLSAMatchingType(matching) &&
+        isDefined(resolvedMatching) &&
+        isValidTLSAMatchingType(resolvedMatching) &&
         certOk &&
         (!isDefined(r["ttl"]) ||
             (typeof r["ttl"] === "number" && isValidTTL(r["ttl"])))

@@ -47,11 +47,11 @@ export const ValidationPatterns: Readonly<
     Record<ValidationPatternName, RegExp>
 > = {
     // Email pattern for SOA admin field
-    email: getCachedRegex("^[^@]+@[^@]+\\.[^@]+$"),
+    email: getCachedRegex("^[^@]+@[^@]+[.][^@]+$"),
 
     // Basic FQDN pattern (more permissive, final validation with library)
     fqdn: getCachedRegex(
-        "^[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\\.([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?))*$"
+        "^[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?([.]([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?))*$"
     ),
 
     // Hexadecimal string pattern
@@ -59,7 +59,7 @@ export const ValidationPatterns: Readonly<
 
     // IPv4 address pattern (more permissive, final validation with library)
     ipv4: getCachedRegex(
-        "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+        "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)[.]){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
     ),
 };
 

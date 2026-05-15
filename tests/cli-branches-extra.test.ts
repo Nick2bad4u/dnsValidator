@@ -32,7 +32,7 @@ function captureRun(args: string[]): {
         errorSpy.mockRestore();
         exitSpy.mockRestore();
     }
-    return { code: code === undefined ? 0 : code, stdout, stderr };
+    return { code: code ?? 0, stdout, stderr };
 }
 
 describe("command line extra branches", () => {
