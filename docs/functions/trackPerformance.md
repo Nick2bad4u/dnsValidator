@@ -10,7 +10,7 @@ Decorator for tracking validation performance
 
 ### T
 
-`T` *extends* (...`args`) => `any`
+`T` _extends_ (...`args`) => `any`
 
 ## Parameters
 

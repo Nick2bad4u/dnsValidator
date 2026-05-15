@@ -8,12 +8,12 @@ NSEC3PARAM record - Provides NSEC3 hashing parameters for a DNS zone.
 
 ```typescript
 const record: NSEC3PARAMRecord = {
-  type: 'NSEC3PARAM',
-  hashAlgorithm: 1,
-  flags: 0,
-  iterations: 12,
-  salt: 'aabbccdd',
-  ttl: 86400
+ type: "NSEC3PARAM",
+ hashAlgorithm: 1,
+ flags: 0,
+ iterations: 12,
+ salt: "aabbccdd",
+ ttl: 86400,
 };
 ```
 
@@ -35,7 +35,7 @@ Time to live in seconds (optional)
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
 
-***
+---
 
 ### type
 
@@ -49,7 +49,7 @@ The type of DNS record
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
 
-***
+---
 
 ### hashAlgorithm
 
@@ -59,7 +59,7 @@ Defined in: [types.ts:572](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Hash algorithm used (currently 1 = SHA-1)
 
-***
+---
 
 ### flags
 
@@ -69,7 +69,7 @@ Defined in: [types.ts:574](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Flags field
 
-***
+---
 
 ### iterations
 
@@ -79,7 +79,7 @@ Defined in: [types.ts:576](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Number of hash iterations
 
-***
+---
 
 ### salt
 

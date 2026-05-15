@@ -50,7 +50,7 @@ Defined in: [errors.ts:9](https://github.com/Nick2bad4u/dnsValidator/blob/main/s
 
 [`DNSValidationError`](DNSValidationError.md).[`code`](DNSValidationError.md#code)
 
-***
+---
 
 ### field
 
@@ -62,7 +62,7 @@ Defined in: [errors.ts:10](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 [`DNSValidationError`](DNSValidationError.md).[`field`](DNSValidationError.md#field)
 
-***
+---
 
 ### value
 

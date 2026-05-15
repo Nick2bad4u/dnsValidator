@@ -8,9 +8,9 @@ NS record - Specifies authoritative name servers for a domain.
 
 ```typescript
 const record: NSRecord = {
-  type: 'NS',
-  value: 'ns1.example.com',
-  ttl: 86400
+ type: "NS",
+ value: "ns1.example.com",
+ ttl: 86400,
 };
 ```
 
@@ -32,7 +32,7 @@ Time to live in seconds (optional)
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
 
-***
+---
 
 ### type
 
@@ -46,7 +46,7 @@ The type of DNS record
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
 
-***
+---
 
 ### value
 

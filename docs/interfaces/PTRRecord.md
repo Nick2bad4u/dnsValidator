@@ -8,9 +8,9 @@ PTR record - Maps an IP address to a domain name (reverse DNS).
 
 ```typescript
 const record: PTRRecord = {
-  type: 'PTR',
-  value: 'host.example.com',
-  ttl: 300
+ type: "PTR",
+ value: "host.example.com",
+ ttl: 300,
 };
 ```
 
@@ -32,7 +32,7 @@ Time to live in seconds (optional)
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
 
-***
+---
 
 ### type
 
@@ -46,7 +46,7 @@ The type of DNS record
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
 
-***
+---
 
 ### value
 

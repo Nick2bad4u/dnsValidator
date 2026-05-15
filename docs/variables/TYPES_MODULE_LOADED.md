@@ -1,6 +1,6 @@
-# Variable: TYPES\_MODULE\_LOADED
+# Variable: TYPES_MODULE_LOADED
 
-> `const` **TYPES\_MODULE\_LOADED**: `true` = `true`
+> `const` **TYPES_MODULE_LOADED**: `true` = `true`
 
 Defined in: [types.ts:748](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L748)
 

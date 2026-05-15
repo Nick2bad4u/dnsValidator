@@ -8,9 +8,9 @@ AAAA record - Maps a domain name to an IPv6 address.
 
 ```typescript
 const record: AAAARecord = {
-  type: 'AAAA',
-  address: '2001:db8::1',
-  ttl: 300
+ type: "AAAA",
+ address: "2001:db8::1",
+ ttl: 300,
 };
 ```
 
@@ -32,7 +32,7 @@ Time to live in seconds (optional)
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
 
-***
+---
 
 ### type
 
@@ -46,7 +46,7 @@ The type of DNS record
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
 
-***
+---
 
 ### address
 

@@ -9,10 +9,10 @@ Supports validation of traditional DNS records (A, AAAA, MX, TXT, etc.) and DNSS
 ## Example
 
 ```typescript
-import { isARecord, validateARecord } from 'dns-response-validator';
+import { isARecord, validateARecord } from "dns-response-validator";
 
 // Basic validation
-const record = { type: 'A', address: '192.168.1.1', ttl: 300 };
+const record = { type: "A", address: "192.168.1.1", ttl: 300 };
 console.log(isARecord(record)); // true
 
 // Enhanced validation with error details
@@ -78,7 +78,7 @@ console.log(result.isValid); // true
 - [ValidationErrorFactory](variables/ValidationErrorFactory.md)
 - [ValidationPatterns](variables/ValidationPatterns.md)
 - [globalPerformanceTracker](variables/globalPerformanceTracker.md)
-- [TYPES\_MODULE\_LOADED](variables/TYPES_MODULE_LOADED.md)
+- [TYPES_MODULE_LOADED](variables/TYPES_MODULE_LOADED.md)
 
 ## Functions
 

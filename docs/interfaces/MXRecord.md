@@ -8,10 +8,10 @@ MX record - Specifies mail exchange servers for a domain.
 
 ```typescript
 const record: MXRecord = {
-  type: 'MX',
-  priority: 10,
-  exchange: 'mail.example.com',
-  ttl: 3600
+ type: "MX",
+ priority: 10,
+ exchange: "mail.example.com",
+ ttl: 3600,
 };
 ```
 
@@ -33,7 +33,7 @@ Time to live in seconds (optional)
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
 
-***
+---
 
 ### type
 
@@ -47,7 +47,7 @@ The type of DNS record
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
 
-***
+---
 
 ### priority
 
@@ -57,7 +57,7 @@ Defined in: [types.ts:123](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Priority value (0-65535, lower values have higher priority)
 
-***
+---
 
 ### exchange
 

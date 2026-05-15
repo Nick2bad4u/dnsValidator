@@ -32,7 +32,7 @@ Defined in: [errors.ts:153](https://github.com/Nick2bad4u/dnsValidator/blob/main
 
 `void`
 
-***
+---
 
 ### exitField()
 
@@ -44,7 +44,7 @@ Defined in: [errors.ts:157](https://github.com/Nick2bad4u/dnsValidator/blob/main
 
 `void`
 
-***
+---
 
 ### addError()
 
@@ -62,7 +62,7 @@ Defined in: [errors.ts:161](https://github.com/Nick2bad4u/dnsValidator/blob/main
 
 `void`
 
-***
+---
 
 ### addWarning()
 
@@ -80,7 +80,7 @@ Defined in: [errors.ts:165](https://github.com/Nick2bad4u/dnsValidator/blob/main
 
 `void`
 
-***
+---
 
 ### addSuggestion()
 
@@ -98,7 +98,7 @@ Defined in: [errors.ts:169](https://github.com/Nick2bad4u/dnsValidator/blob/main
 
 `void`
 
-***
+---
 
 ### getCurrentPath()
 
@@ -110,7 +110,7 @@ Defined in: [errors.ts:173](https://github.com/Nick2bad4u/dnsValidator/blob/main
 
 `string`
 
-***
+---
 
 ### getResult()
 
@@ -122,7 +122,7 @@ Defined in: [errors.ts:177](https://github.com/Nick2bad4u/dnsValidator/blob/main
 
 [`DetailedValidationResult`](../interfaces/DetailedValidationResult.md)
 
-***
+---
 
 ### reset()
 

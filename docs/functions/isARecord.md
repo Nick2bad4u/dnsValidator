@@ -26,9 +26,9 @@ True if the record is a valid A record
 ## Example
 
 ```typescript
-const record = { type: 'A', address: '192.168.1.1', ttl: 300 };
+const record = { type: "A", address: "192.168.1.1", ttl: 300 };
 console.log(isARecord(record)); // true
 
-const invalid = { type: 'A', address: '999.999.999.999' };
+const invalid = { type: "A", address: "999.999.999.999" };
 console.log(isARecord(invalid)); // false
 ```

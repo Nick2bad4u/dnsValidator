@@ -8,12 +8,12 @@ SRV record - Specifies the location of services within a domain.
 
 ```typescript
 const record: SRVRecord = {
-  type: 'SRV',
-  priority: 10,
-  weight: 5,
-  port: 443,
-  name: 'server.example.com',
-  ttl: 3600
+ type: "SRV",
+ priority: 10,
+ weight: 5,
+ port: 443,
+ name: "server.example.com",
+ ttl: 3600,
 };
 ```
 
@@ -35,7 +35,7 @@ Time to live in seconds (optional)
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
 
-***
+---
 
 ### type
 
@@ -49,7 +49,7 @@ The type of DNS record
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
 
-***
+---
 
 ### priority
 
@@ -59,7 +59,7 @@ Defined in: [types.ts:254](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Priority of the target host (0-65535, lower values preferred)
 
-***
+---
 
 ### weight
 
@@ -69,7 +69,7 @@ Defined in: [types.ts:256](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Weight for load balancing among hosts with same priority
 
-***
+---
 
 ### port
 
@@ -79,7 +79,7 @@ Defined in: [types.ts:258](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Port number of the service
 
-***
+---
 
 ### name
 

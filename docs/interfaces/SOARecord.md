@@ -8,15 +8,15 @@ SOA record - Contains administrative information about a DNS zone.
 
 ```typescript
 const record: SOARecord = {
-  type: 'SOA',
-  primary: 'ns1.example.com',
-  admin: 'admin.example.com',
-  serial: 2023010101,
-  refresh: 3600,
-  retry: 1800,
-  expiration: 604800,
-  minimum: 86400,
-  ttl: 86400
+ type: "SOA",
+ primary: "ns1.example.com",
+ admin: "admin.example.com",
+ serial: 2023010101,
+ refresh: 3600,
+ retry: 1800,
+ expiration: 604800,
+ minimum: 86400,
+ ttl: 86400,
 };
 ```
 
@@ -38,7 +38,7 @@ Time to live in seconds (optional)
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
 
-***
+---
 
 ### type
 
@@ -52,7 +52,7 @@ The type of DNS record
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
 
-***
+---
 
 ### primary?
 
@@ -62,7 +62,7 @@ Defined in: [types.ts:211](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Primary name server (internal canonical field, Node.js dns.resolveSoa uses 'nsname')
 
-***
+---
 
 ### nsname?
 
@@ -72,7 +72,7 @@ Defined in: [types.ts:213](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Node.js compatible field name for primary name server
 
-***
+---
 
 ### admin?
 
@@ -82,7 +82,7 @@ Defined in: [types.ts:215](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Administrator email (with @ replaced by .) (internal canonical field, Node uses 'hostmaster')
 
-***
+---
 
 ### hostmaster?
 
@@ -92,7 +92,7 @@ Defined in: [types.ts:217](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Node.js compatible field name for administrator email
 
-***
+---
 
 ### serial
 
@@ -102,7 +102,7 @@ Defined in: [types.ts:219](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Serial number for zone transfers
 
-***
+---
 
 ### refresh
 
@@ -112,7 +112,7 @@ Defined in: [types.ts:221](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Refresh interval in seconds
 
-***
+---
 
 ### retry
 
@@ -122,7 +122,7 @@ Defined in: [types.ts:223](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Retry interval in seconds
 
-***
+---
 
 ### expiration?
 
@@ -132,7 +132,7 @@ Defined in: [types.ts:225](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Expiration time in seconds (internal canonical field, Node uses 'expire')
 
-***
+---
 
 ### expire?
 
@@ -142,7 +142,7 @@ Defined in: [types.ts:227](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Node.js compatible expiration field
 
-***
+---
 
 ### minimum?
 
@@ -152,7 +152,7 @@ Defined in: [types.ts:229](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Minimum TTL for negative caching (internal canonical field, Node uses 'minttl')
 
-***
+---
 
 ### minttl?
 

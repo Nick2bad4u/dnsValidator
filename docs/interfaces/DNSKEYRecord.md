@@ -8,12 +8,12 @@ DNSKEY record - Contains a public key used for DNSSEC validation.
 
 ```typescript
 const record: DNSKEYRecord = {
-  type: 'DNSKEY',
-  flags: 257, // Key Signing Key
-  protocol: 3,
-  algorithm: 8, // RSA/SHA-256
-  publicKey: 'AwEAAag/59Q...',
-  ttl: 86400
+ type: "DNSKEY",
+ flags: 257, // Key Signing Key
+ protocol: 3,
+ algorithm: 8, // RSA/SHA-256
+ publicKey: "AwEAAag/59Q...",
+ ttl: 86400,
 };
 ```
 
@@ -35,7 +35,7 @@ Time to live in seconds (optional)
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
 
-***
+---
 
 ### type
 
@@ -49,7 +49,7 @@ The type of DNS record
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
 
-***
+---
 
 ### flags
 
@@ -59,7 +59,7 @@ Defined in: [types.ts:452](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Flags field (bit 7 = Zone Key, bit 15 = Secure Entry Point)
 
-***
+---
 
 ### protocol
 
@@ -69,7 +69,7 @@ Defined in: [types.ts:454](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Protocol field (always 3 for DNSSEC)
 
-***
+---
 
 ### algorithm
 
@@ -79,7 +79,7 @@ Defined in: [types.ts:456](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Cryptographic algorithm number
 
-***
+---
 
 ### publicKey
 

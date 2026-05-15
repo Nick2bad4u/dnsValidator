@@ -1,13 +1,17 @@
 {
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "module": "NodeNext",
-    "outDir": "./dist/esm",
-    "declaration": false,
-    "declarationMap": false,
-    "emitDeclarationOnly": false,
-    "moduleResolution": "NodeNext",
-    "sourceMap": true
-  },
-  "exclude": ["dist", "node_modules", "tests"]
+    "compilerOptions": {
+        "declaration": false,
+        "declarationMap": false,
+        "emitDeclarationOnly": false,
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "outDir": "./dist/esm",
+        "sourceMap": true
+    },
+    "exclude": [
+        "dist",
+        "node_modules",
+        "tests"
+    ],
+    "extends": "./tsconfig.json"
 }

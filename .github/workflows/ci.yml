@@ -1,145 +1,122 @@
-name: CI
+name: Continuous Integration
+
+run-name: Continuous Integration • ${{ github.ref_name }} @${{ github.actor }}
+
+concurrency:
+    group: ci-${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
 
 on:
-  push:
-    branches: [main, develop]
-  pull_request:
-    branches: [main, develop]
-
-permissions: # added using https://github.com/step-security/secure-repo
-  contents: read
-  id-token: write # This is required for OIDC
+    push:
+        branches:
+            - main
+    pull_request:
+    merge_group:
+        types:
+            - checks_requested
 
 jobs:
-  test:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        node-version: [18.x, 20.x]
-
-    steps:
-      - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
-        with:
-          egress-policy: audit
-
-      - name: Checkout code
-        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
-
-      - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run linting
-        run: npm run lint
-
-      - name: Run type checking
-        run: npm run type-check
-
-      - name: Run tests
-        run: npm run test:coverage
-        continue-on-error: true
-
-      - name: Upload coverage to Codecov
-        if: matrix.os == 'windows-latest' && matrix.node-version == '20.x'
-        run: |
-          .\codecov.exe upload-coverage --file ./coverage/lcov.info
-        continue-on-error: true
+    test:
+        name: Test (${{ matrix.label }})
+        runs-on: ${{ matrix.os }}
+        timeout-minutes: 60
+        permissions:
+            contents: read
+            id-token: write
+        strategy:
+            fail-fast: true
+            matrix:
+                include:
+                    - label: linux
+                      os: ubuntu-latest
+                      codecov_flag: os-linux
+                    - label: windows
+                      os: windows-latest
+                      codecov_flag: os-windows
+                    - label: macos
+                      os: macos-latest
+                      codecov_flag: os-macos
+        defaults:
+            run:
+                shell: bash
         env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+            CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
-      - name: Upload test results to Codecov
-        if: matrix.os == 'windows-latest' && matrix.node-version == '20.x'
-        uses: codecov/test-results-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+        steps:
+            - name: Harden the runner (Audit all outbound calls)
+              if: ${{ matrix.os == 'ubuntu-latest' }}
+              uses: step-security/harden-runner@5ef0c079ce82195b2a36a210272d6b661572d83e # v2.14.2
+              with:
+                  egress-policy: audit
 
-      - name: Build package
-        run: npm run build
+            - name: Checkout repository
+              uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-      - name: Check bundle size
-        run: npm run size
-        continue-on-error: true
+            - name: Setup Node.js
+              uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
+              with:
+                  node-version-file: .node-version
+                  cache: npm
+                  cache-dependency-path: package-lock.json
 
-  build-docs:
-    permissions:
-      contents: write # for peaceiris/actions-gh-pages to push pages branch
-    runs-on: ubuntu-latest
-    needs: test
+            - name: Install dependencies
+              run: npm ci --force
 
-    steps:
-      - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
-        with:
-          egress-policy: audit
+            - name: Build package
+              run: npm run build
 
-      - name: Checkout code
-        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
+            - name: Upload bundle analysis to Codecov
+              if: ${{ matrix.os == 'ubuntu-latest' && !cancelled() && env.CODECOV_TOKEN != '' }}
+              continue-on-error: true
+              run: npx @codecov/bundle-analyzer ./dist --bundle-name=${{ github.repository }} --upload-token="${CODECOV_TOKEN}"
+              env:
+                  GITHUB_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+                  GITHUB_REF: ${{ github.event_name == 'pull_request' && format('refs/heads/{0}', github.head_ref) || github.ref }}
 
-      - name: Setup Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with:
-          node-version: '18.x'
-          cache: 'npm'
+            - name: Verify README rules table sync
+              run: npm run sync:readme-rules-table
 
-      - name: Install dependencies
-        run: npm ci
+            - name: Typecheck
+              run: npm run typecheck
 
-      - name: Build documentation
-        run: npm run docs
+            - name: Run tests with coverage and JUnit report
+              run: npx vitest run --coverage --reporter=github-actions --reporter=dot --reporter=junit --outputFile=test-report.junit.xml --silent
+              env:
+                  CI: "true"
+                  MAX_THREADS: "1"
+                  TYPEFEST_VITEST_HANGING_PROCESS_REPORTER: "true"
+                  VITEST_HANGING_PROCESS_REPORTER: "true"
 
-      - name: Deploy to GitHub Pages
-        if: github.ref == 'refs/heads/main'
-        uses: peaceiris/actions-gh-pages@373f7f263a76c20808c831209c920827a82a2847 # v3.9.3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
+            - name: Verify coverage artifact
+              run: python -c "from pathlib import Path; assert Path('coverage/lcov.info').is_file(), 'coverage/lcov.info was not generated'"
 
-  compatibility:
-    runs-on: ubuntu-latest
-    needs: test
+            - name: Verify JUnit artifact
+              run: python -c "from pathlib import Path; assert Path('test-report.junit.xml').is_file(), 'test-report.junit.xml was not generated'"
 
-    steps:
-      - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
-        with:
-          egress-policy: audit
+            - name: Upload test results to Codecov
+              if: ${{ !cancelled() }}
+              uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
+              with:
+                  use_oidc: true
+                  slug: ${{ github.repository }}
+                  files: test-report.junit.xml
+                  flags: ${{ matrix.codecov_flag }}
+                  name: vitest-junit-${{ matrix.codecov_flag }}
+                  report_type: test_results
+                  fail_ci_if_error: true
+                  disable_search: true
+                  verbose: true
 
-      - name: Checkout code
-        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with:
-          node-version: '18.x'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build package
-        run: npm run build
-
-      - name: Test CommonJS compatibility
-        run: node -e "console.log(require('./dist/index.js'))"
-        continue-on-error: false
-
-      - name: Test ESM compatibility
-        run: |
-          node -e "const fs=require('fs');const pkg=JSON.parse(fs.readFileSync('package.json','utf8'));function resolveExport(p){if(p.module)return p.module;const exp=p.exports&&(p.exports['.']??p.exports);if(!exp)return null;if(typeof exp==='string')return exp;if(typeof exp==='object'){return exp.import||exp.module||exp.default||exp.require||null}return null}let target=resolveExport(pkg)||'./dist/index.js';if(!target.startsWith('./')&&!target.startsWith('../'))target='./'+target;console.log('Attempting ESM import of',target);(async()=>{try{const m=await import(target);console.log('ESM import ok. Export keys:',Object.keys(m))}catch(err){console.error('ESM import failed:',err);process.exit(1)}})();"
-        continue-on-error: false
-
-      - name: Test TypeScript definitions
-        run: npx tsc --noEmit --skipLibCheck examples/basic-usage.ts
-        continue-on-error: false
-
-      - name: Test TypeScript definitions
-        run: npx tsc --noEmit --skipLibCheck examples/basic-usage.ts
-        continue-on-error: false
+            - name: Upload coverage to Codecov
+              if: ${{ !cancelled() }}
+              uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
+              with:
+                  use_oidc: true
+                  slug: ${{ github.repository }}
+                  files: ./coverage/lcov.info
+                  flags: ${{ matrix.codecov_flag }}
+                  name: vitest-unit-coverage-${{ matrix.codecov_flag }}
+                  report_type: coverage
+                  fail_ci_if_error: true
+                  disable_search: true
+                  verbose: true

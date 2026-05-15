@@ -8,9 +8,9 @@ TXT record - Contains arbitrary text data.
 
 ```typescript
 const record: TXTRecord = {
-  type: 'TXT',
-  entries: ['v=spf1 include:_spf.google.com ~all'],
-  ttl: 300
+ type: "TXT",
+ entries: ["v=spf1 include:_spf.google.com ~all"],
+ ttl: 300,
 };
 ```
 
@@ -32,7 +32,7 @@ Time to live in seconds (optional)
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
 
-***
+---
 
 ### type
 
@@ -46,7 +46,7 @@ The type of DNS record
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
 
-***
+---
 
 ### entries
 

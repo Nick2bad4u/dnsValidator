@@ -1,58 +1,69 @@
 name: Docs
+run-name: Docs for ${{ github.ref_name }}
+
+concurrency:
+    group: docs-${{ github.ref }}
+    cancel-in-progress: true
 
 on:
-  push:
-    branches: [ main ]
-    paths:
-      - 'src/**'
-      - 'typedoc.json'
-      - 'package.json'
-      - 'README.md'
-  workflow_dispatch:
+    push:
+        branches: [main]
+        paths:
+            - "src/**"
+            - "typedoc.json"
+            - "package.json"
+            - "README.md"
+    workflow_dispatch:
 
 permissions:
-  contents: write
+    contents: write
+
+defaults:
+    run:
+        shell: bash
 
 jobs:
-  build-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
-        with:
-          egress-policy: audit
+    build-deploy:
+        name: Build and deploy docs
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        steps:
+            - name: Harden the runner (Audit all outbound calls)
+              uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
+              with:
+                  egress-policy: audit
 
-      - name: Checkout
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-        with:
-          fetch-depth: 0
+            - name: Checkout
+              uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+              with:
+                  fetch-depth: 0
 
-      - name: Setup Node
-        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
-        with:
-          node-version: 20
-          cache: 'npm'
+            - name: Setup Node
+              uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
+              with:
+                  node-version: 22
+                  cache: "npm"
 
-      - name: Install dependencies
-        run: npm ci
+            - name: Install dependencies
+              run: npm ci
 
-      - name: Build docs (Markdown)
-        run: npm run docs
+            - name: Build docs (Markdown)
+              run: npm run docs
 
-      - name: Prepare landing & theme
-        run: |
-          cp .docs/index.md docs/index.md
-          cp .docs/_config.yml docs/_config.yml
-          if [ -f docs/README.md ]; then echo "Preserving generated README.md"; fi
-          # Ensure media folder referenced by logo exists
-          mkdir -p docs/_media
-          # Jekyll processing (no .nojekyll)
-          echo "Custom landing and Jekyll config applied"
+            - name: Prepare landing & theme
+              run: |
+                  cp .docs/index.md docs/index.md
+                  cp .docs/_config.yml docs/_config.yml
+                  if [ -f docs/README.md ]; then echo "Preserving generated README.md"; fi
+                  # Ensure media folder referenced by logo exists
+                  mkdir -p docs/_media
+                  # Jekyll processing (no .nojekyll)
+                  echo "Custom landing and Jekyll config applied"
 
-      - name: Deploy to gh-pages
-        uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e # v4.0.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
-          publish_branch: gh-pages
-          force_orphan: true
+            - name: Deploy to gh-pages
+              uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e # v4.0.0
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  publish_dir: ./docs
+                  publish_branch: gh-pages
+                  force_orphan: true

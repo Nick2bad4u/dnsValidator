@@ -26,9 +26,9 @@ True if the record is a valid AAAA record
 ## Example
 
 ```typescript
-const record = { type: 'AAAA', address: '2001:db8::1', ttl: 300 };
+const record = { type: "AAAA", address: "2001:db8::1", ttl: 300 };
 console.log(isAAAARecord(record)); // true
 
-const invalid = { type: 'AAAA', address: '192.168.1.1' };
+const invalid = { type: "AAAA", address: "192.168.1.1" };
 console.log(isAAAARecord(invalid)); // false
 ```

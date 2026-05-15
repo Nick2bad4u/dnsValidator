@@ -1,7 +1,8 @@
-import { isDNSKEYRecord } from '../src/dnssec-validators';
+import { describe, it, expect } from "vitest";
+import { isDNSKEYRecord } from "../src/dnssec-validators";
 
-describe('DNSSEC basic sanity', () => {
-  test('isDNSKEYRecord rejects invalid input', () => {
-    expect(isDNSKEYRecord({} as any)).toBe(false);
-  });
+describe("dNSSEC basic sanity", () => {
+    it("isDNSKEYRecord rejects invalid input", () => {
+        expect(isDNSKEYRecord({} as any)).toBeFalsy();
+    });
 });

@@ -8,12 +8,12 @@ DS record - Delegation Signer, used to secure delegations between DNS zones.
 
 ```typescript
 const record: DSRecord = {
-  type: 'DS',
-  keyTag: 12345,
-  algorithm: 8, // RSA/SHA-256
-  digestType: 2, // SHA-256
-  digest: 'A1B2C3D4E5F6...',
-  ttl: 86400
+ type: "DS",
+ keyTag: 12345,
+ algorithm: 8, // RSA/SHA-256
+ digestType: 2, // SHA-256
+ digest: "A1B2C3D4E5F6...",
+ ttl: 86400,
 };
 ```
 
@@ -35,7 +35,7 @@ Time to live in seconds (optional)
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
 
-***
+---
 
 ### type
 
@@ -49,7 +49,7 @@ The type of DNS record
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
 
-***
+---
 
 ### keyTag
 
@@ -59,7 +59,7 @@ Defined in: [types.ts:481](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Key tag of the referenced DNSKEY record
 
-***
+---
 
 ### algorithm
 
@@ -69,7 +69,7 @@ Defined in: [types.ts:483](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Cryptographic algorithm of the referenced key
 
-***
+---
 
 ### digestType
 
@@ -79,7 +79,7 @@ Defined in: [types.ts:485](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Digest algorithm used to create the digest
 
-***
+---
 
 ### digest
 

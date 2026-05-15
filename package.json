@@ -1,173 +1,287 @@
 {
-  "name": "dns-response-validator",
-  "version": "1.4.5",
-  "description": "A production-ready TypeScript library for validating DNS query results and individual DNS records",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "bin": {
-    "dns-response-validator": "dist/cli.js"
-  },
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/index.js",
-      "import": "./dist/esm/index.js"
+    "name": "dns-response-validator",
+    "version": "1.4.5",
+    "private": false,
+    "description": "A production-ready TypeScript library for validating DNS query results and individual DNS records",
+    "keywords": [
+        "dns",
+        "validation",
+        "typescript",
+        "dns-records",
+        "a-record",
+        "aaaa-record",
+        "mx-record",
+        "txt-record",
+        "cname-record",
+        "soa-record",
+        "srv-record",
+        "caa-record",
+        "tlsa-record",
+        "naptr-record",
+        "ptr-record",
+        "ns-record",
+        "network",
+        "domain",
+        "resolver",
+        "security"
+    ],
+    "homepage": "https://github.com/Nick2bad4u/dnsValidator#readme",
+    "bugs": {
+        "url": "https://github.com/Nick2bad4u/dnsValidator/issues"
     },
-    "./validators": {
-      "types": "./dist/validators.d.ts",
-      "require": "./dist/validators.js",
-      "import": "./dist/esm/validators.js"
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Nick2bad4u/dnsValidator.git"
     },
-    "./dnssec": {
-      "types": "./dist/dnssec.d.ts",
-      "require": "./dist/dnssec.js",
-      "import": "./dist/esm/dnssec.js"
+    "license": "MIT",
+    "author": "Nick",
+    "contributors": [
+        {
+            "name": "Nick2bad4u",
+            "email": "20943337+Nick2bad4u@users.noreply.github.com",
+            "url": "https://github.com/Nick2bad4u"
+        }
+    ],
+    "sideEffects": [
+        "dist/cli.js"
+    ],
+    "type": "commonjs",
+    "exports": {
+        ".": {
+            "import": {
+                "types": "./dist/index.d.mts",
+                "default": "./dist/esm/index.js"
+            },
+            "require": {
+                "types": "./dist/index.d.ts",
+                "default": "./dist/index.js"
+            }
+        },
+        "./dnssec": {
+            "import": {
+                "types": "./dist/dnssec.d.mts",
+                "default": "./dist/esm/dnssec.js"
+            },
+            "require": {
+                "types": "./dist/dnssec.d.ts",
+                "default": "./dist/dnssec.js"
+            }
+        },
+        "./dnssec-validators": {
+            "import": {
+                "types": "./dist/dnssec-validators.d.mts",
+                "default": "./dist/esm/dnssec-validators.js"
+            },
+            "require": {
+                "types": "./dist/dnssec-validators.d.ts",
+                "default": "./dist/dnssec-validators.js"
+            }
+        },
+        "./enhanced-validators": {
+            "import": {
+                "types": "./dist/enhanced-validators.d.mts",
+                "default": "./dist/esm/enhanced-validators.js"
+            },
+            "require": {
+                "types": "./dist/enhanced-validators.d.ts",
+                "default": "./dist/enhanced-validators.js"
+            }
+        },
+        "./errors": {
+            "import": {
+                "types": "./dist/errors.d.mts",
+                "default": "./dist/esm/errors.js"
+            },
+            "require": {
+                "types": "./dist/errors.d.ts",
+                "default": "./dist/errors.js"
+            }
+        },
+        "./package.json": "./package.json",
+        "./performance": {
+            "import": {
+                "types": "./dist/performance.d.mts",
+                "default": "./dist/esm/performance.js"
+            },
+            "require": {
+                "types": "./dist/performance.d.ts",
+                "default": "./dist/performance.js"
+            }
+        },
+        "./types": {
+            "import": {
+                "types": "./dist/types.d.mts",
+                "default": "./dist/types.d.mts"
+            },
+            "require": {
+                "types": "./dist/types.d.ts",
+                "default": "./dist/types.d.ts"
+            }
+        },
+        "./utils": {
+            "import": {
+                "types": "./dist/utils.d.mts",
+                "default": "./dist/esm/utils.js"
+            },
+            "require": {
+                "types": "./dist/utils.d.ts",
+                "default": "./dist/utils.js"
+            }
+        },
+        "./validators": {
+            "import": {
+                "types": "./dist/validators.d.mts",
+                "default": "./dist/esm/validators.js"
+            },
+            "require": {
+                "types": "./dist/validators.d.ts",
+                "default": "./dist/validators.js"
+            }
+        }
     },
-    "./dnssec-validators": {
-      "types": "./dist/dnssec-validators.d.ts",
-      "require": "./dist/dnssec-validators.js",
-      "import": "./dist/esm/dnssec-validators.js"
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "bin": {
+        "dns-response-validator": "dist/cli.js"
     },
-    "./enhanced-validators": {
-      "types": "./dist/enhanced-validators.d.ts",
-      "require": "./dist/enhanced-validators.js",
-      "import": "./dist/esm/enhanced-validators.js"
+    "files": [
+        "dist/**/*",
+        "README.md",
+        "LICENSE",
+        "CHANGELOG.md"
+    ],
+    "scripts": {
+        "build": "npm run clean && tsc -p tsconfig.build.json && npm run build:cjs && npm run build:esm && node scripts/create-esm-wrapper.mjs",
+        "postbuild": "echo postbuild noop",
+        "build:cjs": "npm run build:cjs:lib && npm run build:cjs:cli",
+        "build:cjs:cli": "esbuild src/cli.ts --bundle --format=cjs --platform=node --packages=external --sourcemap --banner:js=\"#!/usr/bin/env node\" --outfile=dist/cli.js",
+        "build:cjs:lib": "esbuild src/index.ts src/validators.ts src/dnssec.ts src/dnssec-validators.ts src/enhanced-validators.ts src/errors.ts src/performance.ts src/utils.ts --bundle --format=cjs --platform=node --packages=external --sourcemap --outdir=dist",
+        "build:esm": "esbuild src/index.ts src/validators.ts src/dnssec.ts src/dnssec-validators.ts src/enhanced-validators.ts src/errors.ts src/performance.ts src/utils.ts --bundle --format=esm --platform=node --packages=external --sourcemap --outdir=dist/esm",
+        "build:watch": "tsc -p tsconfig.build.json --watch",
+        "changelog:generate": "git-cliff --config cliff.toml --output CHANGELOG.md",
+        "changelog:preview": "git-cliff --config cliff.toml --unreleased",
+        "changelog:release-notes": "git-cliff --config cliff.toml --latest --strip all",
+        "clean": "del-cli dist coverage .cache",
+        "clean:cache": "del-cli .cache coverage",
+        "clean:cache:eslint": "del-cli .cache/.eslintcache",
+        "clean:cache:prettier": "del-cli .cache/.prettier-cache .prettier-cache .prettiercache",
+        "clean:cache:typescript": "del-cli .cache/tsbuildinfo",
+        "coverage": "vitest run --coverage",
+        "dev": "npm run build:watch",
+        "docs": "typedoc",
+        "format": "npm run lint:prettier:fix",
+        "format:check": "npm run lint:prettier",
+        "lint": "cross-env NODE_OPTIONS=--max_old_space_size=16384 eslint . --cache --cache-strategy content --cache-location .cache/.eslintcache",
+        "lint:all": "npm run lint && npm run typecheck && npm run lint:prettier && npm run lint:remark && npm run lint:package && npm run lint:secretlint && npm run lint:yaml",
+        "lint:all:fix": "npm run lint:fix && npm run typecheck && npm run lint:prettier:fix && npm run lint:remark:fix && npm run lint:package:fix && npm run lint:secretlint && npm run lint:yaml:fix",
+        "lint:fix": "cross-env NODE_OPTIONS=--max_old_space_size=16384 eslint . --cache --cache-strategy content --cache-location .cache/.eslintcache --fix",
+        "lint:nocache": "cross-env NODE_OPTIONS=--max_old_space_size=16384 eslint .",
+        "lint:package": "npm run lint:package-sort && npm run lint:package-check",
+        "lint:package:fix": "sort-package-json package.json",
+        "lint:package-check": "publint && attw --pack .",
+        "lint:package-check:strict": "publint && attw --pack . --profile node16",
+        "lint:package-sort": "sort-package-json --check package.json",
+        "lint:prettier": "prettier . --log-level warn --cache --cache-location=.cache/.prettier-cache --cache-strategy=content --check",
+        "lint:prettier:fix": "prettier . --log-level warn --cache --cache-location=.cache/.prettier-cache --cache-strategy=content --write",
+        "lint:remark": "remark --rc-path .remarkrc.mjs --silently-ignore --ignore-path .remarkignore --frail \"*.{md,mdx}\" \"docs/**/*.{md,mdx}\" --quiet",
+        "lint:remark:fix": "remark --rc-path .remarkrc.mjs --silently-ignore --ignore-path .remarkignore --frail --quiet --output -- \"*.{md,mdx}\" \"docs/**/*.{md,mdx}\"",
+        "lint:secretlint": "secretlint --secretlintrc .secretlintrc.cjs --secretlintignore .secretlintignore \"**/*\"",
+        "lint:yaml": "cross-env NODE_OPTIONS=--max_old_space_size=16384 eslint --cache --cache-strategy content --cache-location .cache/.eslintcache \"**/*.{yml,yaml}\"",
+        "lint:yaml:fix": "cross-env NODE_OPTIONS=--max_old_space_size=16384 eslint --cache --cache-strategy content --cache-location .cache/.eslintcache --fix \"**/*.{yml,yaml}\"",
+        "prepublishOnly": "npm run release:check",
+        "release:check": "npm run release:verify",
+        "release:verify": "cross-env NODE_OPTIONS= npm run build && cross-env NODE_OPTIONS= npm run lint:nocache && cross-env NODE_OPTIONS= npm run typecheck && cross-env NODE_OPTIONS= npm run test:coverage && cross-env NODE_OPTIONS= npm run lint:package-check:strict && npm pack --dry-run",
+        "size": "size-limit",
+        "test": "vitest run",
+        "test:ci": "cross-env CI=true vitest run --reporter=default",
+        "test:coverage": "vitest run --coverage --reporter=default",
+        "test:coverage:quiet": "vitest run --coverage --reporter=default --silent",
+        "test:watch": "vitest",
+        "type-check": "npm run typecheck",
+        "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.build.json --noEmit && tsc -p tsconfig.eslint.json --noEmit && tsc -p tsconfig.js.json --noEmit",
+        "typecheck:all": "npm run typecheck",
+        "validate": "npm run release:verify"
     },
-    "./errors": {
-      "types": "./dist/errors.d.ts",
-      "require": "./dist/errors.js",
-      "import": "./dist/esm/errors.js"
+    "dependencies": {
+        "cli-table3": "^0.6.5",
+        "commander": "^14.0.3",
+        "ts-extras": "^1.0.0",
+        "type-fest": "^5.6.0",
+        "validator": "^13.15.35"
     },
-    "./performance": {
-      "types": "./dist/performance.d.ts",
-      "require": "./dist/performance.js",
-      "import": "./dist/esm/performance.js"
+    "devDependencies": {
+        "@arethetypeswrong/cli": "^0.18.2",
+        "@size-limit/preset-small-lib": "^12.1.0",
+        "@types/node": "^25.8.0",
+        "@types/validator": "^13.15.10",
+        "@vitest/coverage-v8": "^4.1.6",
+        "audit-ci": "^7.1.0",
+        "cross-env": "^10.1.0",
+        "del-cli": "^7.0.0",
+        "esbuild": "^0.28.0",
+        "eslint": "^10.3.0",
+        "eslint-config-nick2bad4u": "^1.0.16",
+        "git-cliff": "^2.13.1",
+        "license-checker": "^25.0.1",
+        "npm-package-json-lint": "^10.4.0",
+        "prettier": "^3.8.3",
+        "prettier-config-nick2bad4u": "^1.0.13",
+        "publint": "^0.3.21",
+        "remark": "^15.0.1",
+        "remark-cli": "^12.0.1",
+        "remark-config-nick2bad4u": "^1.0.2",
+        "secretlint": "^13.0.0",
+        "secretlint-config-nick2bad4u": "^1.0.5",
+        "size-limit": "^12.1.0",
+        "sort-package-json": "^3.6.1",
+        "stylelint": "^17.11.1",
+        "stylelint-config-nick2bad4u": "^1.0.11",
+        "typedoc": "^0.28.19",
+        "typedoc-plugin-markdown": "^4.11.0",
+        "typescript": "^6.0.3",
+        "vite": "^8.0.13",
+        "vitest": "^4.1.6"
     },
-    "./utils": {
-      "types": "./dist/utils.d.ts",
-      "require": "./dist/utils.js",
-      "import": "./dist/esm/utils.js"
+    "packageManager": "npm@11.14.1",
+    "engines": {
+        "node": ">=22.0.0"
     },
-    "./types": {
-      "types": "./dist/types.d.ts",
-      "default": "./dist/types.d.ts"
+    "devEngines": {
+        "runtime": {
+            "name": "node",
+            "version": ">=22.0.0",
+            "onFail": "error"
+        },
+        "packageManager": {
+            "name": "npm",
+            "version": ">=11.0.0",
+            "onFail": "error"
+        }
     },
-    "./package.json": "./package.json"
-  },
-  "scripts": {
-    "build": "npm run clean && tsc -p tsconfig.json && tsc -p tsconfig.esm.json",
-    "build:watch": "tsc --watch",
-    "build:esm": "tsc --module NodeNext --outDir dist/esm",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage --reporters=jest-junit",
-    "test:ci": "jest --ci --coverage --watchAll=false",
-    "type-check": "tsc --noEmit",
-    "typecheck": "tsc --noEmit && tsc --project tsconfig.test.json --noEmit",
-    "lint": "eslint src/**/*.ts tests/**/*.ts",
-    "lint:fix": "eslint src/**/*.ts tests/**/*.ts --fix",
-    "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\" \"*.{json,md}\"",
-    "format:check": "prettier --check \"src/**/*.ts\" \"tests/**/*.ts\" \"*.{json,md}\"",
-    "docs": "rimraf docs && typedoc",
-    "prepublishOnly": "npm run typecheck && npm run build && npm run build:esm",
-    "clean": "rimraf dist coverage",
-    "dev": "npm run build:watch",
-    "size": "size-limit",
-    "validate": "npm run typecheck && npm run lint && npm run test",
-    "postbuild": "echo postbuild noop"
-  },
-  "keywords": [
-    "dns",
-    "validation",
-    "typescript",
-    "dns-records",
-    "a-record",
-    "aaaa-record",
-    "mx-record",
-    "txt-record",
-    "cname-record",
-    "soa-record",
-    "srv-record",
-    "caa-record",
-    "tlsa-record",
-    "naptr-record",
-    "ptr-record",
-    "ns-record",
-    "network",
-    "domain",
-    "resolver",
-    "security"
-  ],
-  "author": "Nick",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Nick2bad4u/dnsValidator"
-  },
-  "bugs": {
-    "url": "https://github.com/Nick2bad4u/dnsValidator/issues"
-  },
-  "homepage": "https://github.com/Nick2bad4u/dnsValidator#readme",
-  "files": [
-    "dist/**/*",
-    "README.md",
-    "LICENSE",
-    "CHANGELOG.md"
-  ],
-  "sideEffects": [
-    "dist/cli.js"
-  ],
-  "size-limit": [
-    {
-      "path": "dist/index.js",
-      "limit": "50 KB"
+    "publishConfig": {
+        "provenance": true,
+        "registry": "https://registry.npmjs.org/"
     },
-    {
-      "path": "dist/validators.js",
-      "limit": "40 KB"
-    },
-    {
-      "path": "dist/dnssec.js",
-      "limit": "30 KB"
-    },
-    {
-      "path": "dist/enhanced-validators.js",
-      "limit": "36 KB"
-    },
-    {
-      "path": "dist/performance.js",
-      "limit": "15 KB"
-    }
-  ],
-  "devDependencies": {
-    "@size-limit/preset-small-lib": "^11.2.0",
-    "@types/jest": "^30.0.0",
-    "@types/node": "^24.10.0",
-    "@types/validator": "^13.15.4",
-    "@typescript-eslint/eslint-plugin": "^8.46.3",
-    "@typescript-eslint/parser": "^8.46.3",
-    "audit-ci": "^7.1.0",
-    "eslint": "^9.39.1",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.4",
-    "jest": "^30.2.0",
-    "license-checker": "^25.0.1",
-    "prettier": "^3.6.2",
-    "rimraf": "^6.1.0",
-    "size-limit": "^11.2.0",
-    "ts-jest": "^29.4.5",
-    "typedoc": "^0.28.14",
-    "typedoc-plugin-markdown": "^4.9.0",
-    "typescript": "^5.9.3"
-  },
-  "dependencies": {
-    "chalk": "^5.6.2",
-    "cli-table3": "^0.6.5",
-    "commander": "^14.0.2",
-    "jest-junit": "^16.0.0",
-    "validator": "^13.15.22"
-  },
-  "engines": {
-    "node": ">=18.0.0"
-  }
+    "size-limit": [
+        {
+            "path": "dist/index.js",
+            "limit": "50 KB"
+        },
+        {
+            "path": "dist/validators.js",
+            "limit": "40 KB"
+        },
+        {
+            "path": "dist/dnssec.js",
+            "limit": "30 KB"
+        },
+        {
+            "path": "dist/enhanced-validators.js",
+            "limit": "36 KB"
+        },
+        {
+            "path": "dist/performance.js",
+            "limit": "15 KB"
+        }
+    ]
 }

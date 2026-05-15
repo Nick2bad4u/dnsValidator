@@ -8,9 +8,9 @@ Basic validation result interface.
 
 ```typescript
 const result: ValidationResult = {
-  isValid: false,
-  errors: ['Invalid IP address format'],
-  warnings: ['TTL value is very low']
+ isValid: false,
+ errors: ["Invalid IP address format"],
+ warnings: ["TTL value is very low"],
 };
 ```
 
@@ -24,7 +24,7 @@ Defined in: [types.ts:734](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Whether the validation passed
 
-***
+---
 
 ### errors
 
@@ -34,7 +34,7 @@ Defined in: [types.ts:736](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Array of validation error messages
 
-***
+---
 
 ### warnings
 

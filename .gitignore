@@ -239,3 +239,7 @@ yarn-error.log*
 
 # Keep ESM wrapper (if dist is generally ignored, uncomment the next line):
 #!dist/index.mjs
+# Ignore generated doc coverage badges
+docs/docusaurus/static/img/coverage.json
+docs/docusaurus/static/img/coverage.svg
+dist/

@@ -1,9 +1,11 @@
-import { __testGetCachedRegex } from '../src/performance';
+import { describe, it, expect } from "vitest";
+import { testGetCachedRegex } from "../src/performance";
 
-describe('Performance regex cache coverage', () => {
-  it('creates new regex on first request and reuses on second', () => {
-    const first = __testGetCachedRegex('^abc$', 'i');
-    const second = __testGetCachedRegex('^abc$', 'i');
-    expect(first).toBe(second);
-  });
+describe("performance regex cache coverage", () => {
+    it("creates new regex on first request and reuses on second", () => {
+        const first = testGetCachedRegex("^abc$", "i");
+        const second = testGetCachedRegex("^abc$", "i");
+
+        expect(first).toBe(second);
+    });
 });

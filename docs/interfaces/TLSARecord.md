@@ -10,12 +10,12 @@ Associates a TLS server certificate with the domain name where the record is fou
 
 ```typescript
 const record: TLSARecord = {
-  type: 'TLSA',
-  usage: 3,
-  selector: 1,
-  matchingType: 1,
-  certificate: 'abcdef1234567890...',
-  ttl: 86400
+ type: "TLSA",
+ usage: 3,
+ selector: 1,
+ matchingType: 1,
+ certificate: "abcdef1234567890...",
+ ttl: 86400,
 };
 ```
 
@@ -37,7 +37,7 @@ Time to live in seconds (optional)
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
 
-***
+---
 
 ### type
 
@@ -51,7 +51,7 @@ The type of DNS record
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
 
-***
+---
 
 ### usage?
 
@@ -61,7 +61,7 @@ Defined in: [types.ts:355](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Certificate usage (0-3) internal canonical (Node uses 'certUsage')
 
-***
+---
 
 ### certUsage?
 
@@ -71,7 +71,7 @@ Defined in: [types.ts:357](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Node.js compatible certificate usage
 
-***
+---
 
 ### selector
 
@@ -81,7 +81,7 @@ Defined in: [types.ts:359](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Selector (0-1)
 
-***
+---
 
 ### matchingType?
 
@@ -91,7 +91,7 @@ Defined in: [types.ts:361](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Matching type (0-2) internal canonical (Node uses 'match')
 
-***
+---
 
 ### match?
 
@@ -101,7 +101,7 @@ Defined in: [types.ts:363](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Node.js compatible matching type
 
-***
+---
 
 ### certificate?
 
@@ -111,7 +111,7 @@ Defined in: [types.ts:365](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Certificate association data internal canonical (Node uses 'data' as ArrayBuffer/Buffer)
 
-***
+---
 
 ### data?
 

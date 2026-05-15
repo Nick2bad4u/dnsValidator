@@ -26,9 +26,9 @@ True if the record is a valid CNAME record
 ## Example
 
 ```typescript
-const record = { type: 'CNAME', value: 'canonical.example.com', ttl: 300 };
+const record = { type: "CNAME", value: "canonical.example.com", ttl: 300 };
 console.log(isCNAMERecord(record)); // true
 
-const invalid = { type: 'CNAME', value: 'not-a-domain' };
+const invalid = { type: "CNAME", value: "not-a-domain" };
 console.log(isCNAMERecord(invalid)); // false
 ```

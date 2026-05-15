@@ -12,7 +12,7 @@ DNSSEC digest algorithms
 
 Defined in: [dnssec.ts:49](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L49)
 
-***
+---
 
 ### SHA256
 
@@ -20,7 +20,7 @@ Defined in: [dnssec.ts:49](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Defined in: [dnssec.ts:50](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L50)
 
-***
+---
 
 ### GOST
 
@@ -28,7 +28,7 @@ Defined in: [dnssec.ts:50](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Defined in: [dnssec.ts:51](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L51)
 
-***
+---
 
 ### SHA384
 

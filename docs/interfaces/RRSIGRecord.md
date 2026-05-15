@@ -8,17 +8,17 @@ RRSIG record - Resource Record Signature, contains DNSSEC signature for a resour
 
 ```typescript
 const record: RRSIGRecord = {
-  type: 'RRSIG',
-  typeCovered: 'A',
-  algorithm: 8, // RSA/SHA-256
-  labels: 2,
-  originalTTL: 300,
-  signatureExpiration: 1640995200,
-  signatureInception: 1640908800,
-  keyTag: 12345,
-  signerName: 'example.com',
-  signature: 'ABCDEF123456...',
-  ttl: 300
+ type: "RRSIG",
+ typeCovered: "A",
+ algorithm: 8, // RSA/SHA-256
+ labels: 2,
+ originalTTL: 300,
+ signatureExpiration: 1640995200,
+ signatureInception: 1640908800,
+ keyTag: 12345,
+ signerName: "example.com",
+ signature: "ABCDEF123456...",
+ ttl: 300,
 };
 ```
 
@@ -40,7 +40,7 @@ Time to live in seconds (optional)
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
 
-***
+---
 
 ### type
 
@@ -54,7 +54,7 @@ The type of DNS record
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
 
-***
+---
 
 ### typeCovered
 
@@ -64,7 +64,7 @@ Defined in: [types.ts:606](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Type of RRset covered by this signature
 
-***
+---
 
 ### algorithm
 
@@ -74,7 +74,7 @@ Defined in: [types.ts:608](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Cryptographic algorithm used
 
-***
+---
 
 ### labels
 
@@ -84,7 +84,7 @@ Defined in: [types.ts:610](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Number of labels in the original RRSIG RR owner name
 
-***
+---
 
 ### originalTTL
 
@@ -94,7 +94,7 @@ Defined in: [types.ts:612](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Original TTL of the covered RRset
 
-***
+---
 
 ### signatureExpiration
 
@@ -104,7 +104,7 @@ Defined in: [types.ts:614](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Signature expiration time (Unix timestamp)
 
-***
+---
 
 ### signatureInception
 
@@ -114,7 +114,7 @@ Defined in: [types.ts:616](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Signature inception time (Unix timestamp)
 
-***
+---
 
 ### keyTag
 
@@ -124,7 +124,7 @@ Defined in: [types.ts:618](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Key tag of the DNSKEY RR that validates this signature
 
-***
+---
 
 ### signerName
 
@@ -134,7 +134,7 @@ Defined in: [types.ts:620](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Domain name of the signer
 
-***
+---
 
 ### signature
 

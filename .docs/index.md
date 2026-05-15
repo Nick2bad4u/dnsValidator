@@ -27,9 +27,9 @@ npm install dns-response-validator
 ## Example
 
 ```typescript
-import { isARecord, validateDNSRecord } from 'dns-response-validator';
+import { isARecord, validateDNSRecord } from "dns-response-validator";
 
-const record = { type: 'A', address: '192.168.1.1', ttl: 300 };
+const record = { type: "A", address: "192.168.1.1", ttl: 300 };
 console.log(isARecord(record)); // true
 console.log(validateDNSRecord(record));
 ```
@@ -39,4 +39,5 @@ console.log(validateDNSRecord(record));
 Issues and PRs welcome at the GitHub repository.
 
 ---
+
 Generated automatically; custom landing page preserved on each deploy.

@@ -36,10 +36,10 @@ pnpm add dns-response-validator
 ### Basic Validation
 
 ```typescript
-import { isARecord, isMXRecord, validateARecord } from 'dns-response-validator';
+import { isARecord, isMXRecord, validateARecord } from "dns-response-validator";
 
 // Simple validation
-const aRecord = { type: 'A', address: '192.168.1.1', ttl: 300 };
+const aRecord = { type: "A", address: "192.168.1.1", ttl: 300 };
 console.log(isARecord(aRecord)); // true
 
 // Enhanced validation with detailed feedback
@@ -47,13 +47,13 @@ const result = validateARecord(aRecord);
 console.log(result.isValid); // true
 console.log(result.errors); // []
 console.log(result.warnings); // []
-import { isARecord, validateDNSRecord } from 'dns-response-validator';
+import { isARecord, validateDNSRecord } from "dns-response-validator";
 
 // Validate an A record
 const aRecord = {
-  type: 'A',
-  address: '192.168.1.1',
-  ttl: 300,
+ type: "A",
+ address: "192.168.1.1",
+ ttl: 300,
 };
 
 console.log(isARecord(aRecord)); // true
@@ -98,43 +98,43 @@ Key points:
 
 ```typescript
 import {
-  normalizeSOA,
-  normalizeTLSA,
-  fromNodeTxt,
-  toNodeTxt,
-  fromNodeResolveAny,
-  NodeDNSErrorCodes,
-} from 'dns-response-validator';
+ normalizeSOA,
+ normalizeTLSA,
+ fromNodeTxt,
+ toNodeTxt,
+ fromNodeResolveAny,
+ NodeDNSErrorCodes,
+} from "dns-response-validator";
 
 const soa = normalizeSOA({
-  type: 'SOA',
-  nsname: 'ns1.example.com',
-  hostmaster: 'hostmaster.example.com',
-  serial: 2024010101,
-  refresh: 3600,
-  retry: 600,
-  expire: 1209600,
-  minttl: 300,
+ type: "SOA",
+ nsname: "ns1.example.com",
+ hostmaster: "hostmaster.example.com",
+ serial: 2024010101,
+ refresh: 3600,
+ retry: 600,
+ expire: 1209600,
+ minttl: 300,
 });
 
 const tlsa = normalizeTLSA({
-  type: 'TLSA',
-  certUsage: 3,
-  selector: 1,
-  match: 1,
-  data: 'abcdef1234',
+ type: "TLSA",
+ certUsage: 3,
+ selector: 1,
+ match: 1,
+ data: "abcdef1234",
 });
 
 console.log(NodeDNSErrorCodes.DNS_ENOTFOUND); // 'ENOTFOUND'
 // TXT conversion
-const nodeTxt = [['v=spf1', 'include:_spf.example.com', '~all']];
+const nodeTxt = [["v=spf1", "include:_spf.example.com", "~all"]];
 const internalTxt = fromNodeTxt(nodeTxt, 300);
 const backToNode = toNodeTxt(internalTxt);
 
 // ANY conversion
 const anyNode = [
-  { type: 'A', address: '127.0.0.1', ttl: 60 },
-  { type: 'CNAME', value: 'example.com' },
+ { type: "A", address: "127.0.0.1", ttl: 60 },
+ { type: "CNAME", value: "example.com" },
 ];
 const anyRecord = fromNodeResolveAny(anyNode);
 ```
@@ -161,34 +161,34 @@ Each DNS record type has its own validation function that returns a boolean:
 
 ```typescript
 import {
-  isARecord,
-  isAAAARecord,
-  isMXRecord,
-  isTXTRecord,
-} from 'dns-response-validator';
+ isARecord,
+ isAAAARecord,
+ isMXRecord,
+ isTXTRecord,
+} from "dns-response-validator";
 
 // A Record (IPv4)
-const aRecord = { type: 'A', address: '8.8.8.8', ttl: 300 };
+const aRecord = { type: "A", address: "8.8.8.8", ttl: 300 };
 console.log(isARecord(aRecord)); // true
 
 // AAAA Record (IPv6)
-const aaaaRecord = { type: 'AAAA', address: '2001:db8::1', ttl: 300 };
+const aaaaRecord = { type: "AAAA", address: "2001:db8::1", ttl: 300 };
 console.log(isAAAARecord(aaaaRecord)); // true
 
 // MX Record
 const mxRecord = {
-  type: 'MX',
-  priority: 10,
-  exchange: 'mail.example.com',
-  ttl: 300,
+ type: "MX",
+ priority: 10,
+ exchange: "mail.example.com",
+ ttl: 300,
 };
 console.log(isMXRecord(mxRecord)); // true
 
 // TXT Record
 const txtRecord = {
-  type: 'TXT',
-  entries: ['v=spf1 include:_spf.google.com ~all'],
-  ttl: 300,
+ type: "TXT",
+ entries: ["v=spf1 include:_spf.google.com ~all"],
+ ttl: 300,
 };
 console.log(isTXTRecord(txtRecord)); // true
 ```
@@ -196,12 +196,12 @@ console.log(isTXTRecord(txtRecord)); // true
 ### Generic Record Validation
 
 ```typescript
-import { isDNSRecord, validateDNSRecord } from 'dns-response-validator';
+import { isDNSRecord, validateDNSRecord } from "dns-response-validator";
 
 const unknownRecord = {
-  type: 'A',
-  address: '192.168.1.1',
-  ttl: 300,
+ type: "A",
+ address: "192.168.1.1",
+ ttl: 300,
 };
 
 // Check if it's a valid DNS record of any type
@@ -222,21 +222,21 @@ console.log(result);
 Validate complete DNS query responses:
 
 ```typescript
-import { validateDNSResponse, DNSQueryResult } from 'dns-response-validator';
+import { validateDNSResponse, DNSQueryResult } from "dns-response-validator";
 
 const dnsResponse: DNSQueryResult = {
-  question: {
-    name: 'example.com',
-    type: 'A',
-    class: 'IN',
+ question: {
+  name: "example.com",
+  type: "A",
+  class: "IN",
+ },
+ answers: [
+  {
+   type: "A",
+   address: "93.184.216.34",
+   ttl: 86400,
   },
-  answers: [
-    {
-      type: 'A',
-      address: '93.184.216.34',
-      ttl: 86400,
-    },
-  ],
+ ],
 };
 
 const validation = validateDNSResponse(dnsResponse);
@@ -254,24 +254,24 @@ The library is written in TypeScript and provides comprehensive type definitions
 
 ```typescript
 import {
-  ARecord,
-  MXRecord,
-  DNSRecord,
-  ValidationResult,
-} from 'dns-response-validator';
+ ARecord,
+ MXRecord,
+ DNSRecord,
+ ValidationResult,
+} from "dns-response-validator";
 
 // Strict typing for DNS records
 const aRecord: ARecord = {
-  type: 'A',
-  address: '192.168.1.1',
-  ttl: 300,
+ type: "A",
+ address: "192.168.1.1",
+ ttl: 300,
 };
 
 const mxRecord: MXRecord = {
-  type: 'MX',
-  priority: 10,
-  exchange: 'mail.example.com',
-  ttl: 300,
+ type: "MX",
+ priority: 10,
+ exchange: "mail.example.com",
+ ttl: 300,
 };
 
 // Union type for any DNS record
@@ -279,9 +279,9 @@ const record: DNSRecord = aRecord;
 
 // Validation result typing
 const result: ValidationResult = {
-  isValid: true,
-  errors: [],
-  warnings: [],
+ isValid: true,
+ errors: [],
+ warnings: [],
 };
 ```
 
@@ -290,18 +290,18 @@ const result: ValidationResult = {
 ### SOA Record
 
 ```typescript
-import { isSOARecord } from 'dns-response-validator';
+import { isSOARecord } from "dns-response-validator";
 
 const soaRecord = {
-  type: 'SOA',
-  primary: 'ns1.example.com',
-  admin: 'admin.example.com',
-  serial: 2023010101,
-  refresh: 86400,
-  retry: 7200,
-  expiration: 3600000,
-  minimum: 86400,
-  ttl: 86400,
+ type: "SOA",
+ primary: "ns1.example.com",
+ admin: "admin.example.com",
+ serial: 2023010101,
+ refresh: 86400,
+ retry: 7200,
+ expiration: 3600000,
+ minimum: 86400,
+ ttl: 86400,
 };
 
 console.log(isSOARecord(soaRecord)); // true
@@ -310,15 +310,15 @@ console.log(isSOARecord(soaRecord)); // true
 ### SRV Record
 
 ```typescript
-import { isSRVRecord } from 'dns-response-validator';
+import { isSRVRecord } from "dns-response-validator";
 
 const srvRecord = {
-  type: 'SRV',
-  priority: 10,
-  weight: 20,
-  port: 443,
-  name: 'target.example.com',
-  ttl: 300,
+ type: "SRV",
+ priority: 10,
+ weight: 20,
+ port: 443,
+ name: "target.example.com",
+ ttl: 300,
 };
 
 console.log(isSRVRecord(srvRecord)); // true
@@ -327,13 +327,13 @@ console.log(isSRVRecord(srvRecord)); // true
 ### CAA Record
 
 ```typescript
-import { isCAARecord } from 'dns-response-validator';
+import { isCAARecord } from "dns-response-validator";
 
 const caaRecord = {
-  type: 'CAA',
-  critical: 0,
-  issue: 'letsencrypt.org',
-  ttl: 86400,
+ type: "CAA",
+ critical: 0,
+ issue: "letsencrypt.org",
+ ttl: 86400,
 };
 
 console.log(isCAARecord(caaRecord)); // true
@@ -342,15 +342,15 @@ console.log(isCAARecord(caaRecord)); // true
 ### TLSA Record
 
 ```typescript
-import { isTLSARecord } from 'dns-response-validator';
+import { isTLSARecord } from "dns-response-validator";
 
 const tlsaRecord = {
-  type: 'TLSA',
-  usage: 3,
-  selector: 1,
-  matchingType: 1,
-  certificate: 'abcdef1234567890abcdef1234567890',
-  ttl: 300,
+ type: "TLSA",
+ usage: 3,
+ selector: 1,
+ matchingType: 1,
+ certificate: "abcdef1234567890abcdef1234567890",
+ ttl: 300,
 };
 
 console.log(isTLSARecord(tlsaRecord)); // true
@@ -361,12 +361,12 @@ console.log(isTLSARecord(tlsaRecord)); // true
 The library provides detailed error information for invalid records:
 
 ```typescript
-import { validateDNSRecord } from 'dns-response-validator';
+import { validateDNSRecord } from "dns-response-validator";
 
 const invalidRecord = {
-  type: 'A',
-  address: '999.999.999.999', // Invalid IP
-  ttl: 300,
+ type: "A",
+ address: "999.999.999.999", // Invalid IP
+ ttl: 300,
 };
 
 const result = validateDNSRecord(invalidRecord);
@@ -447,10 +447,10 @@ dns-response-validator bulk --file records.json --strict --verbose
 
 ```json
 {
-  "type": "A",
-  "name": "example.com",
-  "address": "192.168.1.1",
-  "ttl": 300
+ "type": "A",
+ "name": "example.com",
+ "address": "192.168.1.1",
+ "ttl": 300
 }
 ```
 
@@ -458,19 +458,19 @@ dns-response-validator bulk --file records.json --strict --verbose
 
 ```json
 {
-  "question": {
-    "name": "example.com",
-    "type": "A",
-    "class": "IN"
-  },
-  "answers": [
-    {
-      "type": "A",
-      "name": "example.com",
-      "address": "192.168.1.1",
-      "ttl": 300
-    }
-  ]
+ "question": {
+  "name": "example.com",
+  "type": "A",
+  "class": "IN"
+ },
+ "answers": [
+  {
+   "type": "A",
+   "name": "example.com",
+   "address": "192.168.1.1",
+   "ttl": 300
+  }
+ ]
 }
 ```
 
@@ -478,19 +478,19 @@ dns-response-validator bulk --file records.json --strict --verbose
 
 ```json
 [
-  {
-    "type": "A",
-    "name": "example.com",
-    "address": "192.168.1.1",
-    "ttl": 300
-  },
-  {
-    "type": "MX",
-    "name": "example.com",
-    "exchange": "mail.example.com",
-    "priority": 10,
-    "ttl": 3600
-  }
+ {
+  "type": "A",
+  "name": "example.com",
+  "address": "192.168.1.1",
+  "ttl": 300
+ },
+ {
+  "type": "MX",
+  "name": "example.com",
+  "exchange": "mail.example.com",
+  "priority": 10,
+  "ttl": 3600
+ }
 ]
 ```
 

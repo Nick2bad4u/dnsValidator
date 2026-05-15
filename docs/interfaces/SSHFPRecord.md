@@ -8,11 +8,12 @@ SSHFP record - SSH Public Key Fingerprint, used to publish SSH host key fingerpr
 
 ```typescript
 const record: SSHFPRecord = {
-  type: 'SSHFP',
-  algorithm: 4, // Ed25519
-  fpType: 2, // SHA-256
-  fingerprint: 'abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890',
-  ttl: 3600
+ type: "SSHFP",
+ algorithm: 4, // Ed25519
+ fpType: 2, // SHA-256
+ fingerprint:
+  "abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+ ttl: 3600,
 };
 ```
 
@@ -34,7 +35,7 @@ Time to live in seconds (optional)
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
 
-***
+---
 
 ### type
 
@@ -48,7 +49,7 @@ The type of DNS record
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
 
-***
+---
 
 ### algorithm
 
@@ -58,7 +59,7 @@ Defined in: [types.ts:644](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 SSH public key algorithm
 
-***
+---
 
 ### fpType
 
@@ -68,7 +69,7 @@ Defined in: [types.ts:646](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Fingerprint type
 
-***
+---
 
 ### fingerprint
 

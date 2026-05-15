@@ -30,7 +30,7 @@ Defined in: [performance.ts:200](https://github.com/Nick2bad4u/dnsValidator/blob
 
 `void`
 
-***
+---
 
 ### recordSuccess()
 
@@ -42,7 +42,7 @@ Defined in: [performance.ts:215](https://github.com/Nick2bad4u/dnsValidator/blob
 
 `void`
 
-***
+---
 
 ### recordCacheHit()
 
@@ -54,7 +54,7 @@ Defined in: [performance.ts:219](https://github.com/Nick2bad4u/dnsValidator/blob
 
 `void`
 
-***
+---
 
 ### recordCacheMiss()
 
@@ -66,7 +66,7 @@ Defined in: [performance.ts:223](https://github.com/Nick2bad4u/dnsValidator/blob
 
 `void`
 
-***
+---
 
 ### getMetrics()
 
@@ -78,7 +78,7 @@ Defined in: [performance.ts:227](https://github.com/Nick2bad4u/dnsValidator/blob
 
 [`ValidationMetrics`](../interfaces/ValidationMetrics.md)
 
-***
+---
 
 ### reset()
 

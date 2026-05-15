@@ -39,7 +39,7 @@ Defined in: [types.ts:40](https://github.com/Nick2bad4u/dnsValidator/blob/main/s
 
 The type of DNS record
 
-***
+---
 
 ### ttl?
 

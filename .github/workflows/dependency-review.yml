@@ -1,27 +1,41 @@
 # Dependency Review Action
 #
-# This Action will scan dependency manifest files that change as part of a Pull Request,
+# This Action will scan dependency manifest files that change as part of a pull request,
 # surfacing known-vulnerable versions of the packages declared or updated in the PR.
-# Once installed, if the workflow run is marked as required,
-# PRs introducing known-vulnerable packages will be blocked from merging.
-#
-# Source repository: https://github.com/actions/dependency-review-action
-name: 'Dependency Review'
-on: [pull_request]
+
+# yaml-language-server: $schema=https://www.schemastore.org/github-workflow.json
+name: Dependency Review
+
+run-name: Dependency Review • ${{ github.ref_name }} @${{ github.actor }}
+
+on:
+    pull_request:
+    merge_group:
+        types:
+            - checks_requested
+
+concurrency:
+    group: dependency-review-${{ github.ref }}
+    cancel-in-progress: true
 
 permissions:
-  contents: read
+    contents: read
 
 jobs:
-  dependency-review:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
-        with:
-          egress-policy: audit
+    dependency-review:
+        name: Dependency Review
+        runs-on: ubuntu-latest
+        timeout-minutes: 20
+        steps:
+            - name: Harden Runner
+              uses: step-security/harden-runner@5ef0c079ce82195b2a36a210272d6b661572d83e # v2.14.2
+              with:
+                  egress-policy: audit
 
-      - name: 'Checkout Repository'
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-      - name: 'Dependency Review'
-        uses: actions/dependency-review-action@45529485b5eb76184ced07362d2331fd9d26f03f # v4
+            - name: Checkout Repository
+              uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+            - name: Dependency Review
+              uses: actions/dependency-review-action@05fe4576374b728f0c523d6a13d64c25081e0803 # v4.8.3
+              with:
+                  fail-on-severity: high

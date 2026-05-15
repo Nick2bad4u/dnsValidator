@@ -8,10 +8,10 @@ NSEC record - Next Secure, used for authenticated denial of existence in DNSSEC.
 
 ```typescript
 const record: NSECRecord = {
-  type: 'NSEC',
-  nextDomainName: 'b.example.com',
-  typeBitmaps: 'A NS SOA MX RRSIG NSEC DNSKEY',
-  ttl: 86400
+ type: "NSEC",
+ nextDomainName: "b.example.com",
+ typeBitmaps: "A NS SOA MX RRSIG NSEC DNSKEY",
+ ttl: 86400,
 };
 ```
 
@@ -33,7 +33,7 @@ Time to live in seconds (optional)
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
 
-***
+---
 
 ### type
 
@@ -47,7 +47,7 @@ The type of DNS record
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
 
-***
+---
 
 ### nextDomainName
 
@@ -57,7 +57,7 @@ Defined in: [types.ts:508](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Next domain name in canonical ordering
 
-***
+---
 
 ### typeBitMaps
 
@@ -67,7 +67,7 @@ Defined in: [types.ts:510](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Array of record types that exist at this name
 
-***
+---
 
 ### ~~types?~~
 

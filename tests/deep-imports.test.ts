@@ -1,16 +1,63 @@
-describe('deep import subpaths', () => {
-  test('validators deep import', () => {
-    const { validateDNSRecord } = require('dns-response-validator/validators');
-    expect(typeof validateDNSRecord).toBe('function');
-  });
+import { describe, it, expect } from "vitest";
+import packageJson from "../package.json";
 
-  test('dnssec deep import', () => {
-    const { validateRRSIG } = require('dns-response-validator/dnssec');
-    expect(typeof validateRRSIG).toBe('function');
-  });
+type RuntimeModule = Readonly<Record<string, unknown>> & {
+    readonly default?: unknown;
+};
 
-  test('types deep import (types only)', () => {
-    // Importing types subpath at runtime resolves to d.ts; ensure no throw when requiring
-    expect(() => require('dns-response-validator/types')).not.toThrow();
-  });
+function isRuntimeModule(value: unknown): value is RuntimeModule {
+    return typeof value === "object" && value !== null;
+}
+
+function getRuntimeExport(moduleValue: unknown, exportName: string): unknown {
+    if (!isRuntimeModule(moduleValue)) {
+        return undefined;
+    }
+
+    if (Object.hasOwn(moduleValue, exportName)) {
+        return moduleValue[exportName];
+    }
+
+    const defaultExport = moduleValue.default;
+
+    if (
+        isRuntimeModule(defaultExport) &&
+        Object.hasOwn(defaultExport, exportName)
+    ) {
+        return defaultExport[exportName];
+    }
+
+    return undefined;
+}
+
+describe("deep import subpaths", () => {
+    it("validators deep import", async () => {
+        const validatorsModule: unknown = await import(
+            "dns-response-validator/validators"
+        );
+        const validateDNSRecord = getRuntimeExport(
+            validatorsModule,
+            "validateDNSRecord"
+        );
+
+        expect(validateDNSRecord).toBeTypeOf("function");
+    });
+
+    it("dnssec deep import", async () => {
+        const dnssecModule: unknown = await import(
+            "dns-response-validator/dnssec"
+        );
+        const validateRRSIG = getRuntimeExport(dnssecModule, "validateRRSIG");
+
+        expect(validateRRSIG).toBeTypeOf("function");
+    });
+
+    it("types deep import (types only)", () => {
+        expect(packageJson.exports["./types"].import.types).toBe(
+            "./dist/types.d.mts"
+        );
+        expect(packageJson.exports["./types"].require.types).toBe(
+            "./dist/types.d.ts"
+        );
+    });
 });

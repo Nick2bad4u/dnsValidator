@@ -8,9 +8,9 @@ CNAME record - Maps an alias name to the canonical domain name.
 
 ```typescript
 const record: CNAMERecord = {
-  type: 'CNAME',
-  value: 'canonical.example.com',
-  ttl: 300
+ type: "CNAME",
+ value: "canonical.example.com",
+ ttl: 300,
 };
 ```
 
@@ -32,7 +32,7 @@ Time to live in seconds (optional)
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
 
-***
+---
 
 ### type
 
@@ -46,7 +46,7 @@ The type of DNS record
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
 
-***
+---
 
 ### value
 

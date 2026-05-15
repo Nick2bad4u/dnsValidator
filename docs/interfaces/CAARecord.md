@@ -10,10 +10,10 @@ Specifies which certificate authorities are allowed to issue certificates for a 
 
 ```typescript
 const record: CAARecord = {
-  type: 'CAA',
-  critical: 0,
-  issue: 'letsencrypt.org',
-  ttl: 86400
+ type: "CAA",
+ critical: 0,
+ issue: "letsencrypt.org",
+ ttl: 86400,
 };
 ```
 
@@ -35,7 +35,7 @@ Time to live in seconds (optional)
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
 
-***
+---
 
 ### type
 
@@ -49,7 +49,7 @@ The type of DNS record
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
 
-***
+---
 
 ### critical
 
@@ -59,7 +59,7 @@ Defined in: [types.ts:283](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Critical flag (0 or 128)
 
-***
+---
 
 ### issue?
 
@@ -69,7 +69,7 @@ Defined in: [types.ts:285](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 CA authorized to issue certificates
 
-***
+---
 
 ### issuewild?
 
@@ -79,7 +79,7 @@ Defined in: [types.ts:287](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 CA authorized to issue wildcard certificates
 
-***
+---
 
 ### iodef?
 
@@ -89,7 +89,7 @@ Defined in: [types.ts:289](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 URL for reporting certificate authority violations
 
-***
+---
 
 ### contactemail?
 
@@ -99,7 +99,7 @@ Defined in: [types.ts:291](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Contact email for the domain
 
-***
+---
 
 ### contactphone?
 

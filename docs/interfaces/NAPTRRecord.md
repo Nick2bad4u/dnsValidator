@@ -10,14 +10,14 @@ Used for mapping services to domain names, often in ENUM and SIP applications.
 
 ```typescript
 const record: NAPTRRecord = {
-  type: 'NAPTR',
-  order: 100,
-  preference: 50,
-  flags: 'u',
-  service: 'E2U+sip',
-  regexp: '!^.*$!sip:info@example.com!',
-  replacement: '',
-  ttl: 3600
+ type: "NAPTR",
+ order: 100,
+ preference: 50,
+ flags: "u",
+ service: "E2U+sip",
+ regexp: "!^.*$!sip:info@example.com!",
+ replacement: "",
+ ttl: 3600,
 };
 ```
 
@@ -39,7 +39,7 @@ Time to live in seconds (optional)
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
 
-***
+---
 
 ### type
 
@@ -53,7 +53,7 @@ The type of DNS record
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
 
-***
+---
 
 ### order
 
@@ -63,7 +63,7 @@ Defined in: [types.ts:320](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Order value for processing sequence
 
-***
+---
 
 ### preference
 
@@ -73,7 +73,7 @@ Defined in: [types.ts:322](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Preference value within same order
 
-***
+---
 
 ### flags
 
@@ -83,7 +83,7 @@ Defined in: [types.ts:324](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Flags controlling processing
 
-***
+---
 
 ### service
 
@@ -93,7 +93,7 @@ Defined in: [types.ts:326](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Service parameters
 
-***
+---
 
 ### regexp
 
@@ -103,7 +103,7 @@ Defined in: [types.ts:328](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Regular expression for URI construction
 
-***
+---
 
 ### replacement
 

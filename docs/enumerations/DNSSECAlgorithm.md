@@ -12,7 +12,7 @@ DNSSEC algorithms as defined in RFC 8624
 
 Defined in: [dnssec.ts:30](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L30)
 
-***
+---
 
 ### DH
 
@@ -20,7 +20,7 @@ Defined in: [dnssec.ts:30](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Defined in: [dnssec.ts:31](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L31)
 
-***
+---
 
 ### DSA
 
@@ -28,7 +28,7 @@ Defined in: [dnssec.ts:31](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Defined in: [dnssec.ts:32](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L32)
 
-***
+---
 
 ### RSASHA1
 
@@ -36,23 +36,23 @@ Defined in: [dnssec.ts:32](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Defined in: [dnssec.ts:33](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L33)
 
-***
+---
 
-### DSA\_NSEC3\_SHA1
+### DSA_NSEC3_SHA1
 
-> **DSA\_NSEC3\_SHA1**: `6`
+> **DSA_NSEC3_SHA1**: `6`
 
 Defined in: [dnssec.ts:34](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L34)
 
-***
+---
 
-### RSASHA1\_NSEC3\_SHA1
+### RSASHA1_NSEC3_SHA1
 
-> **RSASHA1\_NSEC3\_SHA1**: `7`
+> **RSASHA1_NSEC3_SHA1**: `7`
 
 Defined in: [dnssec.ts:35](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L35)
 
-***
+---
 
 ### RSASHA256
 
@@ -60,7 +60,7 @@ Defined in: [dnssec.ts:35](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Defined in: [dnssec.ts:36](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L36)
 
-***
+---
 
 ### RSASHA512
 
@@ -68,15 +68,15 @@ Defined in: [dnssec.ts:36](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Defined in: [dnssec.ts:37](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L37)
 
-***
+---
 
-### ECC\_GOST
+### ECC_GOST
 
-> **ECC\_GOST**: `12`
+> **ECC_GOST**: `12`
 
 Defined in: [dnssec.ts:38](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L38)
 
-***
+---
 
 ### ECDSAP256SHA256
 
@@ -84,7 +84,7 @@ Defined in: [dnssec.ts:38](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Defined in: [dnssec.ts:39](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L39)
 
-***
+---
 
 ### ECDSAP384SHA384
 
@@ -92,7 +92,7 @@ Defined in: [dnssec.ts:39](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Defined in: [dnssec.ts:40](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L40)
 
-***
+---
 
 ### ED25519
 
@@ -100,7 +100,7 @@ Defined in: [dnssec.ts:40](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Defined in: [dnssec.ts:41](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L41)
 
-***
+---
 
 ### ED448
 

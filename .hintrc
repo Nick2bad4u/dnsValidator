@@ -1,8 +1,8 @@
 {
-  "extends": [
-    "development"
-  ],
-  "hints": {
-    "typescript-config/is-valid": "off"
-  }
+    "extends": [
+        "development"
+    ],
+    "hints": {
+        "typescript-config/is-valid": "off"
+    }
 }

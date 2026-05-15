@@ -1,9 +1,9 @@
 {
-  "low": true,
-  "moderate": true,
-  "high": true,
-  "critical": true,
-  "report-type": "important",
-  "allowlist": [],
-  "output-format": "text"
+    "allowlist": [],
+    "critical": true,
+    "high": true,
+    "low": true,
+    "moderate": true,
+    "output-format": "text",
+    "report-type": "important"
 }

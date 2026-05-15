@@ -8,4 +8,4 @@ Node.js dns module error code constants (subset) for compatibility.
 These mirror the standard error codes exposed by the core 'dns' module so that
 consumers can write portable code when using this library as a validation layer.
 
-Source reference: https://nodejs.org/api/dns.html#dns-error-codes
+Source reference: <https://nodejs.org/api/dns.html#dns-error-codes>

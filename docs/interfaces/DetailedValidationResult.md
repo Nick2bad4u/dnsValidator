@@ -12,15 +12,15 @@ Enhanced validation result with detailed error information
 
 Defined in: [errors.ts:138](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L138)
 
-***
+---
 
 ### errors
 
-> **errors**: [`DNSValidationError`](../classes/DNSValidationError.md)[]
+> **errors**: [`DNSValidationError`][../classes/DNSValidationError.md]()
 
 Defined in: [errors.ts:139](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L139)
 
-***
+---
 
 ### warnings
 
@@ -28,7 +28,7 @@ Defined in: [errors.ts:139](https://github.com/Nick2bad4u/dnsValidator/blob/main
 
 Defined in: [errors.ts:140](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L140)
 
-***
+---
 
 ### suggestions
 

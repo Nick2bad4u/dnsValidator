@@ -8,14 +8,14 @@ NSEC3 record - Next Secure version 3, provides authenticated denial of existence
 
 ```typescript
 const record: NSEC3Record = {
-  type: 'NSEC3',
-  hashAlgorithm: 1, // SHA-1
-  flags: 0,
-  iterations: 12,
-  salt: 'aabbccdd',
-  nextHashedOwnerName: 'p0llp5g0r78e008k65jk5u69i5smp0n8',
-  typeBitMaps: ['A', 'RRSIG'],
-  ttl: 86400
+ type: "NSEC3",
+ hashAlgorithm: 1, // SHA-1
+ flags: 0,
+ iterations: 12,
+ salt: "aabbccdd",
+ nextHashedOwnerName: "p0llp5g0r78e008k65jk5u69i5smp0n8",
+ typeBitMaps: ["A", "RRSIG"],
+ ttl: 86400,
 };
 ```
 
@@ -37,7 +37,7 @@ Time to live in seconds (optional)
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
 
-***
+---
 
 ### type
 
@@ -51,7 +51,7 @@ The type of DNS record
 
 [`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
 
-***
+---
 
 ### hashAlgorithm
 
@@ -61,7 +61,7 @@ Defined in: [types.ts:537](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Hash algorithm used
 
-***
+---
 
 ### flags
 
@@ -71,7 +71,7 @@ Defined in: [types.ts:539](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Flags field
 
-***
+---
 
 ### iterations
 
@@ -81,7 +81,7 @@ Defined in: [types.ts:541](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Number of hash iterations
 
-***
+---
 
 ### salt
 
@@ -91,7 +91,7 @@ Defined in: [types.ts:543](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Salt value in hexadecimal
 
-***
+---
 
 ### nextHashedOwnerName
 
@@ -101,7 +101,7 @@ Defined in: [types.ts:545](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Next hashed owner name in base32hex
 
-***
+---
 
 ### typeBitMaps
 
@@ -111,7 +111,7 @@ Defined in: [types.ts:547](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Array of record types that exist at this name
 
-***
+---
 
 ### ~~types?~~
 

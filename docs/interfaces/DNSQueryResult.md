@@ -8,14 +8,12 @@ DNS query result interface representing a complete DNS response.
 
 ```typescript
 const result: DNSQueryResult = {
-  question: {
-    name: 'example.com',
-    type: 'A',
-    class: 'IN'
-  },
-  answers: [
-    { type: 'A', address: '93.184.216.34', ttl: 86400 }
-  ]
+ question: {
+  name: "example.com",
+  type: "A",
+  class: "IN",
+ },
+ answers: [{ type: "A", address: "93.184.216.34", ttl: 86400 }],
 };
 ```
 
@@ -47,31 +45,31 @@ Type of record requested
 
 Query class (usually 'IN' for Internet)
 
-***
+---
 
 ### answers
 
-> **answers**: [`DNSRecord`](../type-aliases/DNSRecord.md)[]
+> **answers**: [`DNSRecord`][../type-aliases/DNSRecord.md]()
 
 Defined in: [types.ts:711](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L711)
 
 Answer records from the DNS response
 
-***
+---
 
 ### authority?
 
-> `optional` **authority**: [`DNSRecord`](../type-aliases/DNSRecord.md)[]
+> `optional` **authority**: [`DNSRecord`][../type-aliases/DNSRecord.md]()
 
 Defined in: [types.ts:713](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L713)
 
 Authority records (optional)
 
-***
+---
 
 ### additional?
 
-> `optional` **additional**: [`DNSRecord`](../type-aliases/DNSRecord.md)[]
+> `optional` **additional**: [`DNSRecord`][../type-aliases/DNSRecord.md]()
 
 Defined in: [types.ts:715](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L715)
 

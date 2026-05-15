@@ -1,33 +1,37 @@
 {
-  "entryPoints": ["./src"],
-  "out": "docs",
-  "theme": "markdown",
-  "plugin": ["typedoc-plugin-markdown"],
-  "hidePageHeader": true,
-  "hideBreadcrumbs": true,
-  "name": "DNS Validator",
-  "excludePrivate": true,
-  "excludeProtected": true,
-  "excludeExternals": true,
-  "readme": "README.md",
-  "exclude": ["**/*.test.ts", "**/*.spec.ts", "**/tests/**/*"],
-  "categorizeByGroup": true,
-  "categoryOrder": [
-    "Types",
-    "Validators",
-    "Enhanced Validators",
-    "DNSSEC Validators",
-    "Utilities",
-    "Performance",
-    "Errors"
-  ],
-  "sort": ["source-order"],
-  "gitRevision": "main",
-  "validation": {
-    "notExported": true,
-    "invalidLink": true,
-    "notDocumented": false
-  },
-  "treatWarningsAsErrors": true,
-  "logLevel": "Warn"
+    "categorizeByGroup": true,
+    "categoryOrder": [
+        "Types",
+        "Validators",
+        "Enhanced Validators",
+        "DNSSEC Validators",
+        "Utilities",
+        "Performance",
+        "Errors"
+    ],
+    "entryPoints": ["./src"],
+    "exclude": [
+        "**/*.test.ts",
+        "**/*.spec.ts",
+        "**/tests/**/*"
+    ],
+    "excludeExternals": true,
+    "excludePrivate": true,
+    "excludeProtected": true,
+    "gitRevision": "main",
+    "hideBreadcrumbs": true,
+    "hidePageHeader": true,
+    "logLevel": "Warn",
+    "name": "DNS Validator",
+    "out": "docs",
+    "plugin": ["typedoc-plugin-markdown"],
+    "readme": "README.md",
+    "sort": ["source-order"],
+    "theme": "markdown",
+    "treatWarningsAsErrors": true,
+    "validation": {
+        "invalidLink": true,
+        "notDocumented": false,
+        "notExported": true
+    }
 }

@@ -58,7 +58,7 @@ Defined in: [errors.ts:13](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 Defined in: [errors.ts:9](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L9)
 
-***
+---
 
 ### field
 
@@ -66,7 +66,7 @@ Defined in: [errors.ts:9](https://github.com/Nick2bad4u/dnsValidator/blob/main/s
 
 Defined in: [errors.ts:10](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L10)
 
-***
+---
 
 ### value
 

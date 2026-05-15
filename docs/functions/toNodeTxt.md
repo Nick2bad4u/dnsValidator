@@ -10,7 +10,7 @@ Convert internal TXTRecord[] to Node resolveTxt shape (string[][])
 
 ### records
 
-[`TXTRecord`](../interfaces/TXTRecord.md)[]
+[`TXTRecord`][../interfaces/TXTRecord.md]()
 
 ## Returns
 
