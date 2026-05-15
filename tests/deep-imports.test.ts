@@ -32,9 +32,8 @@ function getRuntimeExport(moduleValue: unknown, exportName: string): unknown {
 
 describe("deep import subpaths", () => {
     it("validators deep import", async () => {
-        const validatorsModule: unknown = await import(
-            "dns-response-validator/validators"
-        );
+        const validatorsModule: unknown =
+            await import("dns-response-validator/validators");
         const validateDNSRecord = getRuntimeExport(
             validatorsModule,
             "validateDNSRecord"
@@ -44,9 +43,8 @@ describe("deep import subpaths", () => {
     });
 
     it("dnssec deep import", async () => {
-        const dnssecModule: unknown = await import(
-            "dns-response-validator/dnssec"
-        );
+        const dnssecModule: unknown =
+            await import("dns-response-validator/dnssec");
         const validateRRSIG = getRuntimeExport(dnssecModule, "validateRRSIG");
 
         expect(validateRRSIG).toBeTypeOf("function");

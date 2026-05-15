@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect } from "vitest";
 import {
     ValidationPatterns,
     fastPreValidate,
@@ -11,7 +11,24 @@ import {
     trackPerformance,
 } from "../src/performance";
 
-describe("performance Utilities", () => {
+interface TestValidationResult {
+    readonly isValid: boolean;
+}
+
+type TestValidationFunction = (value: string) => TestValidationResult;
+
+function restoreGlobalPerformance(
+    descriptor: PropertyDescriptor | undefined
+): void {
+    if (descriptor) {
+        Object.defineProperty(globalThis, "performance", descriptor);
+        return;
+    }
+
+    Reflect.deleteProperty(globalThis, "performance");
+}
+
+describe("performance utilities", () => {
     describe("validationPatterns", () => {
         it("should have IPv4 pattern that matches valid IPs", () => {
             expect(ValidationPatterns.ipv4.test("192.168.1.1")).toBeTruthy();
@@ -157,9 +174,9 @@ describe("performance Utilities", () => {
             expect(
                 getRequiredField(testObj, "booleanField", "boolean")
             ).toBeTruthy();
-            expect(getRequiredField(testObj, "objectField", "object")).toEqual({
-                nested: true,
-            });
+            expect(
+                getRequiredField(testObj, "objectField", "object")
+            ).toStrictEqual({ nested: true });
         });
 
         it("should return null when field is missing", () => {
@@ -234,17 +251,14 @@ describe("performance Utilities", () => {
     });
 
     describe(ValidationPerformanceTracker, () => {
-        let tracker: ValidationPerformanceTracker;
-
-        beforeEach(() => {
-            tracker = new ValidationPerformanceTracker();
-        });
-
         it("should track validation performance", async () => {
+            const tracker = new ValidationPerformanceTracker();
             const endTracking = tracker.startValidation();
 
             // Simulate some work
-            await new Promise((resolve) => setTimeout(resolve, 10));
+            await new Promise<void>((resolve) => {
+                setTimeout(resolve, 10);
+            });
 
             endTracking();
             tracker.recordSuccess();
@@ -257,6 +271,8 @@ describe("performance Utilities", () => {
         });
 
         it("should track cache hits and misses", () => {
+            const tracker = new ValidationPerformanceTracker();
+
             tracker.recordCacheHit();
             tracker.recordCacheHit();
             tracker.recordCacheMiss();
@@ -268,6 +284,8 @@ describe("performance Utilities", () => {
         });
 
         it("should reset metrics", () => {
+            const tracker = new ValidationPerformanceTracker();
+
             tracker.recordCacheHit();
             tracker.recordSuccess();
 
@@ -283,41 +301,36 @@ describe("performance Utilities", () => {
         });
 
         it("should calculate average time correctly", () => {
+            const tracker = new ValidationPerformanceTracker();
             // Guard for environments where performance may not exist
             const originalPerformanceDescriptor =
                 Object.getOwnPropertyDescriptor(globalThis, "performance");
 
             let currentTime = 0;
             const fakePerf = {
-                now: vi.fn(() => currentTime),
+                now: vi.fn<() => number>(() => currentTime),
             } as unknown as Performance;
 
-            Object.defineProperty(globalThis, "performance", {
-                configurable: true,
-                value: fakePerf,
-            });
+            try {
+                Object.defineProperty(globalThis, "performance", {
+                    configurable: true,
+                    value: fakePerf,
+                });
 
-            const endTracking1 = tracker.startValidation();
-            currentTime = 100;
-            endTracking1();
+                const endTracking1 = tracker.startValidation();
+                currentTime = 100;
+                endTracking1();
 
-            const endTracking2 = tracker.startValidation();
-            currentTime = 300;
-            endTracking2();
+                const endTracking2 = tracker.startValidation();
+                currentTime = 300;
+                endTracking2();
 
-            const metrics = tracker.getMetrics();
+                const metrics = tracker.getMetrics();
 
-            expect(metrics.totalValidations).toBe(2);
-            expect(metrics.averageTimeMs).toBe(150); // (100 + 200) / 2
-
-            if (originalPerformanceDescriptor) {
-                Object.defineProperty(
-                    globalThis,
-                    "performance",
-                    originalPerformanceDescriptor
-                );
-            } else {
-                Reflect.deleteProperty(globalThis, "performance");
+                expect(metrics.totalValidations).toBe(2);
+                expect(metrics.averageTimeMs).toBe(150); // (100 + 200) / 2
+            } finally {
+                restoreGlobalPerformance(originalPerformanceDescriptor);
             }
         });
     });
@@ -325,12 +338,14 @@ describe("performance Utilities", () => {
     describe(trackPerformance, () => {
         it("should wrap validation function with performance tracking", () => {
             const tracker = new ValidationPerformanceTracker();
-            const mockValidation = vi.fn().mockReturnValue({ isValid: true });
+            const mockValidation = vi
+                .fn<TestValidationFunction>()
+                .mockReturnValue({ isValid: true });
 
             const trackedValidation = trackPerformance(mockValidation, tracker);
             const result = trackedValidation("test");
 
-            expect(result).toEqual({ isValid: true });
+            expect(result).toStrictEqual({ isValid: true });
             expect(mockValidation).toHaveBeenCalledWith("test");
             expect(tracker.getMetrics().totalValidations).toBe(1);
             expect(tracker.getMetrics().successfulValidations).toBe(1);
@@ -338,7 +353,9 @@ describe("performance Utilities", () => {
 
         it("should track failed validations", () => {
             const tracker = new ValidationPerformanceTracker();
-            const mockValidation = vi.fn().mockReturnValue({ isValid: false });
+            const mockValidation = vi
+                .fn<TestValidationFunction>()
+                .mockReturnValue({ isValid: false });
 
             const trackedValidation = trackPerformance(mockValidation, tracker);
             trackedValidation("test");
@@ -349,9 +366,11 @@ describe("performance Utilities", () => {
 
         it("should handle exceptions in validation functions", () => {
             const tracker = new ValidationPerformanceTracker();
-            const mockValidation = vi.fn().mockImplementation(() => {
-                throw new Error("Validation error");
-            });
+            const mockValidation = vi
+                .fn<TestValidationFunction>()
+                .mockImplementation(() => {
+                    throw new Error("Validation error");
+                });
 
             const trackedValidation = trackPerformance(mockValidation, tracker);
 

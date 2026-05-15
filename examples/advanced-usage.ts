@@ -64,7 +64,7 @@ const dsRecord: DSRecord = {
     keyTag: 12345,
     algorithm: 8, // RSA/SHA-256
     digestType: 2, // SHA-256
-    digest: "A1B2C3D4E5F67890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890",
+    digest: "A1B2C3D4E5F67890ABCDEF1234567890ABCDEF12",
     ttl: 86400,
 };
 
@@ -81,8 +81,7 @@ const rrsigRecord: RRSIGRecord = {
     signatureInception: 1234567800,
     keyTag: 12345,
     signerName: "example.com",
-    signature:
-        "ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890",
+    signature: "ABCDEF1234567890ABCDEF1234567890ABCDEF12",
     ttl: 300,
 };
 
@@ -93,8 +92,7 @@ const sshfpRecord: SSHFPRecord = {
     type: "SSHFP",
     algorithm: 4, // Ed25519
     fpType: 2, // SHA-256
-    fingerprint:
-        "ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890",
+    fingerprint: "ABCDEF1234567890ABCDEF1234567890ABCDEF12",
     ttl: 3600,
 };
 

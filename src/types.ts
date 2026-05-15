@@ -1,3 +1,5 @@
+import type { UnknownRecord } from "type-fest";
+
 /**
  * AAAA record - Maps a domain name to an IPv6 address.
  *
@@ -35,48 +37,7 @@ export interface AAAARecord extends BaseDNSRecord {
  */
 export interface ANYRecord extends BaseDNSRecord {
     /** Optional collection of mixed record results (Node resolveAny style) */
-    records?: (
-        | { address: string; ttl?: number; type: "A" }
-        | { address: string; ttl?: number; type: "AAAA" }
-        | {
-              certUsage: number;
-              data: ArrayBuffer | string;
-              match: number;
-              selector: number;
-              type: "TLSA";
-          }
-        | { entries: string[]; type: "TXT" }
-        | { exchange: string; priority: number; type: "MX" }
-        | {
-              expire: number;
-              hostmaster: string;
-              minttl: number;
-              nsname: string;
-              refresh: number;
-              retry: number;
-              serial: number;
-              type: "SOA";
-          }
-        | {
-              flags: string;
-              order: number;
-              preference: number;
-              regexp: string;
-              replacement: string;
-              service: string;
-              type: "NAPTR";
-          }
-        | {
-              name: string;
-              port: number;
-              priority: number;
-              type: "SRV";
-              weight: number;
-          }
-        | { type: "CNAME"; value: string }
-        | { type: "NS"; value: string }
-        | { type: "PTR"; value: string }
-    )[];
+    records?: UnknownRecord[];
     type: "ANY";
     /** Raw value (deprecated - prefer specific typed arrays) */
     value?: unknown;
@@ -599,8 +560,8 @@ export interface RRSIGRecord extends BaseDNSRecord {
  */
 export interface SOARecord extends BaseDNSRecord {
     /**
-     * Administrator email (with @ replaced by .) (internal canonical field,
-     * Node uses 'hostmaster')
+     * Administrator email (with the at sign replaced by .) (internal canonical
+     * field, Node uses 'hostmaster')
      */
     admin?: string;
     /** Expiration time in seconds (internal canonical field, Node uses 'expire') */
@@ -673,8 +634,7 @@ export interface SRVRecord extends BaseDNSRecord {
  *     type: "SSHFP",
  *     algorithm: 4, // Ed25519
  *     fpType: 2, // SHA-256
- *     fingerprint:
- *         "abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+ *     fingerprint: "abcdef1234567890abcdef1234567890abcdef12",
  *     ttl: 3600,
  * };
  * ```

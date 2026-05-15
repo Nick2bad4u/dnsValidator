@@ -9,7 +9,13 @@ import {
 import { isValidDNSQueryResult } from "../src/utils";
 import type { DNSQueryResult, DNSRecord } from "../src/types";
 
-describe("dNS Validation Performance Benchmarks", () => {
+function runGarbageCollection(): void {
+    if (globalThis.gc) {
+        globalThis.gc();
+    }
+}
+
+describe("dns validation performance benchmarks", () => {
     describe("single record validation performance", () => {
         const iterations = 10_000;
 
@@ -282,9 +288,7 @@ describe("dNS Validation Performance Benchmarks", () => {
             }
 
             // Force garbage collection if available
-            if (globalThis.gc) {
-                globalThis.gc();
-            }
+            runGarbageCollection();
 
             const finalMemory = process.memoryUsage();
             const memoryIncrease =

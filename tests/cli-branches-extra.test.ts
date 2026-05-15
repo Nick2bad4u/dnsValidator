@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { runCLI } from "../src/cli";
 import * as fs from "node:fs";
 
@@ -8,32 +8,34 @@ function captureRun(args: string[]): {
     stdout: string;
     stderr: string;
 } {
-    const originalLog = console.log;
-    const originalError = console.error;
-    const originalExit = process.exit;
     let stdout = "";
     let stderr = "";
     let code: number | undefined;
-    (console as any).log = (msg?: any, ...rest: any[]) => {
-        stdout += `${[msg, ...rest].filter((v) => v !== undefined).join(" ")}\n`;
-    };
-    (console as any).error = (msg?: any, ...rest: any[]) => {
-        stderr += `${[msg, ...rest].filter((v) => v !== undefined).join(" ")}\n`;
-    };
-    (process as any).exit = (c?: number) => {
-        code = c === undefined ? 0 : c;
-    };
+    const logSpy = vi.spyOn(console, "log").mockImplementation((...args) => {
+        stdout += `${args.filter((value) => value !== undefined).join(" ")}\n`;
+    });
+    const errorSpy = vi
+        .spyOn(console, "error")
+        .mockImplementation((...args) => {
+            stderr += `${args.filter((value) => value !== undefined).join(" ")}\n`;
+        });
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation(((
+        exitCode?: string | number | null | undefined
+    ) => {
+        code = typeof exitCode === "number" ? exitCode : 0;
+        return undefined as never;
+    }) as typeof process.exit);
     try {
         runCLI(args);
     } finally {
-        console.log = originalLog;
-        console.error = originalError;
-        (process as any).exit = originalExit as any;
+        logSpy.mockRestore();
+        errorSpy.mockRestore();
+        exitSpy.mockRestore();
     }
     return { code: code === undefined ? 0 : code, stdout, stderr };
 }
 
-describe("cLI extra branches", () => {
+describe("command line extra branches", () => {
     it("record unknown type non-strict warns not error", () => {
         const data = JSON.stringify({ name: "x", value: "y" });
         const res = captureRun([

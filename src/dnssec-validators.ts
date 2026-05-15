@@ -18,168 +18,12 @@ function includesNumber(values: readonly number[], value: number): boolean {
     return arrayIncludes<number, number>(values, value);
 }
 
-/**
- * Validates a DNSKEY record
- */
-export function isDNSKEYRecord(record: unknown): record is DNSKEYRecord {
-    if (!record || typeof record !== "object") {
-        return false;
-    }
-
-    const r = toRecord(record);
-
-    return (
-        r["type"] === "DNSKEY" &&
-        typeof r["flags"] === "number" &&
-        isInteger(r["flags"]) &&
-        r["flags"] >= 0 &&
-        r["flags"] <= 65_535 &&
-        typeof r["protocol"] === "number" &&
-        r["protocol"] === 3 && // Must be 3 for DNSSEC
-        typeof r["algorithm"] === "number" &&
-        isValidDNSSECAlgorithm(r["algorithm"]) &&
-        typeof r["publicKey"] === "string" &&
-        isValidHexString(r["publicKey"]) &&
-        (!isDefined(r["ttl"]) || isValidTTL(r["ttl"] as number))
-    );
+function isRecordObject(value: unknown): value is UnknownRecord {
+    return typeof value === "object" && value !== null;
 }
 
-/**
- * Validates a DS record
- */
-export function isDSRecord(record: unknown): record is DSRecord {
-    if (!record || typeof record !== "object") {
-        return false;
-    }
-
-    const r = toRecord(record);
-
-    return (
-        r["type"] === "DS" &&
-        typeof r["keyTag"] === "number" &&
-        isInteger(r["keyTag"]) &&
-        r["keyTag"] >= 0 &&
-        r["keyTag"] <= 65_535 &&
-        typeof r["algorithm"] === "number" &&
-        isValidDNSSECAlgorithm(r["algorithm"]) &&
-        typeof r["digestType"] === "number" &&
-        isValidDigestType(r["digestType"]) &&
-        typeof r["digest"] === "string" &&
-        isValidHexString(r["digest"]) &&
-        (!isDefined(r["ttl"]) || isValidTTL(r["ttl"] as number))
-    );
-}
-
-/**
- * Validates an NSEC3 record
- */
-export function isNSEC3Record(record: unknown): record is NSEC3Record {
-    if (!record || typeof record !== "object") {
-        return false;
-    }
-
-    const r = toRecord(record);
-
-    return (
-        r["type"] === "NSEC3" &&
-        typeof r["hashAlgorithm"] === "number" &&
-        isValidHashAlgorithm(r["hashAlgorithm"]) &&
-        typeof r["flags"] === "number" &&
-        isInteger(r["flags"]) &&
-        r["flags"] >= 0 &&
-        r["flags"] <= 255 &&
-        typeof r["iterations"] === "number" &&
-        isInteger(r["iterations"]) &&
-        r["iterations"] >= 0 &&
-        r["iterations"] <= 65_535 &&
-        typeof r["salt"] === "string" &&
-        (r["salt"] === "" || isValidHexString(r["salt"])) &&
-        typeof r["nextHashedOwnerName"] === "string" &&
-        Array.isArray(r["typeBitMaps"]) &&
-        r["typeBitMaps"].every((type: unknown) => typeof type === "string") &&
-        (!isDefined(r["ttl"]) || isValidTTL(r["ttl"] as number))
-    );
-}
-
-/**
- * Validates an NSEC record
- */
-export function isNSECRecord(record: unknown): record is NSECRecord {
-    if (!record || typeof record !== "object") {
-        return false;
-    }
-
-    const r = toRecord(record);
-
-    return (
-        r["type"] === "NSEC" &&
-        typeof r["nextDomainName"] === "string" &&
-        validator.isFQDN(r["nextDomainName"], { require_tld: true }) &&
-        Array.isArray(r["typeBitMaps"]) &&
-        r["typeBitMaps"].every((type: unknown) => typeof type === "string") &&
-        (!isDefined(r["ttl"]) || isValidTTL(r["ttl"] as number))
-    );
-}
-
-/**
- * Validates an RRSIG record
- */
-export function isRRSIGRecord(record: unknown): record is RRSIGRecord {
-    if (!record || typeof record !== "object") {
-        return false;
-    }
-
-    const r = toRecord(record);
-
-    return (
-        r["type"] === "RRSIG" &&
-        typeof r["typeCovered"] === "string" &&
-        typeof r["algorithm"] === "number" &&
-        isValidDNSSECAlgorithm(r["algorithm"]) &&
-        typeof r["labels"] === "number" &&
-        isInteger(r["labels"]) &&
-        r["labels"] >= 0 &&
-        r["labels"] <= 255 &&
-        typeof r["originalTTL"] === "number" &&
-        isValidTTL(r["originalTTL"]) &&
-        typeof r["signatureExpiration"] === "number" &&
-        isInteger(r["signatureExpiration"]) &&
-        r["signatureExpiration"] >= 0 &&
-        typeof r["signatureInception"] === "number" &&
-        isInteger(r["signatureInception"]) &&
-        r["signatureInception"] >= 0 &&
-        typeof r["keyTag"] === "number" &&
-        isInteger(r["keyTag"]) &&
-        r["keyTag"] >= 0 &&
-        r["keyTag"] <= 65_535 &&
-        typeof r["signerName"] === "string" &&
-        validator.isFQDN(r["signerName"], { require_tld: true }) &&
-        typeof r["signature"] === "string" &&
-        isValidHexString(r["signature"]) &&
-        (!isDefined(r["ttl"]) || isValidTTL(r["ttl"] as number))
-    );
-}
-
-/**
- * Validates an SSHFP record
- */
-export function isSSHFPRecord(record: unknown): record is SSHFPRecord {
-    if (!record || typeof record !== "object") {
-        return false;
-    }
-
-    const r = toRecord(record);
-
-    return (
-        r["type"] === "SSHFP" &&
-        typeof r["algorithm"] === "number" &&
-        isValidSSHAlgorithm(r["algorithm"]) &&
-        typeof r["fpType"] === "number" &&
-        isValidSSHFingerprintType(r["fpType"]) &&
-        typeof r["fingerprint"] === "string" &&
-        isValidHexString(r["fingerprint"]) &&
-        (!isDefined(r["ttl"]) || isValidTTL(r["ttl"] as number))
-    );
+function toRecord(value: Readonly<UnknownRecord>): UnknownRecord {
+    return value;
 }
 
 /**
@@ -243,9 +87,167 @@ function isValidSSHFingerprintType(fpType: number): boolean {
     return fpType === 1 || fpType === 2;
 }
 
+function isValidOptionalTTL(record: Readonly<UnknownRecord>): boolean {
+    const ttl = record["ttl"];
+    return !isDefined(ttl) || (typeof ttl === "number" && isValidTTL(ttl));
+}
+
+function isNonNegativeInteger(value: unknown): value is number {
+    return typeof value === "number" && isInteger(value) && value >= 0;
+}
+
+function isUint16(value: unknown): value is number {
+    return isNonNegativeInteger(value) && value <= 65_535;
+}
+
+function isUint8(value: unknown): value is number {
+    return isNonNegativeInteger(value) && value <= 255;
+}
+
 /**
- * Helper function to safely cast unknown to a record type
+ * Validates a DNSKEY record
  */
-function toRecord(obj: unknown): UnknownRecord {
-    return obj as UnknownRecord;
+export function isDNSKEYRecord(record: unknown): record is DNSKEYRecord {
+    if (!isRecordObject(record)) {
+        return false;
+    }
+
+    const r = toRecord(record);
+    return (
+        r["type"] === "DNSKEY" &&
+        typeof r["flags"] === "number" &&
+        isInteger(r["flags"]) &&
+        r["flags"] >= 0 &&
+        r["flags"] <= 65_535 &&
+        typeof r["protocol"] === "number" &&
+        r["protocol"] === 3 &&
+        typeof r["algorithm"] === "number" &&
+        isValidDNSSECAlgorithm(r["algorithm"]) &&
+        typeof r["publicKey"] === "string" &&
+        isValidHexString(r["publicKey"]) &&
+        isValidOptionalTTL(r)
+    );
+}
+
+/**
+ * Validates a DS record
+ */
+export function isDSRecord(record: unknown): record is DSRecord {
+    if (!isRecordObject(record)) {
+        return false;
+    }
+
+    const r = toRecord(record);
+    return (
+        r["type"] === "DS" &&
+        typeof r["keyTag"] === "number" &&
+        isInteger(r["keyTag"]) &&
+        r["keyTag"] >= 0 &&
+        r["keyTag"] <= 65_535 &&
+        typeof r["algorithm"] === "number" &&
+        isValidDNSSECAlgorithm(r["algorithm"]) &&
+        typeof r["digestType"] === "number" &&
+        isValidDigestType(r["digestType"]) &&
+        typeof r["digest"] === "string" &&
+        isValidHexString(r["digest"]) &&
+        isValidOptionalTTL(r)
+    );
+}
+
+/**
+ * Validates an NSEC3 record
+ */
+export function isNSEC3Record(record: unknown): record is NSEC3Record {
+    if (!isRecordObject(record)) {
+        return false;
+    }
+
+    const r = toRecord(record);
+    return (
+        r["type"] === "NSEC3" &&
+        typeof r["hashAlgorithm"] === "number" &&
+        isValidHashAlgorithm(r["hashAlgorithm"]) &&
+        typeof r["flags"] === "number" &&
+        isInteger(r["flags"]) &&
+        r["flags"] >= 0 &&
+        r["flags"] <= 255 &&
+        typeof r["iterations"] === "number" &&
+        isInteger(r["iterations"]) &&
+        r["iterations"] >= 0 &&
+        r["iterations"] <= 65_535 &&
+        typeof r["salt"] === "string" &&
+        (r["salt"] === "" || isValidHexString(r["salt"])) &&
+        typeof r["nextHashedOwnerName"] === "string" &&
+        Array.isArray(r["typeBitMaps"]) &&
+        r["typeBitMaps"].every((type: unknown) => typeof type === "string") &&
+        isValidOptionalTTL(r)
+    );
+}
+
+/**
+ * Validates an NSEC record
+ */
+export function isNSECRecord(record: unknown): record is NSECRecord {
+    if (!isRecordObject(record)) {
+        return false;
+    }
+
+    const r = toRecord(record);
+    return (
+        r["type"] === "NSEC" &&
+        typeof r["nextDomainName"] === "string" &&
+        validator.isFQDN(r["nextDomainName"], { require_tld: true }) &&
+        Array.isArray(r["typeBitMaps"]) &&
+        r["typeBitMaps"].every((type: unknown) => typeof type === "string") &&
+        isValidOptionalTTL(r)
+    );
+}
+
+/**
+ * Validates an RRSIG record
+ */
+export function isRRSIGRecord(record: unknown): record is RRSIGRecord {
+    if (!isRecordObject(record)) {
+        return false;
+    }
+
+    const r = toRecord(record);
+    return (
+        r["type"] === "RRSIG" &&
+        typeof r["typeCovered"] === "string" &&
+        typeof r["algorithm"] === "number" &&
+        isValidDNSSECAlgorithm(r["algorithm"]) &&
+        isUint8(r["labels"]) &&
+        typeof r["originalTTL"] === "number" &&
+        isValidTTL(r["originalTTL"]) &&
+        isNonNegativeInteger(r["signatureExpiration"]) &&
+        isNonNegativeInteger(r["signatureInception"]) &&
+        isUint16(r["keyTag"]) &&
+        typeof r["signerName"] === "string" &&
+        validator.isFQDN(r["signerName"], { require_tld: true }) &&
+        typeof r["signature"] === "string" &&
+        isValidHexString(r["signature"]) &&
+        isValidOptionalTTL(r)
+    );
+}
+
+/**
+ * Validates an SSHFP record
+ */
+export function isSSHFPRecord(record: unknown): record is SSHFPRecord {
+    if (!isRecordObject(record)) {
+        return false;
+    }
+
+    const r = toRecord(record);
+    return (
+        r["type"] === "SSHFP" &&
+        typeof r["algorithm"] === "number" &&
+        isValidSSHAlgorithm(r["algorithm"]) &&
+        typeof r["fpType"] === "number" &&
+        isValidSSHFingerprintType(r["fpType"]) &&
+        typeof r["fingerprint"] === "string" &&
+        isValidHexString(r["fingerprint"]) &&
+        isValidOptionalTTL(r)
+    );
 }

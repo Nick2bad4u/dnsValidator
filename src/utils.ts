@@ -1,6 +1,12 @@
 import type { UnknownRecord } from "type-fest";
 
-import { arrayIncludes, isDefined, isEmpty, isInteger } from "ts-extras";
+import {
+    arrayIncludes,
+    isDefined,
+    isEmpty,
+    isInteger,
+    setHas,
+} from "ts-extras";
 import validator from "validator";
 
 import type {
@@ -13,71 +19,28 @@ import type {
 /**
  * Utility functions for DNS query response validation
  */
+const isUnknownRecord = (value: unknown): value is UnknownRecord =>
+    typeof value === "object" && value !== null;
 
 /**
  * Validates if a CAA flags value is valid
  */
 export function isValidCAAFlags(flags: number): boolean {
     return isInteger(flags) && flags >= 0 && flags <= 255;
-} /**
- * Validates if a DNS query result structure is valid
- */
-export function isValidDNSQueryResult(
-    result: unknown
-): result is DNSQueryResult {
-    if (!result || typeof result !== "object") {
-        return false;
-    }
-
-    const r = result as UnknownRecord;
-
-    // Check required question field
-    if (!r["question"] || typeof r["question"] !== "object") {
-        return false;
-    }
-
-    const question = r["question"] as UnknownRecord;
-    if (
-        !question["name"] ||
-        typeof question["name"] !== "string" ||
-        !question["type"] ||
-        typeof question["type"] !== "string" ||
-        !question["class"] ||
-        typeof question["class"] !== "string"
-    ) {
-        return false;
-    }
-
-    // Check answers array
-    if (!Array.isArray(r["answers"])) {
-        return false;
-    }
-
-    // Validate each answer record
-    for (const answer of r["answers"]) {
-        if (!isValidDNSRecord(answer)) {
-            return false;
-        }
-    }
-
-    return true;
 }
 
-/**
- * Validates if a DNS record structure is valid
- */
-export function isValidDNSRecord(record: unknown): record is DNSRecord {
-    if (!record || typeof record !== "object") {
+const isValidDNSRecordShape = (record: unknown): record is DNSRecord => {
+    if (!isUnknownRecord(record)) {
         return false;
     }
 
-    const r = record as UnknownRecord;
-
-    if (!r["type"] || typeof r["type"] !== "string") {
+    const candidate = record;
+    const type = candidate["type"];
+    if (!isDefined(type) || typeof type !== "string") {
         return false;
     }
 
-    const validTypes: DNSRecordType[] = [
+    const validTypes: ReadonlySet<DNSRecordType> = new Set([
         "A",
         "AAAA",
         "ANY",
@@ -91,13 +54,14 @@ export function isValidDNSRecord(record: unknown): record is DNSRecord {
         "SRV",
         "TLSA",
         "TXT",
-    ];
-    if (!arrayIncludes(validTypes, r["type"] as DNSRecordType)) {
+    ]);
+
+    if (!setHas(validTypes, type)) {
         return false;
     }
 
     // Optional TTL validation
-    const ttl = r["ttl"];
+    const ttl = candidate["ttl"];
     if (
         isDefined(ttl) &&
         (typeof ttl !== "number" ||
@@ -109,6 +73,57 @@ export function isValidDNSRecord(record: unknown): record is DNSRecord {
     }
 
     return true;
+};
+
+/**
+ * Validates if a DNS query result structure is valid
+ */
+export function isValidDNSQueryResult(
+    result: unknown
+): result is DNSQueryResult {
+    if (!isUnknownRecord(result)) {
+        return false;
+    }
+
+    const candidate = result;
+    const questionValue = candidate["question"];
+
+    // Check required question field
+    if (!isUnknownRecord(questionValue)) {
+        return false;
+    }
+
+    const question = questionValue;
+    if (
+        !isDefined(question["name"]) ||
+        typeof question["name"] !== "string" ||
+        !isDefined(question["type"]) ||
+        typeof question["type"] !== "string" ||
+        !isDefined(question["class"]) ||
+        typeof question["class"] !== "string"
+    ) {
+        return false;
+    }
+
+    // Check answers array
+    const answers = candidate["answers"];
+    if (!Array.isArray(answers)) {
+        return false;
+    }
+
+    // Validate each answer record
+    for (const answer of answers) {
+        if (!isValidDNSRecordShape(answer)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+/** Validates if a DNS record structure is valid */
+export function isValidDNSRecord(record: unknown): record is DNSRecord {
+    return isValidDNSRecordShape(record);
 }
 
 /**
@@ -151,9 +166,13 @@ export function isValidPriority(priority: number): boolean {
  * records
  */
 export function isValidTextRecord(text: string): boolean {
+    const graphemeSegmenter = new Intl.Segmenter("en", {
+        granularity: "grapheme",
+    });
+
     // TXT records can contain any 8-bit data, but we'll validate for printable ASCII
-    return [...text].every((character) => {
-        const codePoint = character.codePointAt(0);
+    return [...graphemeSegmenter.segment(text)].every((segment) => {
+        const codePoint = segment.segment.codePointAt(0);
         return isDefined(codePoint) && codePoint >= 0x20 && codePoint <= 0x7e;
     });
 }
@@ -196,7 +215,9 @@ export function isValidWeight(weight: number): boolean {
 /**
  * Validates DNS query response completeness and consistency
  */
-export function validateDNSResponse(result: DNSQueryResult): ValidationResult {
+export function validateDNSResponse(
+    result: Readonly<DNSQueryResult>
+): ValidationResult {
     const errors: string[] = [];
     const warnings: string[] = [];
 

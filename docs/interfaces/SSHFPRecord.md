@@ -11,8 +11,7 @@ const record: SSHFPRecord = {
  type: "SSHFP",
  algorithm: 4, // Ed25519
  fpType: 2, // SHA-256
- fingerprint:
-  "abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+ fingerprint: "abcdef1234567890abcdef1234567890abcdef12",
  ttl: 3600,
 };
 ```

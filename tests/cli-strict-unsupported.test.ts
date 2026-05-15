@@ -28,7 +28,7 @@ function invoke(args: string[]) {
     return { stdout: logs.join("\n"), stderr: errs.join("\n"), exitCode };
 }
 
-describe("cLI strict unsupported record type", () => {
+describe("command line strict unsupported record type", () => {
     it("fails when unknown type with --strict", () => {
         const rec = { type: "UNKNOWN", foo: 1 };
         const { exitCode, stdout } = invoke([

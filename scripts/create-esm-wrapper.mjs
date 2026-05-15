@@ -32,6 +32,7 @@ const declarationEntries = [
  * @param {string} prefix
  * @param {string} specifier
  * @param {string} suffix
+ *
  * @returns {string}
  */
 function appendJavaScriptExtension(match, prefix, specifier, suffix) {
@@ -47,6 +48,7 @@ function appendJavaScriptExtension(match, prefix, specifier, suffix) {
 
 /**
  * @param {string} content
+ *
  * @returns {string}
  */
 function toEsmDeclaration(content) {

@@ -25,7 +25,7 @@ A comprehensive TypeScript library for validating DNS query results and individu
 - ⚡ **Performance Optimized** - Built-in caching, pre-validation, and performance tracking
 - 🎯 **Type Safe** - Full TypeScript support with strict typing
 - 🧪 **Well Tested** - Comprehensive test suite with 100% coverage
-- � **Excellent Documentation** - Complete API docs with examples
+- 📚 **Well Written Documentation** - Complete API docs with examples
 
 ## Installation
 
@@ -444,7 +444,7 @@ console.log(result);
 
 The DNS Validator includes a powerful CLI tool for validating DNS records and queries from the command line.
 
-### Installation
+### CLI Installation
 
 After installing the package globally:
 

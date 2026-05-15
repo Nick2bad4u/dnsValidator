@@ -17,7 +17,7 @@ import {
     validateDNSRecord,
 } from "../src/validators";
 
-describe("dNS Record Validators", () => {
+describe("domain name system record validators", () => {
     describe(isARecord, () => {
         it("should validate valid A records", () => {
             const validARecord = {

@@ -7,7 +7,13 @@
  */
 import type { ValueOf } from "type-fest";
 
-import { arrayIncludes, arrayJoin, isEmpty, objectValues } from "ts-extras";
+import {
+    arrayIncludes,
+    arrayJoin,
+    isDefined,
+    isEmpty,
+    objectValues,
+} from "ts-extras";
 
 /**
  * Base class for all DNS validation errors.
@@ -17,7 +23,7 @@ export class DNSValidationError extends Error {
     public readonly field: string | undefined;
     public readonly value: unknown;
 
-    constructor(
+    public constructor(
         message: string,
         code: string,
         field?: string,
@@ -118,8 +124,8 @@ export type NodeDNSErrorCode = ValueOf<typeof NodeDNSErrorCodes>;
  * Error thrown when a field value is invalid
  */
 export class InvalidFieldValueError extends DNSValidationError {
-    constructor(field: string, value: unknown, expectedFormat?: string) {
-        const message = expectedFormat
+    public constructor(field: string, value: unknown, expectedFormat?: string) {
+        const message = isDefined(expectedFormat)
             ? `Invalid value for field '${field}': ${String(value)}. Expected: ${expectedFormat}`
             : `Invalid value for field '${field}': ${String(value)}`;
 
@@ -132,7 +138,7 @@ export class InvalidFieldValueError extends DNSValidationError {
  * Error thrown when DNS query structure is invalid
  */
 export class InvalidQueryStructureError extends DNSValidationError {
-    constructor(message: string, field?: string) {
+    public constructor(message: string, field?: string) {
         super(message, "INVALID_QUERY_STRUCTURE", field);
         this.name = "InvalidQueryStructureError";
     }
@@ -142,7 +148,7 @@ export class InvalidQueryStructureError extends DNSValidationError {
  * Error thrown when a DNS record type is invalid or unsupported
  */
 export class InvalidRecordTypeError extends DNSValidationError {
-    constructor(recordType: unknown) {
+    public constructor(recordType: unknown) {
         super(
             `Invalid or unsupported DNS record type: ${String(recordType)}`,
             "INVALID_RECORD_TYPE",
@@ -157,7 +163,7 @@ export class InvalidRecordTypeError extends DNSValidationError {
  * Error thrown when a DNS record structure is malformed
  */
 export class MalformedRecordError extends DNSValidationError {
-    constructor(message: string, field?: string, value?: unknown) {
+    public constructor(message: string, field?: string, value?: unknown) {
         super(message, "MALFORMED_RECORD", field, value);
         this.name = "MalformedRecordError";
     }
@@ -167,7 +173,7 @@ export class MalformedRecordError extends DNSValidationError {
  * Error thrown when required fields are missing
  */
 export class MissingRequiredFieldError extends DNSValidationError {
-    constructor(field: string, recordType: string) {
+    public constructor(field: string, recordType: string) {
         super(
             `Missing required field '${field}' for ${recordType} record`,
             "MISSING_REQUIRED_FIELD",
@@ -187,7 +193,7 @@ export class ValidationContext {
     private suggestions: string[] = [];
     private warnings: string[] = [];
 
-    public addError(error: DNSValidationError): void {
+    public addError(error: Readonly<DNSValidationError>): void {
         this.errors.push(error);
     }
 
@@ -199,7 +205,7 @@ export class ValidationContext {
         this.warnings.push(message);
     }
 
-    public enterField(field: string): void {
+    public enterField(field: Readonly<string>): void {
         this.path.push(field);
     }
 

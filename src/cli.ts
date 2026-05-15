@@ -4,9 +4,17 @@
  * A command-line interface for validating DNS records and queries
  */
 
+import type { UnknownRecord } from "type-fest";
+
 import { program } from "commander";
 import { readFileSync, writeFileSync } from "node:fs";
-import { arrayJoin, isEmpty } from "ts-extras";
+import {
+    arrayJoin,
+    isDefined,
+    isEmpty,
+    isPresent,
+    safeCastTo,
+} from "ts-extras";
 
 import {
     isCAARecord,
@@ -19,11 +27,19 @@ import {
     isSRVRecord,
     isTLSARecord,
     isTXTRecord,
+    isValidDNSQueryResult,
     validateAAAARecord,
     validateARecord,
     validateDNSResponse,
     validateMXRecord,
 } from "./index";
+
+interface BasicValidationResult {
+    errors?: string[];
+    isValid: boolean;
+    record?: unknown;
+    warnings?: string[];
+}
 
 interface CLIOptions {
     data?: string;
@@ -35,10 +51,18 @@ interface CLIOptions {
     verbose?: boolean;
 }
 
-/**
- * Formats results as CSV
- */
-function formatCSV(results: any[]): string {
+interface CLIValidationResult {
+    error?: string;
+    query?: unknown;
+    record?: unknown;
+    recordCount?: number;
+    success: boolean;
+    type?: string;
+    validation?: unknown;
+    warnings?: string[];
+}
+
+function formatCSV(results: readonly Readonly<CLIValidationResult>[]): string {
     const headers = [
         "Type",
         "Success",
@@ -46,15 +70,18 @@ function formatCSV(results: any[]): string {
         "RecordData",
     ];
     const rows = results.map((result) => [
-        result.type ?? "Query",
+        typeof result.type === "string" ? result.type : "Query",
         result.success ? "true" : "false",
-        result.error ?? "",
-        JSON.stringify(result.record ?? result.query),
+        typeof result.error === "string" ? result.error : "",
+        JSON.stringify(result.record ?? result.query ?? null),
     ]);
 
     const csvRows = [headers, ...rows].map((row) =>
         arrayJoin(
-            row.map((cell) => `"${cell.replaceAll('"', '""')}"`),
+            row.map(
+                (cell) =>
+                    `"${(typeof cell === "string" ? cell : JSON.stringify(cell)).replaceAll('"', '""')}"`
+            ),
             ","
         )
     );
@@ -62,27 +89,9 @@ function formatCSV(results: any[]): string {
     return arrayJoin(csvRows, "\n");
 }
 
-/**
- * Formats output based on the specified format
- */
-function formatOutput(results: any[], format: string): string {
-    switch (format) {
-        case "csv": {
-            return formatCSV(results);
-        }
-        case "table": {
-            return formatTable(results);
-        }
-        default: {
-            return JSON.stringify(results, null, 2);
-        }
-    }
-}
-
-/**
- * Formats results as a table
- */
-function formatTable(results: any[]): string {
+const tableOutputFormatter = (
+    results: readonly Readonly<CLIValidationResult>[]
+): string => {
     const headers = [
         "Type",
         "Status",
@@ -90,24 +99,26 @@ function formatTable(results: any[]): string {
         "Result",
     ];
     const rows = results.map((result) => [
-        result.type ?? "Query",
+        typeof result.type === "string" ? result.type : "Query",
         result.success ? "✓ Valid" : "✗ Invalid",
-        result.record
+        isDefined(result.record)
             ? `${JSON.stringify(result.record, null, 0).slice(0, 50)}...`
-            : `${JSON.stringify(result.query, null, 0).slice(0, 50)}...`,
-        result.success ? "OK" : `${result.error?.slice(0, 50)}...`,
+            : `${JSON.stringify(result.query ?? null, null, 0).slice(0, 50)}...`,
+        result.success
+            ? "OK"
+            : `${(typeof result.error === "string" ? result.error : "").slice(0, 50)}...`,
     ]);
 
     const colWidths = headers.map((header, i) =>
-        Math.max(header.length, ...rows.map((row) => row[i].length))
+        Math.max(header.length, ...rows.map((row) => row[i]?.length ?? 0))
     );
 
     const separator = `+${arrayJoin(
-        colWidths.map((w) => "-".repeat(w + 2)),
+        colWidths.map((width) => "-".repeat(width + 2)),
         "+"
     )}+`;
     const headerRow = `|${arrayJoin(
-        headers.map((h, i) => ` ${h.padEnd(colWidths[i] ?? 0)} `),
+        headers.map((header, i) => ` ${header.padEnd(colWidths[i] ?? 0)} `),
         "|"
     )}|`;
 
@@ -129,18 +140,141 @@ function formatTable(results: any[]): string {
         ],
         "\n"
     );
+};
+
+/**
+ * Formats output based on the specified format
+ */
+function formatOutput(
+    results: readonly Readonly<CLIValidationResult>[],
+    format: "csv" | "json" | "table"
+): string {
+    switch (format) {
+        case "csv": {
+            return formatCSV(results);
+        }
+        case "json": {
+            return JSON.stringify(results, null, 2);
+        }
+        case "table": {
+            return tableOutputFormatter(results);
+        }
+        default: {
+            return JSON.stringify(results, null, 2);
+        }
+    }
+}
+
+function isRecordObject(value: unknown): value is UnknownRecord {
+    return typeof value === "object" && value !== null;
+}
+
+function parseJsonInput(
+    options: Readonly<CLIOptions>,
+    kind: "query" | "record"
+): unknown {
+    if (options.data?.startsWith("{") === true) {
+        return JSON.parse(options.data);
+    }
+
+    if (isPresent(options.file)) {
+        const fileContent = readFileSync(options.file, "utf8");
+        return JSON.parse(fileContent);
+    }
+
+    throw new Error(`Must provide either --data or --file option for ${kind}`);
+}
+
+function recordTypeFrom(
+    record: unknown,
+    options: Readonly<CLIOptions>
+): string {
+    if (typeof options.type === "string") {
+        return options.type;
+    }
+    if (isRecordObject(record) && typeof record["type"] === "string") {
+        return record["type"];
+    }
+    return "unknown";
+}
+
+function validateByType(
+    recordType: string,
+    recordWithType: Readonly<UnknownRecord>
+): BasicValidationResult {
+    const perTypeValidators: Readonly<
+        Record<string, (record: unknown) => BasicValidationResult>
+    > = {
+        A: (record) => validateARecord(record),
+        AAAA: (record) => validateAAAARecord(record),
+        CAA: (record) =>
+            isCAARecord(record)
+                ? { errors: [], isValid: true, record }
+                : { errors: ["Invalid CAA record"], isValid: false, record },
+        CNAME: (record) =>
+            isCNAMERecord(record)
+                ? { errors: [], isValid: true, record }
+                : { errors: ["Invalid CNAME record"], isValid: false, record },
+        MX: (record) => validateMXRecord(record),
+        NAPTR: (record) =>
+            isNAPTRRecord(record)
+                ? { errors: [], isValid: true, record }
+                : { errors: ["Invalid NAPTR record"], isValid: false, record },
+        NS: (record) =>
+            isNSRecord(record)
+                ? { errors: [], isValid: true, record }
+                : { errors: ["Invalid NS record"], isValid: false, record },
+        PTR: (record) =>
+            isPTRRecord(record)
+                ? { errors: [], isValid: true, record }
+                : { errors: ["Invalid PTR record"], isValid: false, record },
+        SOA: (record) =>
+            isSOARecord(record)
+                ? { errors: [], isValid: true, record }
+                : { errors: ["Invalid SOA record"], isValid: false, record },
+        SRV: (record) =>
+            isSRVRecord(record)
+                ? { errors: [], isValid: true, record }
+                : { errors: ["Invalid SRV record"], isValid: false, record },
+        TLSA: (record) =>
+            isTLSARecord(record)
+                ? { errors: [], isValid: true, record }
+                : { errors: ["Invalid TLSA record"], isValid: false, record },
+        TXT: (record) =>
+            isTXTRecord(record)
+                ? { errors: [], isValid: true, record }
+                : { errors: ["Invalid TXT record"], isValid: false, record },
+    };
+
+    const validatorForType = perTypeValidators[recordType.toUpperCase()];
+    if (isDefined(validatorForType)) {
+        return validatorForType(recordWithType);
+    }
+
+    return {
+        isValid: isDNSRecord(recordWithType),
+        record: recordWithType,
+        warnings: [`Unknown record type: ${recordType}`],
+    };
 }
 
 /**
- * Validates a DNS query
+ * Validates a DNS query.
+ *
+ * @throws When the input is not an object accepted by query validation.
  */
-function validateQuery(query: any): any {
+function validateQuery(query: unknown): CLIValidationResult {
     try {
+        if (!isValidDNSQueryResult(query)) {
+            throw new Error("Query must be an object");
+        }
         const result = validateDNSResponse(query);
+        const answers = query.answers;
+        const recordCount = Array.isArray(answers) ? answers.length : 0;
 
         return {
             query,
-            recordCount: query.answers?.length ?? 0,
+            recordCount,
             success: true,
             validation: result,
         };
@@ -155,141 +289,48 @@ function validateQuery(query: any): any {
 
 /**
  * Validates a single DNS record
+ *
+ * @throws When strict validation is enabled and the record type is missing or
+ *   unsupported.
  */
-function validateSingleRecord(record: any, options: CLIOptions): any {
-    try {
-        const recordType = options.type ?? record.type;
 
-        if (!recordType) {
+function validateSingleRecord(
+    record: unknown,
+    options: Readonly<CLIOptions>
+): CLIValidationResult {
+    try {
+        const sourceType =
+            isRecordObject(record) && typeof record["type"] === "string"
+                ? record["type"]
+                : undefined;
+        const recordType = options.type ?? sourceType;
+
+        if (!isDefined(recordType)) {
             throw new Error(
                 "Record type must be specified either in the record or via --type option"
             );
         }
 
-        let result: unknown;
-        const recordWithType = { ...record, type: recordType };
+        const recordData = isRecordObject(record) ? record : {};
+        const recordWithType = safeCastTo<UnknownRecord>({
+            ...recordData,
+            type: recordType,
+        });
 
         // Use basic validation first
         const isValid = isDNSRecord(recordWithType);
 
-        if (!isValid && options.strict) {
+        if (!isValid && options.strict === true) {
             throw new Error(`Invalid ${recordType} record structure`);
         }
 
-        // Perform detailed validation based on type
-        switch (recordType.toUpperCase()) {
-            case "A": {
-                result = validateARecord(recordWithType);
-                break;
-            }
-            case "AAAA": {
-                result = validateAAAARecord(recordWithType);
-                break;
-            }
-            case "CAA": {
-                result = isCAARecord(recordWithType)
-                    ? { errors: [], isValid: true, record: recordWithType }
-                    : {
-                          errors: ["Invalid CAA record"],
-                          isValid: false,
-                          record: recordWithType,
-                      };
-                break;
-            }
-            case "CNAME": {
-                result = isCNAMERecord(recordWithType)
-                    ? { errors: [], isValid: true, record: recordWithType }
-                    : {
-                          errors: ["Invalid CNAME record"],
-                          isValid: false,
-                          record: recordWithType,
-                      };
-                break;
-            }
-            case "MX": {
-                result = validateMXRecord(recordWithType);
-                break;
-            }
-            case "NAPTR": {
-                result = isNAPTRRecord(recordWithType)
-                    ? { errors: [], isValid: true, record: recordWithType }
-                    : {
-                          errors: ["Invalid NAPTR record"],
-                          isValid: false,
-                          record: recordWithType,
-                      };
-                break;
-            }
-            case "NS": {
-                result = isNSRecord(recordWithType)
-                    ? { errors: [], isValid: true, record: recordWithType }
-                    : {
-                          errors: ["Invalid NS record"],
-                          isValid: false,
-                          record: recordWithType,
-                      };
-                break;
-            }
-            case "PTR": {
-                result = isPTRRecord(recordWithType)
-                    ? { errors: [], isValid: true, record: recordWithType }
-                    : {
-                          errors: ["Invalid PTR record"],
-                          isValid: false,
-                          record: recordWithType,
-                      };
-                break;
-            }
-            case "SOA": {
-                result = isSOARecord(recordWithType)
-                    ? { errors: [], isValid: true, record: recordWithType }
-                    : {
-                          errors: ["Invalid SOA record"],
-                          isValid: false,
-                          record: recordWithType,
-                      };
-                break;
-            }
-            case "SRV": {
-                result = isSRVRecord(recordWithType)
-                    ? { errors: [], isValid: true, record: recordWithType }
-                    : {
-                          errors: ["Invalid SRV record"],
-                          isValid: false,
-                          record: recordWithType,
-                      };
-                break;
-            }
-            case "TLSA": {
-                result = isTLSARecord(recordWithType)
-                    ? { errors: [], isValid: true, record: recordWithType }
-                    : {
-                          errors: ["Invalid TLSA record"],
-                          isValid: false,
-                          record: recordWithType,
-                      };
-                break;
-            }
-            case "TXT": {
-                result = isTXTRecord(recordWithType)
-                    ? { errors: [], isValid: true, record: recordWithType }
-                    : {
-                          errors: ["Invalid TXT record"],
-                          isValid: false,
-                          record: recordWithType,
-                      };
-                break;
-            }
-            default: {
-                if (options.strict) {
-                    throw new Error(`Unsupported record type: ${recordType}`);
-                }
-                result = {
-                    isValid: isValid,
-                    record: recordWithType,
-                    warnings: [`Unknown record type: ${recordType}`],
-                };
-            }
+        const result = validateByType(recordType, recordWithType);
+        if (
+            options.strict === true &&
+            !isDefined(result.errors) &&
+            isDefined(result.warnings)
+        ) {
+            throw new Error(`Unsupported record type: ${recordType}`);
         }
 
         return {
@@ -303,7 +344,7 @@ function validateSingleRecord(record: any, options: CLIOptions): any {
             error: error instanceof Error ? error.message : String(error),
             record,
             success: false,
-            type: options.type ?? record.type ?? "unknown",
+            type: recordTypeFrom(record, options),
         };
     }
 }
@@ -327,28 +368,14 @@ program
     .option("--format <format>", "Output format (json, table, csv)", "json")
     .option("-v, --verbose", "Verbose output")
     .option("-s, --strict", "Strict validation mode")
-    .action((options: CLIOptions) => {
+    .action((options: Readonly<CLIOptions>) => {
         try {
-            let record: unknown;
-
-            if (options.data?.startsWith("{")) {
-                // JSON string input
-                record = JSON.parse(options.data);
-            } else if (options.file) {
-                // File input
-                const fileContent = readFileSync(options.file, "utf8");
-                record = JSON.parse(fileContent);
-            } else {
-                console.error(
-                    "Error: Must provide either --data or --file option"
-                );
-                process.exit(1);
-            }
+            const record = parseJsonInput(options, "record");
 
             const result = validateSingleRecord(record, options);
             const output = formatOutput([result], options.format ?? "json");
 
-            if (options.output) {
+            if (isPresent(options.output)) {
                 writeFileSync(options.output, output);
                 console.log(`Results written to ${options.output}`);
             } else {
@@ -377,28 +404,14 @@ program
     .option("--format <format>", "Output format (json, table, csv)", "json")
     .option("-v, --verbose", "Verbose output")
     .option("-s, --strict", "Strict validation mode")
-    .action((options: CLIOptions) => {
+    .action((options: Readonly<CLIOptions>) => {
         try {
-            let query: unknown;
-
-            if (options.data?.startsWith("{")) {
-                // JSON string input
-                query = JSON.parse(options.data);
-            } else if (options.file) {
-                // File input
-                const fileContent = readFileSync(options.file, "utf8");
-                query = JSON.parse(fileContent);
-            } else {
-                console.error(
-                    "Error: Must provide either --data or --file option"
-                );
-                process.exit(1);
-            }
+            const query = parseJsonInput(options, "query");
 
             const result = validateQuery(query);
             const output = formatOutput([result], options.format ?? "json");
 
-            if (options.output) {
+            if (isPresent(options.output)) {
                 writeFileSync(options.output, output);
                 console.log(`Results written to ${options.output}`);
             } else {
@@ -434,52 +447,54 @@ program
         "Default record type for records without type field"
     )
     .option("--mode <mode>", "Validation mode: records or queries", "records")
-    .action((options: CLIOptions & { mode?: string }) => {
+    .action((options: Readonly<CLIOptions & { mode?: string }>) => {
         try {
-            if (!options.file) {
-                console.error("Error: Must provide --file option");
-                process.exit(1);
-            }
+            if (isPresent(options.file)) {
+                const fileContent = readFileSync(options.file, "utf8");
+                const data: unknown = JSON.parse(fileContent);
 
-            const fileContent = readFileSync(options.file, "utf8");
-            const data = JSON.parse(fileContent);
-
-            if (!Array.isArray(data)) {
-                console.error("Error: Input file must contain a JSON array");
-                process.exit(1);
-            }
-
-            const results = data.map((item, index) => {
-                if (options.verbose) {
+                if (!Array.isArray(data)) {
                     console.error(
-                        `Processing item ${index + 1}/${data.length}...`
+                        "Error: Input file must contain a JSON array"
                     );
+                    process.exit(1);
                 }
 
-                if (options.mode === "queries") {
-                    return validateQuery(item);
+                const results = data.map((item, index) => {
+                    if (options.verbose === true) {
+                        console.error(
+                            `Processing item ${index + 1}/${data.length}...`
+                        );
+                    }
+
+                    if (options.mode === "queries") {
+                        return validateQuery(item);
+                    }
+                    return validateSingleRecord(item, options);
+                });
+
+                const output = formatOutput(results, options.format ?? "json");
+
+                if (isPresent(options.output)) {
+                    writeFileSync(options.output, output);
+                    console.log(`Results written to ${options.output}`);
+                } else {
+                    console.log(output);
                 }
-                return validateSingleRecord(item, options);
-            });
 
-            const output = formatOutput(results, options.format ?? "json");
+                // Summary
+                const successCount = results.filter((r) => r.success).length;
+                const failCount = results.length - successCount;
 
-            if (options.output) {
-                writeFileSync(options.output, output);
-                console.log(`Results written to ${options.output}`);
+                console.error(
+                    `\nSummary: ${successCount} succeeded, ${failCount} failed`
+                );
+
+                if (failCount > 0) {
+                    process.exit(1);
+                }
             } else {
-                console.log(output);
-            }
-
-            // Summary
-            const successCount = results.filter((r) => r.success).length;
-            const failCount = results.length - successCount;
-
-            console.error(
-                `\nSummary: ${successCount} succeeded, ${failCount} failed`
-            );
-
-            if (failCount > 0) {
+                console.error("Error: Must provide --file option");
                 process.exit(1);
             }
         } catch (error) {

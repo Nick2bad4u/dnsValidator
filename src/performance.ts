@@ -4,7 +4,7 @@
 
 import type { UnknownRecord } from "type-fest";
 
-import { isDefined, isInteger, keyIn, setHas } from "ts-extras";
+import { isDefined, isInteger, keyIn, safeCastTo, setHas } from "ts-extras";
 
 import type { DNSRecordType } from "./types";
 
@@ -18,10 +18,13 @@ const regexCache = new Map<string, RegExp>();
  */
 function getCachedRegex(pattern: string, flags?: string): RegExp {
     const key = `${pattern}:${flags ?? ""}`;
-    if (!regexCache.has(key)) {
-        regexCache.set(key, new RegExp(pattern, flags));
+    let cached = regexCache.get(key);
+    if (!cached) {
+        // eslint-disable-next-line security/detect-non-literal-regexp -- pattern and flags are controlled by internal callers and covered by tests.
+        cached = new RegExp(pattern, flags);
+        regexCache.set(key, cached);
     }
-    return regexCache.get(key)!;
+    return cached;
 }
 
 /**
@@ -44,11 +47,11 @@ export const ValidationPatterns: Readonly<
     Record<ValidationPatternName, RegExp>
 > = {
     // Email pattern for SOA admin field
-    email: getCachedRegex(String.raw`^[^@]+@[^@]+\.[^@]+$`),
+    email: getCachedRegex("^[^@]+@[^@]+\\.[^@]+$"),
 
     // Basic FQDN pattern (more permissive, final validation with library)
     fqdn: getCachedRegex(
-        String.raw`^[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\.([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?))*$`
+        "^[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\\.([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?))*$"
     ),
 
     // Hexadecimal string pattern
@@ -56,7 +59,7 @@ export const ValidationPatterns: Readonly<
 
     // IPv4 address pattern (more permissive, final validation with library)
     ipv4: getCachedRegex(
-        String.raw`^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$`
+        "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
     ),
 };
 
@@ -73,54 +76,12 @@ export function fastPreValidate(
     }
 
     const regex = ValidationPatterns[pattern];
-    if (regex && !regex.test(value)) {
+    if (!regex.test(value)) {
         return false;
     }
 
     // Passed pre-validation, proceed with full validation
     return null;
-}
-
-/**
- * Optimized field access for optional fields
- */
-export function getOptionalField<T>(
-    obj: UnknownRecord,
-    field: string,
-    expectedType: "boolean" | "number" | "object" | "string"
-): null | T | undefined {
-    const value = obj[field];
-
-    if (!isDefined(value)) {
-        return undefined;
-    }
-
-    if (expectedType === "object") {
-        return isPlainObject(value) ? (value as T) : null;
-    }
-
-    return typeof value === expectedType ? (value as T) : null;
-}
-
-/**
- * Optimized field access with type checking
- */
-export function getRequiredField<T>(
-    obj: UnknownRecord,
-    field: string,
-    expectedType: "boolean" | "number" | "object" | "string"
-): null | T {
-    const value = obj[field];
-
-    if (!isDefined(value)) {
-        return null;
-    }
-
-    if (expectedType === "object") {
-        return isPlainObject(value) ? (value as T) : null;
-    }
-
-    return typeof value === expectedType ? (value as T) : null;
 }
 
 /**
@@ -133,6 +94,48 @@ export function isPlainObject(value: unknown): value is UnknownRecord {
         !Array.isArray(value) &&
         Object.getPrototypeOf(value) === Object.prototype
     );
+}
+
+/**
+ * Optimized field access for optional fields.
+ */
+export function getOptionalField(
+    obj: Readonly<UnknownRecord>,
+    field: Readonly<string>,
+    expectedType: "boolean" | "number" | "object" | "string"
+): unknown {
+    const value = obj[field];
+
+    if (!isDefined(value)) {
+        return undefined;
+    }
+
+    if (expectedType === "object") {
+        return isPlainObject(value) ? safeCastTo<UnknownRecord>(value) : null;
+    }
+
+    return typeof value === expectedType ? value : null;
+}
+
+/**
+ * Optimized field access with type checking.
+ */
+export function getRequiredField(
+    obj: Readonly<UnknownRecord>,
+    field: Readonly<string>,
+    expectedType: "boolean" | "number" | "object" | "string"
+): unknown {
+    const value = obj[field];
+
+    if (!isDefined(value)) {
+        return null;
+    }
+
+    if (expectedType === "object") {
+        return isPlainObject(value) ? safeCastTo<UnknownRecord>(value) : null;
+    }
+
+    return typeof value === expectedType ? value : null;
 }
 
 function isSuccessfulValidationResult(

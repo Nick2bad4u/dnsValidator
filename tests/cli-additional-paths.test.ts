@@ -1,32 +1,38 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { runCLI } from "../src/cli";
 import * as fs from "node:fs";
 import { globalPerformanceTracker } from "../src/performance";
 
 // Reusable capture helper mirroring existing pattern
 function capture(argv: string[]) {
-    const originalLog = console.log;
-    const originalErr = console.error;
-    const originalExit = process.exit;
     const logs: string[] = [];
     const errs: string[] = [];
     let code: number | undefined;
-    (console as any).log = (...a: any[]) => logs.push(a.join(" "));
-    (console as any).error = (...a: any[]) => errs.push(a.join(" "));
-    (process as any).exit = (c?: number) => {
-        code = c === undefined ? 0 : c;
-    }; // Capture
+    const logSpy = vi.spyOn(console, "log").mockImplementation((...args) => {
+        logs.push(args.join(" "));
+    });
+    const errorSpy = vi
+        .spyOn(console, "error")
+        .mockImplementation((...args) => {
+            errs.push(args.join(" "));
+        });
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation(((
+        exitCode?: string | number | null | undefined
+    ) => {
+        code = typeof exitCode === "number" ? exitCode : 0;
+        return undefined as never;
+    }) as typeof process.exit);
     try {
         runCLI(argv);
     } finally {
-        console.log = originalLog;
-        console.error = originalErr;
-        process.exit = originalExit;
+        logSpy.mockRestore();
+        errorSpy.mockRestore();
+        exitSpy.mockRestore();
     }
     return { logs, errs, code };
 }
 
-describe("cLI additional uncovered paths", () => {
+describe("command line additional uncovered paths", () => {
     it("record command missing input error", () => {
         const res = capture(["record"]);
 

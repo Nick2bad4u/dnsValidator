@@ -4,9 +4,9 @@
  * @packageDocumentation DNSSEC
  */
 
-import type { ValueOf } from "type-fest";
+import type { UnknownRecord, ValueOf } from "type-fest";
 
-import { arrayIncludes, isInteger, setHas } from "ts-extras";
+import { arrayIncludes, isDefined, isInteger, setHas } from "ts-extras";
 
 import type {
     DNSKEYRecord,
@@ -44,6 +44,74 @@ const base64Characters = new Set([
     "=",
 ]);
 
+function getRequiredIntegerField(
+    record: Readonly<UnknownRecord>,
+    field: string,
+    errorCode: string,
+    minimum: number,
+    maximum: number
+): number {
+    const rawValue = record[field];
+
+    if (
+        typeof rawValue !== "number" ||
+        !isInteger(rawValue) ||
+        rawValue < minimum ||
+        rawValue > maximum
+    ) {
+        throw new DNSValidationError(
+            `${field} must be between ${minimum} and ${maximum}`,
+            errorCode,
+            field,
+            rawValue
+        );
+    }
+
+    return rawValue;
+}
+
+function getRequiredStringArrayField(
+    record: Readonly<UnknownRecord>,
+    field: string,
+    errorCode: string,
+    message: string
+): string[] {
+    const rawValue = record[field];
+    const values: string[] = [];
+
+    if (!Array.isArray(rawValue)) {
+        throw new DNSValidationError(message, errorCode, field, rawValue);
+    }
+
+    for (const value of rawValue) {
+        if (typeof value !== "string") {
+            throw new DNSValidationError(message, errorCode, field, value);
+        }
+        values.push(value);
+    }
+
+    return values;
+}
+
+function getRequiredStringField(
+    record: Readonly<UnknownRecord>,
+    field: string,
+    errorCode: string,
+    message: string
+): string {
+    const rawValue = record[field];
+
+    if (typeof rawValue !== "string" || rawValue.length === 0) {
+        throw new DNSValidationError(message, errorCode, field, rawValue);
+    }
+
+    return rawValue;
+}
+
+function isRecordObject(value: unknown): value is UnknownRecord {
+    return typeof value === "object" && value !== null;
+}
+
 /**
  * DNSSEC digest algorithms
  */
@@ -57,7 +125,7 @@ export const DigestAlgorithm = {
 /**
  * DNSSEC digest algorithm number.
  */
-export type DigestAlgorithm = ValueOf<typeof DigestAlgorithm>;
+export type DigestAlgorithm = ValueOf<typeof DigestAlgorithm>; // eslint-disable-line @typescript-eslint/no-redeclare -- intentional value+type export pairing for ergonomic API
 
 /**
  * DNSSEC key flags
@@ -71,7 +139,7 @@ export const DNSKEYFlags = {
 /**
  * DNSKEY flag bitmask value.
  */
-export type DNSKEYFlags = ValueOf<typeof DNSKEYFlags>;
+export type DNSKEYFlags = ValueOf<typeof DNSKEYFlags>; // eslint-disable-line @typescript-eslint/no-redeclare -- intentional value+type export pairing for ergonomic API
 
 /**
  * DNSSEC algorithms as defined in RFC 8624
@@ -95,7 +163,7 @@ export const DNSSECAlgorithm = {
 /**
  * DNSSEC algorithm number.
  */
-export type DNSSECAlgorithm = ValueOf<typeof DNSSECAlgorithm>;
+export type DNSSECAlgorithm = ValueOf<typeof DNSSECAlgorithm>; // eslint-disable-line @typescript-eslint/no-redeclare -- intentional value+type export pairing for ergonomic API
 
 /**
  * NSEC3 hash algorithms
@@ -107,12 +175,12 @@ export const NSEC3HashAlgorithm = {
 /**
  * NSEC3 hash algorithm number.
  */
-export type NSEC3HashAlgorithm = ValueOf<typeof NSEC3HashAlgorithm>;
+export type NSEC3HashAlgorithm = ValueOf<typeof NSEC3HashAlgorithm>; // eslint-disable-line @typescript-eslint/no-redeclare -- intentional value+type export pairing for ergonomic API
 
 /**
  * Calculates DNSKEY key tag (RFC 4034 Appendix B)
  */
-export function calculateKeyTag(dnskey: DNSKEYRecord): number {
+export function calculateKeyTag(dnskey: Readonly<DNSKEYRecord>): number {
     // This is a simplified implementation
     // In a real implementation, you would need to properly encode the DNSKEY
     // and calculate the key tag according to RFC 4034
@@ -158,148 +226,123 @@ export function isRecommendedDigestAlgorithm(
 
 /**
  * Validates a DNSKEY record
+ *
+ * @throws DNSValidationError When the DNSKEY record is invalid.
  */
-export function validateDNSKEY(record: any): DNSKEYRecord {
-    if (!record || typeof record !== "object") {
+export function validateDNSKEY(record: unknown): DNSKEYRecord {
+    if (!isRecordObject(record)) {
         throw new DNSValidationError(
             "DNSKEY record must be an object",
             "INVALID_DNSKEY_STRUCTURE"
         );
     }
 
-    // Validate flags
-    if (!isInteger(record.flags) || record.flags < 0 || record.flags > 65_535) {
-        throw new DNSValidationError(
-            "DNSKEY flags must be between 0 and 65535",
-            "INVALID_DNSKEY_FLAGS",
-            "flags",
-            record.flags
-        );
-    }
+    const flags = getRequiredIntegerField(
+        record,
+        "flags",
+        "INVALID_DNSKEY_FLAGS",
+        0,
+        65_535
+    );
 
     // Validate protocol (must be 3 for DNSSEC)
-    if (record.protocol !== 3) {
+    const protocol = record["protocol"];
+    if (
+        typeof protocol !== "number" ||
+        !isInteger(protocol) ||
+        protocol !== 3
+    ) {
         throw new DNSValidationError(
             "DNSKEY protocol must be 3 for DNSSEC",
             "INVALID_DNSKEY_PROTOCOL",
             "protocol",
-            record.protocol
+            protocol
         );
     }
 
-    // Validate algorithm
-    if (
-        !isInteger(record.algorithm) ||
-        record.algorithm < 1 ||
-        record.algorithm > 16
-    ) {
-        throw new DNSValidationError(
-            "DNSKEY record must have a valid algorithm",
-            "INVALID_DNSKEY_ALGORITHM",
-            "algorithm",
-            record.algorithm
-        );
-    }
+    const algorithm = getRequiredIntegerField(
+        record,
+        "algorithm",
+        "INVALID_DNSKEY_ALGORITHM",
+        1,
+        16
+    );
 
-    // Validate public key
-    if (!record.publicKey || typeof record.publicKey !== "string") {
-        throw new DNSValidationError(
-            "DNSKEY record must have a valid publicKey",
-            "INVALID_DNSKEY_PUBLIC_KEY",
-            "publicKey",
-            record.publicKey
-        );
-    }
+    const publicKey = getRequiredStringField(
+        record,
+        "publicKey",
+        "INVALID_DNSKEY_PUBLIC_KEY",
+        "DNSKEY record must have a valid publicKey"
+    );
 
     // Public key should be base64-encoded
-    if (!isBase64Text(record.publicKey)) {
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define -- helper intentionally kept with other local utilities
+    if (!isBase64Text(publicKey)) {
         throw new DNSValidationError(
             "DNSKEY publicKey must be base64-encoded",
             "INVALID_DNSKEY_PUBLIC_KEY_FORMAT",
             "publicKey",
-            record.publicKey
+            publicKey
         );
     }
 
     return {
-        algorithm: record.algorithm,
-        flags: record.flags,
-        protocol: record.protocol,
-        publicKey: record.publicKey,
+        algorithm,
+        flags,
+        protocol,
+        publicKey,
         type: "DNSKEY",
     };
 }
 
 /**
  * Validates a DS record
+ *
+ * @throws DNSValidationError When the DS record is invalid.
  */
-export function validateDS(record: any): DSRecord {
-    if (!record || typeof record !== "object") {
+export function validateDS(record: unknown): DSRecord {
+    if (!isRecordObject(record)) {
         throw new DNSValidationError(
             "DS record must be an object",
             "INVALID_DS_STRUCTURE"
         );
     }
 
-    // Validate key tag
-    if (
-        !isInteger(record.keyTag) ||
-        record.keyTag < 0 ||
-        record.keyTag > 65_535
-    ) {
-        throw new DNSValidationError(
-            "DS keyTag must be between 0 and 65535",
-            "INVALID_DS_KEY_TAG",
-            "keyTag",
-            record.keyTag
-        );
-    }
-
-    // Validate algorithm
-    if (
-        !isInteger(record.algorithm) ||
-        record.algorithm < 1 ||
-        record.algorithm > 16
-    ) {
-        throw new DNSValidationError(
-            "DS record must have a valid algorithm",
-            "INVALID_DS_ALGORITHM",
-            "algorithm",
-            record.algorithm
-        );
-    }
-
-    // Validate digest type
-    if (
-        !isInteger(record.digestType) ||
-        record.digestType < 1 ||
-        record.digestType > 4
-    ) {
-        throw new DNSValidationError(
-            "DS digestType must be between 1 and 4",
-            "INVALID_DS_DIGEST_TYPE",
-            "digestType",
-            record.digestType
-        );
-    }
-
-    // Validate digest
-    if (!record.digest || typeof record.digest !== "string") {
-        throw new DNSValidationError(
-            "DS record must have a valid digest",
-            "INVALID_DS_DIGEST",
-            "digest",
-            record.digest
-        );
-    }
+    const keyTag = getRequiredIntegerField(
+        record,
+        "keyTag",
+        "INVALID_DS_KEY_TAG",
+        0,
+        65_535
+    );
+    const algorithm = getRequiredIntegerField(
+        record,
+        "algorithm",
+        "INVALID_DS_ALGORITHM",
+        1,
+        16
+    );
+    const digestType = getRequiredIntegerField(
+        record,
+        "digestType",
+        "INVALID_DS_DIGEST_TYPE",
+        1,
+        4
+    );
+    const digest = getRequiredStringField(
+        record,
+        "digest",
+        "INVALID_DS_DIGEST",
+        "DS record must have a valid digest"
+    );
 
     // Digest should be hexadecimal
-    if (!/^[\da-f]+$/iv.test(record.digest)) {
+    if (!/^[\da-f]+$/iv.test(digest)) {
         throw new DNSValidationError(
             "DS digest must be hexadecimal",
             "INVALID_DS_DIGEST_FORMAT",
             "digest",
-            record.digest
+            digest
         );
     }
 
@@ -311,67 +354,62 @@ export function validateDS(record: any): DSRecord {
         4: 96, // SHA-384: 48 bytes = 96 hex chars
     };
 
-    const expectedLength = expectedLengths[record.digestType];
-    if (expectedLength && record.digest.length !== expectedLength) {
+    const expectedLength = expectedLengths[digestType];
+    if (isDefined(expectedLength) && digest.length !== expectedLength) {
         throw new DNSValidationError(
-            `DS digest length must be ${expectedLength} characters for digest type ${record.digestType}`,
+            `DS digest length must be ${expectedLength} characters for digest type ${digestType}`,
             "INVALID_DS_DIGEST_LENGTH",
             "digest",
-            record.digest
+            digest
         );
     }
 
     return {
-        algorithm: record.algorithm,
-        digest: record.digest,
-        digestType: record.digestType,
-        keyTag: record.keyTag,
+        algorithm,
+        digest,
+        digestType,
+        keyTag,
         type: "DS",
     };
 }
 
 /**
  * Validates an NSEC record
+ *
+ * @throws DNSValidationError When the NSEC record is invalid.
  */
-export function validateNSEC(record: any): NSECRecord {
-    if (!record || typeof record !== "object") {
+export function validateNSEC(record: unknown): NSECRecord {
+    if (!isRecordObject(record)) {
         throw new DNSValidationError(
             "NSEC record must be an object",
             "INVALID_NSEC_STRUCTURE"
         );
     }
 
-    // Validate next domain name
-    if (!record.nextDomainName || typeof record.nextDomainName !== "string") {
-        throw new DNSValidationError(
-            "NSEC record must have a valid nextDomainName",
-            "INVALID_NSEC_NEXT_DOMAIN",
-            "nextDomainName",
-            record.nextDomainName
-        );
-    }
+    const nextDomainName = getRequiredStringField(
+        record,
+        "nextDomainName",
+        "INVALID_NSEC_NEXT_DOMAIN",
+        "NSEC record must have a valid nextDomainName"
+    );
 
     // Basic domain name validation
-    if (
-        !/^(?:[\d\-A-Za-z]+\.)*[\d\-A-Za-z]+\.?$/v.test(record.nextDomainName)
-    ) {
+    // eslint-disable-next-line security/detect-unsafe-regex -- bounded hostname tokens; catastrophic backtracking not applicable here
+    if (!/^(?:[\d\-A-Za-z]+\.)*[\d\-A-Za-z]+\.?$/v.test(nextDomainName)) {
         throw new DNSValidationError(
             "NSEC nextDomainName must be a valid domain name",
             "INVALID_NSEC_DOMAIN_FORMAT",
             "nextDomainName",
-            record.nextDomainName
+            nextDomainName
         );
     }
 
-    // Validate types
-    if (!Array.isArray(record.types)) {
-        throw new DNSValidationError(
-            "NSEC types must be an array",
-            "INVALID_NSEC_TYPES",
-            "types",
-            record.types
-        );
-    }
+    const types = getRequiredStringArrayField(
+        record,
+        "types",
+        "INVALID_NSEC_TYPES",
+        "NSEC types must be an array"
+    );
 
     const validTypes = new Set([
         "A",
@@ -439,10 +477,10 @@ export function validateNSEC(record: any): NSECRecord {
         "ZONEMD",
     ]);
 
-    for (const type of record.types) {
-        if (typeof type !== "string" || !setHas(validTypes, type)) {
+    for (const type of types) {
+        if (!setHas(validTypes, type)) {
             throw new DNSValidationError(
-                `NSEC type "${type}" is not a valid DNS record type`,
+                `NSEC type "${String(type)}" is not a valid DNS record type`,
                 "INVALID_NSEC_TYPE",
                 "types",
                 type
@@ -451,110 +489,95 @@ export function validateNSEC(record: any): NSECRecord {
     }
 
     return {
-        nextDomainName: record.nextDomainName,
+        nextDomainName,
         type: "NSEC",
-        typeBitMaps: record.types,
+        typeBitMaps: types,
         // Deprecated alias for backward compatibility
-        types: record.types,
+        types,
     };
 }
 
 /**
  * Validates an NSEC3 record
+ *
+ * @throws DNSValidationError When the NSEC3 record is invalid.
  */
-export function validateNSEC3(record: any): NSEC3Record {
-    if (!record || typeof record !== "object") {
+export function validateNSEC3(record: unknown): NSEC3Record {
+    if (!isRecordObject(record)) {
         throw new DNSValidationError(
             "NSEC3 record must be an object",
             "INVALID_NSEC3_STRUCTURE"
         );
     }
 
-    // Validate hash algorithm (SHA-1 is specified by RFC but is weak)
-    if (!isInteger(record.hashAlgorithm) || record.hashAlgorithm !== 1) {
+    const hashAlgorithm = getRequiredIntegerField(
+        record,
+        "hashAlgorithm",
+        "INVALID_NSEC3_HASH_ALGORITHM",
+        1,
+        1
+    );
+    if (hashAlgorithm !== 1) {
         throw new DNSValidationError(
             "NSEC3 hashAlgorithm must be 1 (SHA-1)", // DevSkim: ignore DS126858
             "INVALID_NSEC3_HASH_ALGORITHM",
             "hashAlgorithm",
-            record.hashAlgorithm
+            hashAlgorithm
         );
     }
 
-    // Validate flags
-    if (!isInteger(record.flags) || record.flags < 0 || record.flags > 255) {
-        throw new DNSValidationError(
-            "NSEC3 flags must be between 0 and 255",
-            "INVALID_NSEC3_FLAGS",
-            "flags",
-            record.flags
-        );
-    }
-
-    // Validate iterations
-    if (
-        !isInteger(record.iterations) ||
-        record.iterations < 0 ||
-        record.iterations > 65_535
-    ) {
-        throw new DNSValidationError(
-            "NSEC3 iterations must be between 0 and 65535",
-            "INVALID_NSEC3_ITERATIONS",
-            "iterations",
-            record.iterations
-        );
-    }
-
-    // Validate salt
-    if (typeof record.salt !== "string") {
-        throw new DNSValidationError(
-            "NSEC3 salt must be a string",
-            "INVALID_NSEC3_SALT_TYPE",
-            "salt",
-            record.salt
-        );
-    }
-
-    if (record.salt !== "-" && !/^[\da-f]*$/iv.test(record.salt)) {
+    const flags = getRequiredIntegerField(
+        record,
+        "flags",
+        "INVALID_NSEC3_FLAGS",
+        0,
+        255
+    );
+    const iterations = getRequiredIntegerField(
+        record,
+        "iterations",
+        "INVALID_NSEC3_ITERATIONS",
+        0,
+        65_535
+    );
+    const salt = getRequiredStringField(
+        record,
+        "salt",
+        "INVALID_NSEC3_SALT_TYPE",
+        "NSEC3 salt must be a string"
+    );
+    if (salt !== "-" && !/^[\da-f]*$/iv.test(salt)) {
         throw new DNSValidationError(
             'NSEC3 salt must be hexadecimal or "-" for no salt',
             "INVALID_NSEC3_SALT_FORMAT",
             "salt",
-            record.salt
+            salt
         );
     }
 
-    // Validate next hashed owner name
-    if (
-        !record.nextHashedOwnerName ||
-        typeof record.nextHashedOwnerName !== "string"
-    ) {
-        throw new DNSValidationError(
-            "NSEC3 record must have a valid nextHashedOwnerName",
-            "INVALID_NSEC3_NEXT_HASHED_NAME",
-            "nextHashedOwnerName",
-            record.nextHashedOwnerName
-        );
-    }
+    const nextHashedOwnerName = getRequiredStringField(
+        record,
+        "nextHashedOwnerName",
+        "INVALID_NSEC3_NEXT_HASHED_NAME",
+        "NSEC3 record must have a valid nextHashedOwnerName"
+    );
 
     // Should be base32-encoded
-    if (!/^[2-7A-Z]+=*$/v.test(record.nextHashedOwnerName)) {
+    if (!/^[2-7A-Z]+=*$/v.test(nextHashedOwnerName)) {
         throw new DNSValidationError(
             "NSEC3 nextHashedOwnerName must be base32-encoded",
             "INVALID_NSEC3_NEXT_HASHED_FORMAT",
             "nextHashedOwnerName",
-            record.nextHashedOwnerName
+            nextHashedOwnerName
         );
     }
 
-    // Validate types (same as NSEC)
-    if (!Array.isArray(record.types)) {
-        throw new DNSValidationError(
-            "NSEC3 types must be an array",
-            "INVALID_NSEC3_TYPES",
-            "types",
-            record.types
-        );
-    }
+    const types = getRequiredStringArrayField(
+        record,
+        "types",
+        "INVALID_NSEC3_TYPES",
+        "NSEC3 types must be an array"
+    );
 
     const validTypes = new Set([
         "A",
@@ -622,10 +645,10 @@ export function validateNSEC3(record: any): NSEC3Record {
         "ZONEMD",
     ]);
 
-    for (const type of record.types) {
-        if (typeof type !== "string" || !setHas(validTypes, type)) {
+    for (const type of types) {
+        if (!setHas(validTypes, type)) {
             throw new DNSValidationError(
-                `NSEC3 type "${type}" is not a valid DNS record type`,
+                `NSEC3 type "${String(type)}" is not a valid DNS record type`,
                 "INVALID_NSEC3_TYPE",
                 "types",
                 type
@@ -634,243 +657,202 @@ export function validateNSEC3(record: any): NSEC3Record {
     }
 
     return {
-        flags: record.flags,
-        hashAlgorithm: record.hashAlgorithm,
-        iterations: record.iterations,
-        nextHashedOwnerName: record.nextHashedOwnerName,
-        salt: record.salt,
+        flags,
+        hashAlgorithm,
+        iterations,
+        nextHashedOwnerName,
+        salt,
         type: "NSEC3",
-        typeBitMaps: record.types,
+        typeBitMaps: types,
         // Deprecated alias for backward compatibility
-        types: record.types,
+        types,
     };
 }
 
 /**
  * Validates an NSEC3PARAM record
+ *
+ * @throws DNSValidationError When the NSEC3PARAM record is invalid.
  */
-export function validateNSEC3PARAM(record: any): NSEC3PARAMRecord {
-    if (!record || typeof record !== "object") {
+export function validateNSEC3PARAM(record: unknown): NSEC3PARAMRecord {
+    if (!isRecordObject(record)) {
         throw new DNSValidationError(
             "NSEC3PARAM record must be an object",
             "INVALID_NSEC3PARAM_STRUCTURE"
         );
     }
 
-    // Validate hash algorithm (SHA-1 is specified by RFC but is weak)
-    if (!isInteger(record.hashAlgorithm) || record.hashAlgorithm !== 1) {
+    const hashAlgorithm = getRequiredIntegerField(
+        record,
+        "hashAlgorithm",
+        "INVALID_NSEC3PARAM_HASH_ALGORITHM",
+        1,
+        1
+    );
+    if (hashAlgorithm !== 1) {
         throw new DNSValidationError(
             "NSEC3PARAM hashAlgorithm must be 1 (SHA-1)", // DevSkim: ignore DS126858
             "INVALID_NSEC3PARAM_HASH_ALGORITHM",
             "hashAlgorithm",
-            record.hashAlgorithm
+            hashAlgorithm
         );
     }
 
-    // Validate flags
-    if (!isInteger(record.flags) || record.flags < 0 || record.flags > 255) {
-        throw new DNSValidationError(
-            "NSEC3PARAM flags must be between 0 and 255",
-            "INVALID_NSEC3PARAM_FLAGS",
-            "flags",
-            record.flags
-        );
-    }
+    const flags = getRequiredIntegerField(
+        record,
+        "flags",
+        "INVALID_NSEC3PARAM_FLAGS",
+        0,
+        255
+    );
+    const iterations = getRequiredIntegerField(
+        record,
+        "iterations",
+        "INVALID_NSEC3PARAM_ITERATIONS",
+        0,
+        65_535
+    );
+    const salt = getRequiredStringField(
+        record,
+        "salt",
+        "INVALID_NSEC3PARAM_SALT_TYPE",
+        "NSEC3PARAM salt must be a string"
+    );
 
-    // Validate iterations
-    if (
-        !isInteger(record.iterations) ||
-        record.iterations < 0 ||
-        record.iterations > 65_535
-    ) {
-        throw new DNSValidationError(
-            "NSEC3PARAM iterations must be between 0 and 65535",
-            "INVALID_NSEC3PARAM_ITERATIONS",
-            "iterations",
-            record.iterations
-        );
-    }
-
-    // Validate salt
-    if (typeof record.salt !== "string") {
-        throw new DNSValidationError(
-            "NSEC3PARAM salt must be a string",
-            "INVALID_NSEC3PARAM_SALT_TYPE",
-            "salt",
-            record.salt
-        );
-    }
-
-    if (record.salt !== "-" && !/^[\da-f]*$/iv.test(record.salt)) {
+    if (salt !== "-" && !/^[\da-f]*$/iv.test(salt)) {
         throw new DNSValidationError(
             'NSEC3PARAM salt must be hexadecimal or "-" for no salt',
             "INVALID_NSEC3PARAM_SALT_FORMAT",
             "salt",
-            record.salt
+            salt
         );
     }
 
     return {
-        flags: record.flags,
-        hashAlgorithm: record.hashAlgorithm,
-        iterations: record.iterations,
-        salt: record.salt,
+        flags,
+        hashAlgorithm,
+        iterations,
+        salt,
         type: "NSEC3PARAM",
     };
 }
 
 /**
  * Validates a RRSIG record
+ *
+ * @throws DNSValidationError When the RRSIG record is invalid.
  */
-export function validateRRSIG(record: any): RRSIGRecord {
-    if (!record || typeof record !== "object") {
+export function validateRRSIG(record: unknown): RRSIGRecord {
+    if (!isRecordObject(record)) {
         throw new DNSValidationError(
             "RRSIG record must be an object",
             "INVALID_RRSIG_STRUCTURE"
         );
     }
 
-    // Validate type covered
-    if (!record.typeCovered || typeof record.typeCovered !== "string") {
-        throw new DNSValidationError(
-            "RRSIG record must have a valid typeCovered field",
-            "INVALID_RRSIG_TYPE_COVERED",
-            "typeCovered",
-            record.typeCovered
-        );
-    }
+    const typeCovered = getRequiredStringField(
+        record,
+        "typeCovered",
+        "INVALID_RRSIG_TYPE_COVERED",
+        "RRSIG record must have a valid typeCovered field"
+    );
+    const algorithm = getRequiredIntegerField(
+        record,
+        "algorithm",
+        "INVALID_RRSIG_ALGORITHM",
+        1,
+        16
+    );
+    const labels = getRequiredIntegerField(
+        record,
+        "labels",
+        "INVALID_RRSIG_LABELS",
+        0,
+        127
+    );
+    const originalTTL = getRequiredIntegerField(
+        record,
+        "originalTTL",
+        "INVALID_RRSIG_TTL",
+        0,
+        Number.MAX_SAFE_INTEGER
+    );
+    const signatureExpiration = getRequiredIntegerField(
+        record,
+        "signatureExpiration",
+        "INVALID_RRSIG_EXPIRATION",
+        0,
+        Number.MAX_SAFE_INTEGER
+    );
+    const signatureInception = getRequiredIntegerField(
+        record,
+        "signatureInception",
+        "INVALID_RRSIG_INCEPTION",
+        0,
+        Number.MAX_SAFE_INTEGER
+    );
 
-    // Validate algorithm
-    if (
-        !isInteger(record.algorithm) ||
-        record.algorithm < 1 ||
-        record.algorithm > 16
-    ) {
-        throw new DNSValidationError(
-            "RRSIG record must have a valid algorithm",
-            "INVALID_RRSIG_ALGORITHM",
-            "algorithm",
-            record.algorithm
-        );
-    }
-
-    // Validate labels
-    if (!isInteger(record.labels) || record.labels < 0 || record.labels > 127) {
-        throw new DNSValidationError(
-            "RRSIG labels must be between 0 and 127",
-            "INVALID_RRSIG_LABELS",
-            "labels",
-            record.labels
-        );
-    }
-
-    // Validate TTL
-    if (!isInteger(record.originalTTL) || record.originalTTL < 0) {
-        throw new DNSValidationError(
-            "RRSIG originalTTL must be a non-negative integer",
-            "INVALID_RRSIG_TTL",
-            "originalTTL",
-            record.originalTTL
-        );
-    }
-
-    // Validate timestamps
-    if (
-        !isInteger(record.signatureExpiration) ||
-        record.signatureExpiration < 0
-    ) {
-        throw new DNSValidationError(
-            "RRSIG signatureExpiration must be a valid timestamp",
-            "INVALID_RRSIG_EXPIRATION",
-            "signatureExpiration",
-            record.signatureExpiration
-        );
-    }
-
-    if (
-        !isInteger(record.signatureInception) ||
-        record.signatureInception < 0
-    ) {
-        throw new DNSValidationError(
-            "RRSIG signatureInception must be a valid timestamp",
-            "INVALID_RRSIG_INCEPTION",
-            "signatureInception",
-            record.signatureInception
-        );
-    }
-
-    if (record.signatureInception >= record.signatureExpiration) {
+    if (signatureInception >= signatureExpiration) {
         throw new DNSValidationError(
             "RRSIG signatureInception must be before signatureExpiration",
             "INVALID_RRSIG_TIMESTAMP_ORDER"
         );
     }
 
-    // Validate key tag
-    if (
-        !isInteger(record.keyTag) ||
-        record.keyTag < 0 ||
-        record.keyTag > 65_535
-    ) {
-        throw new DNSValidationError(
-            "RRSIG keyTag must be between 0 and 65535",
-            "INVALID_RRSIG_KEY_TAG",
-            "keyTag",
-            record.keyTag
-        );
-    }
-
-    // Validate signer name
-    if (!record.signerName || typeof record.signerName !== "string") {
-        throw new DNSValidationError(
-            "RRSIG record must have a valid signerName",
-            "INVALID_RRSIG_SIGNER_NAME",
-            "signerName",
-            record.signerName
-        );
-    }
+    const keyTag = getRequiredIntegerField(
+        record,
+        "keyTag",
+        "INVALID_RRSIG_KEY_TAG",
+        0,
+        65_535
+    );
+    const signerName = getRequiredStringField(
+        record,
+        "signerName",
+        "INVALID_RRSIG_SIGNER_NAME",
+        "RRSIG record must have a valid signerName"
+    );
 
     // Basic domain name validation for signer
-    if (!/^(?:[\d\-A-Za-z]+\.)*[\d\-A-Za-z]+\.?$/v.test(record.signerName)) {
+    // eslint-disable-next-line security/detect-unsafe-regex -- bounded hostname tokens; catastrophic backtracking not applicable here
+    if (!/^(?:[\d\-A-Za-z]+\.)*[\d\-A-Za-z]+\.?$/v.test(signerName)) {
         throw new DNSValidationError(
             "RRSIG signerName must be a valid domain name",
             "INVALID_RRSIG_SIGNER_FORMAT",
             "signerName",
-            record.signerName
+            signerName
         );
     }
 
-    // Validate signature
-    if (!record.signature || typeof record.signature !== "string") {
-        throw new DNSValidationError(
-            "RRSIG record must have a valid signature",
-            "INVALID_RRSIG_SIGNATURE",
-            "signature",
-            record.signature
-        );
-    }
+    const signature = getRequiredStringField(
+        record,
+        "signature",
+        "INVALID_RRSIG_SIGNATURE",
+        "RRSIG record must have a valid signature"
+    );
 
     // Signature should be base64-encoded
-    if (!isBase64Text(record.signature)) {
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define -- helper intentionally kept with other local utilities
+    if (!isBase64Text(signature)) {
         throw new DNSValidationError(
             "RRSIG signature must be base64-encoded",
             "INVALID_RRSIG_SIGNATURE_FORMAT",
             "signature",
-            record.signature
+            signature
         );
     }
 
     return {
-        algorithm: record.algorithm,
-        keyTag: record.keyTag,
-        labels: record.labels,
-        originalTTL: record.originalTTL,
-        signature: record.signature,
-        signatureExpiration: record.signatureExpiration,
-        signatureInception: record.signatureInception,
-        signerName: record.signerName,
+        algorithm,
+        keyTag,
+        labels,
+        originalTTL,
+        signature,
+        signatureExpiration,
+        signatureInception,
+        signerName,
         type: "RRSIG",
-        typeCovered: record.typeCovered,
+        typeCovered,
     };
 }
 
@@ -898,5 +880,6 @@ export function validateSignatureTimestamps(
 }
 
 function isBase64Text(value: string): boolean {
+    // eslint-disable-next-line @typescript-eslint/no-misused-spread -- base64 is ASCII-only in this context
     return [...value].every((character) => setHas(base64Characters, character));
 }

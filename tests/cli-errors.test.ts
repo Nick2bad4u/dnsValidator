@@ -1,4 +1,4 @@
-import { describe, afterEach, it, expect } from "vitest";
+import { describe, it, expect } from "vitest";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { runCLI } from "../src/cli";
@@ -52,11 +52,7 @@ function invokeCLI(args: string[]): CLIResult {
     return { stdout: logs.join("\n"), stderr: errs.join("\n"), exitCode };
 }
 
-describe("CLI Error Handling and Edge Cases", () => {
-    afterEach(() => {
-        vi.restoreAllMocks();
-    });
-
+describe("command line error handling and edge cases", () => {
     // Test for uncovered switch cases in validate-record
     describe("record command with unsupported types", () => {
         it("should error in strict mode for unsupported record type", async () => {
@@ -78,7 +74,7 @@ describe("CLI Error Handling and Edge Cases", () => {
     });
 
     // Test for JSON parsing errors
-    describe("CLI with invalid JSON input", () => {
+    describe("command line with invalid JSON input", () => {
         it("should exit with an error for malformed JSON in record command", async () => {
             const { exitCode, stderr } = invokeCLI([
                 "record",
@@ -105,7 +101,7 @@ describe("CLI Error Handling and Edge Cases", () => {
     });
 
     // Test for file not found error
-    describe("CLI with non-existent file", () => {
+    describe("command line with non-existent file", () => {
         it("should exit with an error if the file does not exist", async () => {
             const { exitCode, stderr } = invokeCLI([
                 "record",

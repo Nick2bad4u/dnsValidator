@@ -13,7 +13,7 @@ import {
 } from "../src/validators";
 import type { DNSQueryResult, DNSRecord } from "../src/types";
 
-describe("dNS Validator Integration Tests", () => {
+describe("domain name system validator integration tests", () => {
     describe("real-world DNS query scenarios", () => {
         it("should validate typical A record query response", () => {
             const queryResult: DNSQueryResult = {

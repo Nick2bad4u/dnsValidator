@@ -86,6 +86,17 @@ const config = [
         },
     },
     {
+        files: ["tests/dnssec-negative-more.test.ts"],
+        rules: {
+            "vitest/expect-expect": [
+                "warn",
+                {
+                    assertFunctionNames: ["expect", "expectError"],
+                },
+            ],
+        },
+    },
+    {
         files: ["vite.config.ts"],
         rules: {
             "n/no-process-env": "off",

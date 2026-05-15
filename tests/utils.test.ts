@@ -16,7 +16,7 @@ import {
 } from "../src/utils";
 import type { DNSQueryResult } from "../src/types";
 
-describe("dNS Utility Functions", () => {
+describe("domain name system utility functions", () => {
     describe(isValidDNSQueryResult, () => {
         it("should validate complete DNS query results", () => {
             const validResult = {

@@ -253,7 +253,7 @@ describe("enhanced Validators", () => {
             const upperSuggestions = getValidationSuggestions("A");
             const lowerSuggestions = getValidationSuggestions("a");
 
-            expect(upperSuggestions).toEqual(lowerSuggestions);
+            expect(upperSuggestions).toStrictEqual(lowerSuggestions);
         });
     });
 

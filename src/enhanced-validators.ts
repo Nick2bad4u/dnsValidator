@@ -10,6 +10,8 @@ import { isValidPriority, isValidTTL } from "./utils";
 /**
  * Enhanced validation functions with detailed error reporting
  */
+const isUnknownRecord = (value: unknown): value is UnknownRecord =>
+    typeof value === "object" && value !== null;
 
 /**
  * Provides suggestions for common DNS record validation issues
@@ -65,12 +67,12 @@ export function validateAAAARecord(record: unknown): ValidationResult {
     const errors: string[] = [];
     const warnings: string[] = [];
 
-    if (!record || typeof record !== "object") {
+    if (!isUnknownRecord(record)) {
         errors.push("Record must be an object");
         return { errors, isValid: false, warnings };
     }
 
-    const r = toRecord(record);
+    const r = record;
 
     // Check type field
     if (r["type"] !== "AAAA") {
@@ -79,12 +81,15 @@ export function validateAAAARecord(record: unknown): ValidationResult {
     }
 
     // Check address field
-    if (typeof r["address"] !== "string") {
+    if (typeof r["address"] === "string") {
+        const address = r["address"];
+        if (!validator.isIP(address, 6)) {
+            errors.push(
+                `Invalid IPv6 address: '${address}'. Example: 2001:db8::1`
+            );
+        }
+    } else {
         errors.push("AAAA record must have a 'address' field of type string");
-    } else if (!validator.isIP(r["address"], 6)) {
-        errors.push(
-            `Invalid IPv6 address: '${r["address"]}'. Example: 2001:db8::1`
-        );
     }
 
     // Check TTL field (optional)
@@ -107,12 +112,12 @@ export function validateARecord(record: unknown): ValidationResult {
     const errors: string[] = [];
     const warnings: string[] = [];
 
-    if (!record || typeof record !== "object") {
+    if (!isUnknownRecord(record)) {
         errors.push("Record must be an object");
         return { errors, isValid: false, warnings };
     }
 
-    const r = toRecord(record);
+    const r = record;
 
     // Check type field
     if (r["type"] !== "A") {
@@ -121,12 +126,15 @@ export function validateARecord(record: unknown): ValidationResult {
     }
 
     // Check address field
-    if (typeof r["address"] !== "string") {
+    if (typeof r["address"] === "string") {
+        const address = r["address"];
+        if (!validator.isIP(address, 4)) {
+            errors.push(
+                `Invalid IPv4 address: '${address}'. Example: 192.168.1.1`
+            );
+        }
+    } else {
         errors.push("A record must have a 'address' field of type string");
-    } else if (!validator.isIP(r["address"], 4)) {
-        errors.push(
-            `Invalid IPv4 address: '${r["address"]}'. Example: 192.168.1.1`
-        );
     }
 
     // Check TTL field (optional)
@@ -149,12 +157,12 @@ export function validateMXRecord(record: unknown): ValidationResult {
     const errors: string[] = [];
     const warnings: string[] = [];
 
-    if (!record || typeof record !== "object") {
+    if (!isUnknownRecord(record)) {
         errors.push("Record must be an object");
         return { errors, isValid: false, warnings };
     }
 
-    const r = toRecord(record);
+    const r = record;
 
     // Check type field
     if (r["type"] !== "MX") {
@@ -163,21 +171,27 @@ export function validateMXRecord(record: unknown): ValidationResult {
     }
 
     // Check exchange field
-    if (typeof r["exchange"] !== "string") {
+    if (typeof r["exchange"] === "string") {
+        const exchange = r["exchange"];
+        if (!validator.isFQDN(exchange, { require_tld: true })) {
+            errors.push(
+                `Invalid FQDN for exchange: '${exchange}'. Example: mail.example.com`
+            );
+        }
+    } else {
         errors.push("MX record must have an 'exchange' field of type string");
-    } else if (!validator.isFQDN(r["exchange"], { require_tld: true })) {
-        errors.push(
-            `Invalid FQDN for exchange: '${r["exchange"]}'. Example: mail.example.com`
-        );
     }
 
     // Check priority field
-    if (typeof r["priority"] !== "number") {
+    if (typeof r["priority"] === "number") {
+        const priority = r["priority"];
+        if (!isValidPriority(priority)) {
+            errors.push(
+                `Invalid priority value: ${priority}. Must be between 0 and 65535 (lower = higher priority)`
+            );
+        }
+    } else {
         errors.push("MX record must have a 'priority' field of type number");
-    } else if (!isValidPriority(r["priority"])) {
-        errors.push(
-            `Invalid priority value: ${r["priority"]}. Must be between 0 and 65535 (lower = higher priority)`
-        );
     }
 
     // Check TTL field (optional)
@@ -191,11 +205,4 @@ export function validateMXRecord(record: unknown): ValidationResult {
     }
 
     return { errors, isValid: isEmpty(errors), warnings };
-}
-
-/**
- * Helper function to safely cast unknown to a record type
- */
-function toRecord(obj: unknown): UnknownRecord {
-    return obj as UnknownRecord;
 }

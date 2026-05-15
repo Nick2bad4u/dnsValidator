@@ -96,7 +96,7 @@ describe("node-compat alias branch coverage", () => {
 
         const backWithTTL = toNodeTxt(internalWithTTL);
 
-        expect(backWithTTL).toEqual(input);
+        expect(backWithTTL).toStrictEqual(input);
 
         const internalNoTTL = fromNodeTxt(input);
 
@@ -106,6 +106,6 @@ describe("node-compat alias branch coverage", () => {
 
         const backNoTTL = toNodeTxt(internalNoTTL);
 
-        expect(backNoTTL).toEqual(input);
+        expect(backNoTTL).toStrictEqual(input);
     });
 });

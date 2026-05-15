@@ -62,33 +62,8 @@ export type * from "./types";
 // Export validation utilities
 export * from "./utils";
 
-export {
-    isValidDNSQueryResult,
-    isValidDNSRecord,
-    validateDNSResponse,
-} from "./utils";
-
 // Export validators
 export * from "./validators";
-
-// Re-export commonly used functions for convenience
-export {
-    isAAAARecord,
-    isANYRecord,
-    isARecord,
-    isCAARecord,
-    isCNAMERecord,
-    isDNSRecord,
-    isMXRecord,
-    isNAPTRRecord,
-    isNSRecord,
-    isPTRRecord,
-    isSOARecord,
-    isSRVRecord,
-    isTLSARecord,
-    isTXTRecord,
-    validateDNSRecord,
-} from "./validators";
 
 // Minimal runtime statement to retain file execution for coverage without artificial exports
 void 0;

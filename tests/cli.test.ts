@@ -11,7 +11,7 @@ function run(args: string[], input?: string) {
     return spawnSync("node", [cli, ...args], { input, encoding: "utf8" });
 }
 
-describe("CLI integration", () => {
+describe("command line integration", () => {
     it("shows help when no args", () => {
         const res = spawnSync("node", [cli], { encoding: "utf8" });
 

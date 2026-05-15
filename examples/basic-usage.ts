@@ -97,8 +97,7 @@ const dnskeyRecord: DNSKEYRecord = {
     flags: 256,
     protocol: 3,
     algorithm: 8,
-    publicKey:
-        "ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890",
+    publicKey: "ABCDEF1234567890ABCDEF1234567890ABCDEF12",
     ttl: 3600,
 };
 

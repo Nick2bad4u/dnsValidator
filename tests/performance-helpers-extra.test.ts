@@ -6,6 +6,7 @@ import {
     isValidRecordType,
     isPlainObject,
 } from "../src/performance";
+import type { UnknownRecord } from "type-fest";
 
 describe("performance helpers extra branches", () => {
     it("fastPreValidate returns false on empty or non-string", () => {
@@ -18,38 +19,28 @@ describe("performance helpers extra branches", () => {
     });
 
     it("getRequiredField object mismatch and success", () => {
-        const obj: any = { a: 5, b: { x: 1 }, c: [] };
+        const obj: UnknownRecord = { a: 5, b: { x: 1 }, c: [] };
 
-        expect(getRequiredField<number>(obj, "a", "number")).toBe(5);
-        expect(
-            getRequiredField<Record<string, unknown>>(obj, "b", "object")
-        ).toEqual({ x: 1 });
+        expect(getRequiredField(obj, "a", "number")).toBe(5);
+        expect(getRequiredField(obj, "b", "object")).toStrictEqual({ x: 1 });
         // C is array -> not plain object -> null
-        expect(
-            getRequiredField<Record<string, unknown>>(obj, "c", "object")
-        ).toBeNull();
-        expect(getRequiredField<any>(obj, "missing", "string")).toBeNull();
+        expect(getRequiredField(obj, "c", "object")).toBeNull();
+        expect(getRequiredField(obj, "missing", "string")).toBeNull();
     });
 
     it("getOptionalField undefined, null mismatch, success", () => {
-        const obj: any = { a: "hello", b: { y: 2 }, c: [] };
+        const obj: UnknownRecord = { a: "hello", b: { y: 2 }, c: [] };
 
-        expect(getOptionalField<string>(obj, "a", "string")).toBe("hello");
-        expect(
-            getOptionalField<Record<string, unknown>>(obj, "b", "object")
-        ).toEqual({ y: 2 });
-        expect(
-            getOptionalField<Record<string, unknown>>(obj, "c", "object")
-        ).toBeNull();
-        expect(
-            getOptionalField<string>(obj, "missing", "string")
-        ).toBeUndefined();
+        expect(getOptionalField(obj, "a", "string")).toBe("hello");
+        expect(getOptionalField(obj, "b", "object")).toStrictEqual({ y: 2 });
+        expect(getOptionalField(obj, "c", "object")).toBeNull();
+        expect(getOptionalField(obj, "missing", "string")).toBeUndefined();
     });
 
     it("isValidRecordType negative and positive", () => {
         expect(isValidRecordType("A")).toBeTruthy();
         expect(isValidRecordType("UNKNOWN")).toBeFalsy();
-        expect(isValidRecordType(123 as any)).toBeFalsy();
+        expect(isValidRecordType(123 as unknown)).toBeFalsy();
     });
 
     it("isPlainObject negative cases", () => {

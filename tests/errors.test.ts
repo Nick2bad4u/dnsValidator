@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect } from "vitest";
 import {
     DNSValidationError,
     InvalidRecordTypeError,
@@ -161,20 +161,18 @@ describe(InvalidQueryStructureError, () => {
 });
 
 describe(ValidationContext, () => {
-    let context: ValidationContext;
-
-    beforeEach(() => {
-        context = new ValidationContext();
-    });
-
     it("should create empty validation context", () => {
+        const context = new ValidationContext();
+
         expect(context.getCurrentPath()).toBe("root");
         expect(context.getResult().isValid).toBeTruthy();
-        expect(context.getResult().errors).toEqual([]);
-        expect(context.getResult().warnings).toEqual([]);
+        expect(context.getResult().errors).toStrictEqual([]);
+        expect(context.getResult().warnings).toStrictEqual([]);
     });
 
     it("should track field paths", () => {
+        const context = new ValidationContext();
+
         context.enterField("answers");
 
         expect(context.getCurrentPath()).toBe("answers");
@@ -193,6 +191,7 @@ describe(ValidationContext, () => {
     });
 
     it("should add errors", () => {
+        const context = new ValidationContext();
         const error = new DNSValidationError("Test error", "TEST");
         context.addError(error);
 
@@ -204,23 +203,29 @@ describe(ValidationContext, () => {
     });
 
     it("should add warnings", () => {
+        const context = new ValidationContext();
+
         context.addWarning("Test warning");
 
         const result = context.getResult();
 
         expect(result.isValid).toBeTruthy();
-        expect(result.warnings).toEqual(["Test warning"]);
+        expect(result.warnings).toStrictEqual(["Test warning"]);
     });
 
     it("should add suggestions", () => {
+        const context = new ValidationContext();
+
         context.addSuggestion("Test suggestion");
 
         const result = context.getResult();
 
-        expect(result.suggestions).toEqual(["Test suggestion"]);
+        expect(result.suggestions).toStrictEqual(["Test suggestion"]);
     });
 
     it("should reset context", () => {
+        const context = new ValidationContext();
+
         context.enterField("test");
         context.addError(new DNSValidationError("Error", "CODE"));
         context.addWarning("Warning");
@@ -233,8 +238,8 @@ describe(ValidationContext, () => {
         const result = context.getResult();
 
         expect(result.isValid).toBeTruthy();
-        expect(result.errors).toEqual([]);
-        expect(result.warnings).toEqual([]);
+        expect(result.errors).toStrictEqual([]);
+        expect(result.warnings).toStrictEqual([]);
         expect(result.suggestions).toBeUndefined();
     });
 });

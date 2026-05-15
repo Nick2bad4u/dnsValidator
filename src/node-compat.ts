@@ -4,97 +4,143 @@
  * Provides helpers to transform between this library's internal record
  * representations and the shapes returned by Node's built-in 'dns' module.
  */
-import { isDefined, safeCastTo } from "ts-extras";
+import type { UnknownArray, UnknownRecord } from "type-fest";
+
+import { isDefined } from "ts-extras";
 
 import type { ANYRecord, SOARecord, TLSARecord, TXTRecord } from "./types";
 
 /** Convert Node resolveAny array to internal ANYRecord */
-export function fromNodeResolveAny(arr: any[]): ANYRecord {
-    // We trust individual entries conform loosely; higher-level validation can be applied per record type.
-    return { records: arr as any, type: "ANY" };
+export function fromNodeResolveAny(arr: Readonly<UnknownArray>): ANYRecord {
+    const records = arr.filter(
+        (entry): entry is UnknownRecord =>
+            typeof entry === "object" && entry !== null
+    );
+    return { records: [...records], type: "ANY" };
 }
 
 /** Convert Node resolveTxt result (string[][]) to internal TXTRecord[] */
-export function fromNodeTxt(records: string[][], ttl?: number): TXTRecord[] {
+export function fromNodeTxt(
+    records: readonly (readonly string[])[],
+    ttl?: number
+): TXTRecord[] {
     return records.map((chunks) => {
-        const base: TXTRecord = safeCastTo<TXTRecord>({
-            entries: chunks,
+        const base: TXTRecord = {
+            entries: [...chunks],
             type: "TXT",
-        });
-        if (isDefined(ttl)) (base as any).ttl = ttl; // Ttl optional
+        };
+        if (isDefined(ttl)) {
+            base.ttl = ttl;
+        }
+
         return base;
     });
 }
 
 /** Determine if a given object already matches the Node resolveSoa shape */
-export function isNodeSOAShape(obj: any): boolean {
+export function isNodeSOAShape(obj: unknown): boolean {
+    if (obj === null || typeof obj !== "object") {
+        return false;
+    }
+
+    const candidate: Partial<UnknownRecord> = obj;
+
     return (
-        obj?.type === "SOA" &&
-        typeof obj.nsname === "string" &&
-        typeof obj.hostmaster === "string" &&
-        typeof obj.serial === "number" &&
-        typeof obj.refresh === "number" &&
-        typeof obj.retry === "number" &&
-        typeof obj.expire === "number" &&
-        typeof obj.minttl === "number"
+        candidate["type"] === "SOA" &&
+        typeof candidate["nsname"] === "string" &&
+        typeof candidate["hostmaster"] === "string" &&
+        typeof candidate["serial"] === "number" &&
+        typeof candidate["refresh"] === "number" &&
+        typeof candidate["retry"] === "number" &&
+        typeof candidate["expire"] === "number" &&
+        typeof candidate["minttl"] === "number"
     );
 }
 
 /** Determine if a given object matches the Node TLSA shape */
-export function isNodeTLSAShape(obj: any): boolean {
+export function isNodeTLSAShape(obj: unknown): boolean {
+    if (obj === null || typeof obj !== "object") {
+        return false;
+    }
+
+    const candidate: Partial<UnknownRecord> = obj;
+
     return (
-        obj?.type === "TLSA" &&
-        typeof obj.certUsage === "number" &&
-        typeof obj.selector === "number" &&
-        typeof obj.match === "number" &&
-        (typeof obj.data === "string" ||
-            obj.data instanceof ArrayBuffer ||
-            obj.data instanceof Uint8Array)
+        candidate["type"] === "TLSA" &&
+        typeof candidate["certUsage"] === "number" &&
+        typeof candidate["selector"] === "number" &&
+        typeof candidate["match"] === "number" &&
+        (typeof candidate["data"] === "string" ||
+            candidate["data"] instanceof ArrayBuffer ||
+            candidate["data"] instanceof Uint8Array)
     );
 }
 
 /** Normalize an SOA record to include both internal and Node field names */
-export function normalizeSOA(record: SOARecord): SOARecord {
-    if (record.primary && !record.nsname) record.nsname = record.primary;
-    if (record.nsname && !record.primary) record.primary = record.nsname;
-    if (record.admin && !record.hostmaster) record.hostmaster = record.admin;
-    if (record.hostmaster && !record.admin) record.admin = record.hostmaster;
-    if (isDefined(record.expiration) && !isDefined(record.expire))
-        record.expire = record.expiration;
-    if (isDefined(record.expire) && !isDefined(record.expiration))
-        record.expiration = record.expire;
-    if (isDefined(record.minimum) && !isDefined(record.minttl))
-        record.minttl = record.minimum;
-    if (isDefined(record.minttl) && !isDefined(record.minimum))
-        record.minimum = record.minttl;
-    return record;
+export function normalizeSOA(record: Readonly<SOARecord>): SOARecord {
+    const normalized: SOARecord = { ...record };
+
+    if (isDefined(normalized.primary) && !isDefined(normalized.nsname)) {
+        normalized.nsname = normalized.primary;
+    }
+
+    if (isDefined(normalized.nsname) && !isDefined(normalized.primary)) {
+        normalized.primary = normalized.nsname;
+    }
+
+    if (isDefined(normalized.admin) && !isDefined(normalized.hostmaster)) {
+        normalized.hostmaster = normalized.admin;
+    }
+
+    if (isDefined(normalized.hostmaster) && !isDefined(normalized.admin)) {
+        normalized.admin = normalized.hostmaster;
+    }
+
+    if (isDefined(normalized.expiration) && !isDefined(normalized.expire))
+        normalized.expire = normalized.expiration;
+    if (isDefined(normalized.expire) && !isDefined(normalized.expiration))
+        normalized.expiration = normalized.expire;
+    if (isDefined(normalized.minimum) && !isDefined(normalized.minttl))
+        normalized.minttl = normalized.minimum;
+    if (isDefined(normalized.minttl) && !isDefined(normalized.minimum))
+        normalized.minimum = normalized.minttl;
+    return normalized;
 }
 
 /** Normalize a TLSA record to include both internal and Node field names */
-export function normalizeTLSA(record: TLSARecord): TLSARecord {
-    if (isDefined(record.usage) && !isDefined(record.certUsage))
-        record.certUsage = record.usage;
-    if (isDefined(record.certUsage) && !isDefined(record.usage))
-        record.usage = record.certUsage;
-    if (isDefined(record.matchingType) && !isDefined(record.match))
-        record.match = record.matchingType;
-    if (isDefined(record.match) && !isDefined(record.matchingType))
-        record.matchingType = record.match;
-    if (record.certificate && !record.data) record.data = record.certificate;
-    if (record.data && !record.certificate && typeof record.data === "string")
-        record.certificate = record.data;
-    return record;
+export function normalizeTLSA(record: Readonly<TLSARecord>): TLSARecord {
+    const normalized: TLSARecord = { ...record };
+
+    if (isDefined(normalized.usage) && !isDefined(normalized.certUsage))
+        normalized.certUsage = normalized.usage;
+    if (isDefined(normalized.certUsage) && !isDefined(normalized.usage))
+        normalized.usage = normalized.certUsage;
+    if (isDefined(normalized.matchingType) && !isDefined(normalized.match))
+        normalized.match = normalized.matchingType;
+    if (isDefined(normalized.match) && !isDefined(normalized.matchingType))
+        normalized.matchingType = normalized.match;
+    if (isDefined(normalized.certificate) && !isDefined(normalized.data))
+        normalized.data = normalized.certificate;
+    if (
+        isDefined(normalized.data) &&
+        !isDefined(normalized.certificate) &&
+        typeof normalized.data === "string"
+    )
+        normalized.certificate = normalized.data;
+    return normalized;
 }
 
 /**
  * Create an ANY record container from a heterogeneous Node resolveAny response
  * array.
  */
-export function toANYRecord(entries: ANYRecord["records"]): ANYRecord {
-    return { records: entries!, type: "ANY" };
+export function toANYRecord(
+    entries: Readonly<ANYRecord["records"]>
+): ANYRecord {
+    return { records: entries ? [...entries] : [], type: "ANY" };
 }
 
 /** Convert internal TXTRecord[] to Node resolveTxt shape (string[][]) */
-export function toNodeTxt(records: TXTRecord[]): string[][] {
-    return records.map((r) => r.entries);
+export function toNodeTxt(records: readonly Readonly<TXTRecord>[]): string[][] {
+    return records.map((record) => [...record.entries]);
 }

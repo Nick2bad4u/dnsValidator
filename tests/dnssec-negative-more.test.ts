@@ -10,17 +10,17 @@ import {
 } from "../src/dnssec";
 import { DNSValidationError } from "../src/errors";
 
-function expectError(fn: () => any, code?: string) {
+function expectError(fn: () => unknown, code?: string): void {
     try {
         fn();
         throw new Error("Expected error");
     } catch (error) {
         if (!(error instanceof DNSValidationError)) throw error;
-        if (code) expect(error.code).toBe(code);
+        if (code !== undefined) expect(error.code).toBe(code);
     }
 }
 
-describe("dNSSEC additional negative branches", () => {
+describe("dnssec additional negative branches", () => {
     it("rRSIG field errors", () => {
         expectError(
             () => validateRRSIG(null as any),

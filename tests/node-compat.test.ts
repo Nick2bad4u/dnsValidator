@@ -55,7 +55,7 @@ describe("node compatibility helpers", () => {
 
         const back = toNodeTxt(internal);
 
-        expect(back).toEqual(nodeShape);
+        expect(back).toStrictEqual(nodeShape);
     });
 
     it("aNY conversion", () => {

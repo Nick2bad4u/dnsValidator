@@ -1,35 +1,36 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { runCLI } from "../src/cli";
+
+type RecordFixture = Readonly<Record<string, unknown> & { type: string }>;
 
 function invoke(args: string[]) {
     const logs: string[] = [];
     const errs: string[] = [];
     let exitCode = 0;
-    const logSpy = vi
-        .spyOn(console, "log")
-        .mockImplementation((...m: any[]) => {
-            logs.push(m.map(String).join(" "));
-        });
-    const errSpy = vi
-        .spyOn(console, "error")
-        .mockImplementation((...m: any[]) => {
-            errs.push(m.map(String).join(" "));
-        });
+    const logSpy = vi.spyOn(console, "log").mockImplementation((...m) => {
+        logs.push(m.map(String).join(" "));
+    });
+    const errSpy = vi.spyOn(console, "error").mockImplementation((...m) => {
+        errs.push(m.map(String).join(" "));
+    });
     const exitSpy = vi.spyOn(process, "exit").mockImplementation(((
-        code?: number
+        code?: string | number | null | undefined
     ) => {
-        exitCode = code ?? 0;
+        exitCode = typeof code === "number" ? code : 0;
         return undefined as never;
-    }) as any);
-    runCLI(args);
-    logSpy.mockRestore();
-    errSpy.mockRestore();
-    exitSpy.mockRestore();
+    }) as typeof process.exit);
+    try {
+        runCLI(args);
+    } finally {
+        logSpy.mockRestore();
+        errSpy.mockRestore();
+        exitSpy.mockRestore();
+    }
     return { stdout: logs.join("\n"), stderr: errs.join("\n"), exitCode };
 }
 
-describe("cLI record command all supported types", () => {
-    const records: any[] = [
+describe("command line record command all supported types", () => {
+    const records: readonly RecordFixture[] = [
         { type: "A", address: "1.1.1.1" },
         { type: "AAAA", address: "2001:db8::1" },
         { type: "MX", exchange: "mail.example.com", priority: 10 },
@@ -74,16 +75,14 @@ describe("cLI record command all supported types", () => {
         { type: "ZZZ", foo: 1 }, // Unknown non-strict
     ];
 
-    for (const rec of records) {
-        it(`validates ${rec.type} via CLI`, () => {
-            const { exitCode, stdout } = invoke([
-                "record",
-                "--data",
-                JSON.stringify(rec),
-            ]);
+    it.each(records)("validates $type via command line", (rec) => {
+        const { exitCode, stdout } = invoke([
+            "record",
+            "--data",
+            JSON.stringify(rec),
+        ]);
 
-            expect(exitCode).toBe(0); // Unknown type produces success true with warning
-            expect(stdout).toContain(rec.type);
-        });
-    }
+        expect(exitCode).toBe(0); // Unknown type produces success true with warning
+        expect(stdout).toContain(rec.type);
+    });
 });

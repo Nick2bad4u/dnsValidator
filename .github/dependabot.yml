@@ -2,7 +2,6 @@
 # The configuration is set to version 2 of the Dependabot schema.
 # yaml-language-server: $schema=https://www.schemastore.org/dependabot-2.0.json
 version: 2
-enable-beta-ecosystems: true
 
 multi-ecosystem-groups:
     dependabot-all:
@@ -27,7 +26,6 @@ updates:
           default-days: 3
           include: ["*"]
       directory: /
-      open-pull-requests-limit: 5
       schedule:
           interval: monthly
           time: "05:30"
@@ -49,7 +47,6 @@ updates:
           default-days: 3
           include: ["*"]
       directory: /
-      open-pull-requests-limit: 5
       schedule:
           interval: monthly
           time: "06:00"

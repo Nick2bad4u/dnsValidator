@@ -7,7 +7,7 @@ import { tmpdir } from "node:os";
 
 const testDirectory = import.meta.dirname;
 
-describe("ESM build entry", () => {
+describe("esm build entry", () => {
     const nodeCmd = process.execPath;
 
     function runESM(code: string) {
@@ -24,7 +24,11 @@ describe("ESM build entry", () => {
         const code = `import * as m from '${esmPath}';\nconsole.log(typeof m.validateDNSRecord);`;
         const { stdout, stderr, status } = runESM(code);
 
-        expect({ status, stderr: stderr.trim(), out: stdout.trim() }).toEqual({
+        expect({
+            status,
+            stderr: stderr.trim(),
+            out: stdout.trim(),
+        }).toStrictEqual({
             status: 0,
             stderr: "",
             out: "function",
@@ -38,7 +42,11 @@ describe("ESM build entry", () => {
         const code = `import * as m from '${esmPath}';\nconsole.log(typeof m.isARecord);`;
         const { stdout, stderr, status } = runESM(code);
 
-        expect({ status, stderr: stderr.trim(), out: stdout.trim() }).toEqual({
+        expect({
+            status,
+            stderr: stderr.trim(),
+            out: stdout.trim(),
+        }).toStrictEqual({
             status: 0,
             stderr: "",
             out: "function",

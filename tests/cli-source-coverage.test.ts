@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { runCLI } from "../src/cli";
 import * as nodePath from "node:path";
 import { writeFileSync, unlinkSync, readFileSync } from "node:fs";
@@ -7,26 +7,34 @@ const testDirectory = import.meta.dirname;
 
 describe("cli.ts source coverage via runCLI", () => {
     function capture(argv: string[]) {
-        const originalLog = console.log;
-        const originalErr = console.error;
-        const originalExit = process.exit;
         const logs: string[] = [];
         const errs: string[] = [];
         let code: number | undefined;
-        (console as any).log = (...a: any[]) => logs.push(a.join(" "));
-        (console as any).error = (...a: any[]) => errs.push(a.join(" "));
-        (process as any).exit = (c?: number) => {
-            code = c;
+        const logSpy = vi
+            .spyOn(console, "log")
+            .mockImplementation((...args) => {
+                logs.push(args.join(" "));
+            });
+        const errorSpy = vi
+            .spyOn(console, "error")
+            .mockImplementation((...args) => {
+                errs.push(args.join(" "));
+            });
+        const exitSpy = vi.spyOn(process, "exit").mockImplementation(((
+            exitCode?: string | number | null | undefined
+        ) => {
+            code = typeof exitCode === "number" ? exitCode : undefined;
             throw new Error("EXIT");
-        };
+        }) as typeof process.exit);
         try {
             runCLI(argv);
-        } catch (error: any) {
-            if (error.message !== "EXIT") throw error;
+        } catch (error: unknown) {
+            if (!(error instanceof Error) || error.message !== "EXIT")
+                throw error;
         } finally {
-            console.log = originalLog;
-            console.error = originalErr;
-            process.exit = originalExit;
+            logSpy.mockRestore();
+            errorSpy.mockRestore();
+            exitSpy.mockRestore();
         }
         return { logs, errs, code };
     }
