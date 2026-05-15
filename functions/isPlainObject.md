@@ -1,8 +1,8 @@
 # Function: isPlainObject()
 
-> **isPlainObject**(`value`): `value is Record<string, unknown>`
+> **isPlainObject**(`value`): `value is UnknownRecord`
 
-Defined in: [performance.ts:72](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L72)
+Defined in: [performance.ts:90](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L90)
 
 Optimized type checking with early returns
 
@@ -14,4 +14,4 @@ Optimized type checking with early returns
 
 ## Returns
 
-`value is Record<string, unknown>`
+`value is UnknownRecord`

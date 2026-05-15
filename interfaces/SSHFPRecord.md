@@ -1,18 +1,19 @@
 # Interface: SSHFPRecord
 
-Defined in: [types.ts:641](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L641)
+Defined in: [types.ts:644](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L644)
 
-SSHFP record - SSH Public Key Fingerprint, used to publish SSH host key fingerprints in DNS.
+SSHFP record - SSH Public Key Fingerprint, used to publish SSH host key
+fingerprints in DNS.
 
 ## Example
 
 ```typescript
 const record: SSHFPRecord = {
-  type: 'SSHFP',
-  algorithm: 4, // Ed25519
-  fpType: 2, // SHA-256
-  fingerprint: 'abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890',
-  ttl: 3600
+    type: "SSHFP",
+    algorithm: 4, // Ed25519
+    fpType: 2, // SHA-256
+    fingerprint: "abcdef1234567890abcdef1234567890abcdef12",
+    ttl: 3600,
 };
 ```
 
@@ -24,9 +25,9 @@ const record: SSHFPRecord = {
 
 ### ttl?
 
-> `optional` **ttl**: `number`
+> `optional` **ttl?**: `number`
 
-Defined in: [types.ts:42](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L42)
+Defined in: [types.ts:76](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L76)
 
 Time to live in seconds (optional)
 
@@ -36,37 +37,13 @@ Time to live in seconds (optional)
 
 ***
 
-### type
-
-> **type**: `"SSHFP"`
-
-Defined in: [types.ts:642](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L642)
-
-The type of DNS record
-
-#### Overrides
-
-[`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
-
-***
-
 ### algorithm
 
 > **algorithm**: `number`
 
-Defined in: [types.ts:644](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L644)
-
-SSH public key algorithm
-
-***
-
-### fpType
-
-> **fpType**: `number`
-
 Defined in: [types.ts:646](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L646)
 
-Fingerprint type
+SSH public key algorithm
 
 ***
 
@@ -77,3 +54,27 @@ Fingerprint type
 Defined in: [types.ts:648](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L648)
 
 Hexadecimal fingerprint
+
+***
+
+### fpType
+
+> **fpType**: `number`
+
+Defined in: [types.ts:650](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L650)
+
+Fingerprint type
+
+***
+
+### type
+
+> **type**: `"SSHFP"`
+
+Defined in: [types.ts:651](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L651)
+
+The type of DNS record
+
+#### Overrides
+
+[`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)

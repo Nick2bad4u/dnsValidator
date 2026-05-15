@@ -1,0 +1,20 @@
+include:
+    - README.md
+    - globals.md
+    - interfaces
+    - functions
+    - variables
+    - _media
+kramdown:
+    hard_wrap: false
+    input: GFM
+logo: /_media/LICENSE
+markdown: kramdown
+plugins:
+    - jekyll-relative-links
+    - jekyll-seo-tag
+relative_links:
+    collections: true
+    enabled: true
+remote_theme: pages-themes/cayman@v0.2.0
+title: DNS Response Validator

@@ -2,7 +2,7 @@
 
 > **isNAPTRRecord**(`record`): `record is NAPTRRecord`
 
-Defined in: [validators.ts:368](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/validators.ts#L368)
+Defined in: [validators.ts:295](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/validators.ts#L295)
 
 Validates a NAPTR record
 

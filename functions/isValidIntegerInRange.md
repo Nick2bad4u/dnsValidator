@@ -2,7 +2,7 @@
 
 > **isValidIntegerInRange**(`value`, `min`, `max`): `value is number`
 
-Defined in: [performance.ts:86](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L86)
+Defined in: [performance.ts:154](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L154)
 
 Fast integer range validation
 

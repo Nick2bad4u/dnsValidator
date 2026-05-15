@@ -1,6 +1,6 @@
 # Class: MalformedRecordError
 
-Defined in: [errors.ts:89](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L89)
+Defined in: [errors.ts:165](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L165)
 
 Error thrown when a DNS record structure is malformed
 
@@ -14,7 +14,7 @@ Error thrown when a DNS record structure is malformed
 
 > **new MalformedRecordError**(`message`, `field?`, `value?`): `MalformedRecordError`
 
-Defined in: [errors.ts:90](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L90)
+Defined in: [errors.ts:166](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L166)
 
 #### Parameters
 
@@ -44,7 +44,7 @@ Defined in: [errors.ts:90](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 > `readonly` **code**: `string`
 
-Defined in: [errors.ts:9](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L9)
+Defined in: [errors.ts:22](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L22)
 
 #### Inherited from
 
@@ -56,7 +56,7 @@ Defined in: [errors.ts:9](https://github.com/Nick2bad4u/dnsValidator/blob/main/s
 
 > `readonly` **field**: `string` \| `undefined`
 
-Defined in: [errors.ts:10](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L10)
+Defined in: [errors.ts:23](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L23)
 
 #### Inherited from
 
@@ -68,7 +68,7 @@ Defined in: [errors.ts:10](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 > `readonly` **value**: `unknown`
 
-Defined in: [errors.ts:11](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L11)
+Defined in: [errors.ts:24](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L24)
 
 #### Inherited from
 

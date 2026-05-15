@@ -1,5 +1,7 @@
 # Type Alias: NodeDNSErrorCode
 
-> **NodeDNSErrorCode** = *typeof* [`NodeDNSErrorCodes`](../variables/NodeDNSErrorCodes.md)\[keyof *typeof* [`NodeDNSErrorCodes`](../variables/NodeDNSErrorCodes.md)\]
+> **NodeDNSErrorCode** = `ValueOf`\<*typeof* [`NodeDNSErrorCodes`](../variables/NodeDNSErrorCodes.md)\>
 
-Defined in: [errors.ts:61](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L61)
+Defined in: [errors.ts:121](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L121)
+
+DNS error code emitted by Node's dns module.

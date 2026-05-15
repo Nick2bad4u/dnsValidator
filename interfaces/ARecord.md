@@ -1,6 +1,6 @@
 # Interface: ARecord
 
-Defined in: [types.ts:59](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L59)
+Defined in: [types.ts:61](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L61)
 
 A record - Maps a domain name to an IPv4 address.
 
@@ -8,9 +8,9 @@ A record - Maps a domain name to an IPv4 address.
 
 ```typescript
 const record: ARecord = {
-  type: 'A',
-  address: '192.168.1.1',
-  ttl: 300
+    type: "A",
+    address: "192.168.1.1",
+    ttl: 300,
 };
 ```
 
@@ -20,17 +20,13 @@ const record: ARecord = {
 
 ## Properties
 
-### ttl?
+### address
 
-> `optional` **ttl**: `number`
+> **address**: `string`
 
-Defined in: [types.ts:42](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L42)
+Defined in: [types.ts:63](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L63)
 
-Time to live in seconds (optional)
-
-#### Inherited from
-
-[`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
+IPv4 address in dotted decimal notation
 
 ***
 
@@ -38,7 +34,7 @@ Time to live in seconds (optional)
 
 > **type**: `"A"`
 
-Defined in: [types.ts:60](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L60)
+Defined in: [types.ts:64](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L64)
 
 The type of DNS record
 
@@ -48,10 +44,14 @@ The type of DNS record
 
 ***
 
-### address
+### ttl?
 
-> **address**: `string`
+> `optional` **ttl?**: `number`
 
-Defined in: [types.ts:62](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L62)
+Defined in: [types.ts:76](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L76)
 
-IPv4 address in dotted decimal notation
+Time to live in seconds (optional)
+
+#### Inherited from
+
+[`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)

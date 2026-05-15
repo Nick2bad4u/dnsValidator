@@ -1,32 +1,16 @@
 # Interface: ValidationMetrics
 
-Defined in: [performance.ts:178](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L178)
+Defined in: [performance.ts:195](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L195)
 
 Validation performance metrics
 
 ## Properties
 
-### totalValidations
-
-> **totalValidations**: `number`
-
-Defined in: [performance.ts:179](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L179)
-
-***
-
-### successfulValidations
-
-> **successfulValidations**: `number`
-
-Defined in: [performance.ts:180](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L180)
-
-***
-
 ### averageTimeMs
 
 > **averageTimeMs**: `number`
 
-Defined in: [performance.ts:181](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L181)
+Defined in: [performance.ts:196](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L196)
 
 ***
 
@@ -34,7 +18,7 @@ Defined in: [performance.ts:181](https://github.com/Nick2bad4u/dnsValidator/blob
 
 > **cacheHits**: `number`
 
-Defined in: [performance.ts:182](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L182)
+Defined in: [performance.ts:197](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L197)
 
 ***
 
@@ -42,4 +26,20 @@ Defined in: [performance.ts:182](https://github.com/Nick2bad4u/dnsValidator/blob
 
 > **cacheMisses**: `number`
 
-Defined in: [performance.ts:183](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L183)
+Defined in: [performance.ts:198](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L198)
+
+***
+
+### successfulValidations
+
+> **successfulValidations**: `number`
+
+Defined in: [performance.ts:199](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L199)
+
+***
+
+### totalValidations
+
+> **totalValidations**: `number`
+
+Defined in: [performance.ts:200](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L200)

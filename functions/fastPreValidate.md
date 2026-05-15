@@ -2,10 +2,10 @@
 
 > **fastPreValidate**(`value`, `pattern`): `boolean` \| `null`
 
-Defined in: [performance.ts:52](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L52)
+Defined in: [performance.ts:70](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L70)
 
-Fast pre-validation using regex patterns
-Returns null if validation should proceed, or false if definitely invalid
+Fast pre-validation using regex patterns Returns null if validation should
+proceed, or false if definitely invalid
 
 ## Parameters
 
@@ -15,7 +15,7 @@ Returns null if validation should proceed, or false if definitely invalid
 
 ### pattern
 
-`string`
+[`ValidationPatternName`](../type-aliases/ValidationPatternName.md)
 
 ## Returns
 

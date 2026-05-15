@@ -1,6 +1,6 @@
 # Interface: DNSKEYRecord
 
-Defined in: [types.ts:449](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L449)
+Defined in: [types.ts:155](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L155)
 
 DNSKEY record - Contains a public key used for DNSSEC validation.
 
@@ -8,12 +8,12 @@ DNSKEY record - Contains a public key used for DNSSEC validation.
 
 ```typescript
 const record: DNSKEYRecord = {
-  type: 'DNSKEY',
-  flags: 257, // Key Signing Key
-  protocol: 3,
-  algorithm: 8, // RSA/SHA-256
-  publicKey: 'AwEAAag/59Q...',
-  ttl: 86400
+    type: "DNSKEY",
+    flags: 257, // Key Signing Key
+    protocol: 3,
+    algorithm: 8, // RSA/SHA-256
+    publicKey: "AwEAAag/59Q...",
+    ttl: 86400,
 };
 ```
 
@@ -25,9 +25,9 @@ const record: DNSKEYRecord = {
 
 ### ttl?
 
-> `optional` **ttl**: `number`
+> `optional` **ttl?**: `number`
 
-Defined in: [types.ts:42](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L42)
+Defined in: [types.ts:76](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L76)
 
 Time to live in seconds (optional)
 
@@ -37,17 +37,13 @@ Time to live in seconds (optional)
 
 ***
 
-### type
+### algorithm
 
-> **type**: `"DNSKEY"`
+> **algorithm**: `number`
 
-Defined in: [types.ts:450](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L450)
+Defined in: [types.ts:157](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L157)
 
-The type of DNS record
-
-#### Overrides
-
-[`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
+Cryptographic algorithm number
 
 ***
 
@@ -55,7 +51,7 @@ The type of DNS record
 
 > **flags**: `number`
 
-Defined in: [types.ts:452](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L452)
+Defined in: [types.ts:159](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L159)
 
 Flags field (bit 7 = Zone Key, bit 15 = Secure Entry Point)
 
@@ -65,19 +61,9 @@ Flags field (bit 7 = Zone Key, bit 15 = Secure Entry Point)
 
 > **protocol**: `number`
 
-Defined in: [types.ts:454](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L454)
+Defined in: [types.ts:161](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L161)
 
 Protocol field (always 3 for DNSSEC)
-
-***
-
-### algorithm
-
-> **algorithm**: `number`
-
-Defined in: [types.ts:456](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L456)
-
-Cryptographic algorithm number
 
 ***
 
@@ -85,6 +71,20 @@ Cryptographic algorithm number
 
 > **publicKey**: `string`
 
-Defined in: [types.ts:458](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L458)
+Defined in: [types.ts:163](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L163)
 
 Base64-encoded public key
+
+***
+
+### type
+
+> **type**: `"DNSKEY"`
+
+Defined in: [types.ts:164](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L164)
+
+The type of DNS record
+
+#### Overrides
+
+[`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)

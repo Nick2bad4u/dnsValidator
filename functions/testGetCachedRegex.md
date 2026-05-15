@@ -1,8 +1,12 @@
-# Function: \_\_testGetCachedRegex()
+# Function: testGetCachedRegex()
 
-> **\_\_testGetCachedRegex**(`pattern`, `flags?`): `RegExp`
+> **testGetCachedRegex**(`pattern`, `flags?`): `RegExp`
 
-Defined in: [performance.ts:24](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L24)
+Defined in: [performance.ts:35](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L35)
+
+**`Internal`**
+
+Test hook for exercising cache miss/hit branches.
 
 ## Parameters
 

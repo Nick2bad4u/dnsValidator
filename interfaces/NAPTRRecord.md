@@ -1,23 +1,24 @@
 # Interface: NAPTRRecord
 
-Defined in: [types.ts:317](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L317)
+Defined in: [types.ts:340](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L340)
 
 NAPTR record - Naming Authority Pointer.
 
-Used for mapping services to domain names, often in ENUM and SIP applications.
+Used for mapping services to domain names, often in ENUM and SIP
+applications.
 
 ## Example
 
 ```typescript
 const record: NAPTRRecord = {
-  type: 'NAPTR',
-  order: 100,
-  preference: 50,
-  flags: 'u',
-  service: 'E2U+sip',
-  regexp: '!^.*$!sip:info@example.com!',
-  replacement: '',
-  ttl: 3600
+    type: "NAPTR",
+    order: 100,
+    preference: 50,
+    flags: "u",
+    service: "E2U+sip",
+    regexp: "!^.*$!sip:info@example.com!",
+    replacement: "",
+    ttl: 3600,
 };
 ```
 
@@ -29,9 +30,9 @@ const record: NAPTRRecord = {
 
 ### ttl?
 
-> `optional` **ttl**: `number`
+> `optional` **ttl?**: `number`
 
-Defined in: [types.ts:42](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L42)
+Defined in: [types.ts:76](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L76)
 
 Time to live in seconds (optional)
 
@@ -41,17 +42,13 @@ Time to live in seconds (optional)
 
 ***
 
-### type
+### flags
 
-> **type**: `"NAPTR"`
+> **flags**: `string`
 
-Defined in: [types.ts:318](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L318)
+Defined in: [types.ts:342](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L342)
 
-The type of DNS record
-
-#### Overrides
-
-[`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
+Flags controlling processing
 
 ***
 
@@ -59,7 +56,7 @@ The type of DNS record
 
 > **order**: `number`
 
-Defined in: [types.ts:320](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L320)
+Defined in: [types.ts:344](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L344)
 
 Order value for processing sequence
 
@@ -69,29 +66,9 @@ Order value for processing sequence
 
 > **preference**: `number`
 
-Defined in: [types.ts:322](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L322)
+Defined in: [types.ts:346](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L346)
 
 Preference value within same order
-
-***
-
-### flags
-
-> **flags**: `string`
-
-Defined in: [types.ts:324](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L324)
-
-Flags controlling processing
-
-***
-
-### service
-
-> **service**: `string`
-
-Defined in: [types.ts:326](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L326)
-
-Service parameters
 
 ***
 
@@ -99,7 +76,7 @@ Service parameters
 
 > **regexp**: `string`
 
-Defined in: [types.ts:328](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L328)
+Defined in: [types.ts:348](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L348)
 
 Regular expression for URI construction
 
@@ -109,6 +86,30 @@ Regular expression for URI construction
 
 > **replacement**: `string`
 
-Defined in: [types.ts:330](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L330)
+Defined in: [types.ts:350](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L350)
 
 Replacement domain name
+
+***
+
+### service
+
+> **service**: `string`
+
+Defined in: [types.ts:352](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L352)
+
+Service parameters
+
+***
+
+### type
+
+> **type**: `"NAPTR"`
+
+Defined in: [types.ts:353](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L353)
+
+The type of DNS record
+
+#### Overrides
+
+[`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)

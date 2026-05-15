@@ -1,6 +1,6 @@
 # Interface: MXRecord
 
-Defined in: [types.ts:120](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L120)
+Defined in: [types.ts:309](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L309)
 
 MX record - Specifies mail exchange servers for a domain.
 
@@ -8,10 +8,10 @@ MX record - Specifies mail exchange servers for a domain.
 
 ```typescript
 const record: MXRecord = {
-  type: 'MX',
-  priority: 10,
-  exchange: 'mail.example.com',
-  ttl: 3600
+    type: "MX",
+    priority: 10,
+    exchange: "mail.example.com",
+    ttl: 3600,
 };
 ```
 
@@ -23,9 +23,9 @@ const record: MXRecord = {
 
 ### ttl?
 
-> `optional` **ttl**: `number`
+> `optional` **ttl?**: `number`
 
-Defined in: [types.ts:42](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L42)
+Defined in: [types.ts:76](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L76)
 
 Time to live in seconds (optional)
 
@@ -35,17 +35,13 @@ Time to live in seconds (optional)
 
 ***
 
-### type
+### exchange
 
-> **type**: `"MX"`
+> **exchange**: `string`
 
-Defined in: [types.ts:121](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L121)
+Defined in: [types.ts:311](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L311)
 
-The type of DNS record
-
-#### Overrides
-
-[`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
+Mail server hostname
 
 ***
 
@@ -53,16 +49,20 @@ The type of DNS record
 
 > **priority**: `number`
 
-Defined in: [types.ts:123](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L123)
+Defined in: [types.ts:313](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L313)
 
 Priority value (0-65535, lower values have higher priority)
 
 ***
 
-### exchange
+### type
 
-> **exchange**: `string`
+> **type**: `"MX"`
 
-Defined in: [types.ts:125](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L125)
+Defined in: [types.ts:314](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L314)
 
-Mail server hostname
+The type of DNS record
+
+#### Overrides
+
+[`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)

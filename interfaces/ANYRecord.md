@@ -1,6 +1,6 @@
 # Interface: ANYRecord
 
-Defined in: [types.ts:383](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L383)
+Defined in: [types.ts:38](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L38)
 
 ANY record - Represents a query for any type of DNS record.
 
@@ -8,8 +8,8 @@ ANY record - Represents a query for any type of DNS record.
 
 ```typescript
 const record: ANYRecord = {
-  type: 'ANY',
-  ttl: 300
+    type: "ANY",
+    ttl: 300,
 };
 ```
 
@@ -19,17 +19,13 @@ const record: ANYRecord = {
 
 ## Properties
 
-### ttl?
+### records?
 
-> `optional` **ttl**: `number`
+> `optional` **records?**: `UnknownRecord`[]
 
-Defined in: [types.ts:42](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L42)
+Defined in: [types.ts:40](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L40)
 
-Time to live in seconds (optional)
-
-#### Inherited from
-
-[`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
+Optional collection of mixed record results (Node resolveAny style)
 
 ***
 
@@ -37,7 +33,7 @@ Time to live in seconds (optional)
 
 > **type**: `"ANY"`
 
-Defined in: [types.ts:384](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L384)
+Defined in: [types.ts:41](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L41)
 
 The type of DNS record
 
@@ -49,18 +45,22 @@ The type of DNS record
 
 ### value?
 
-> `optional` **value**: `unknown`
+> `optional` **value?**: `unknown`
 
-Defined in: [types.ts:386](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L386)
+Defined in: [types.ts:43](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L43)
 
 Raw value (deprecated - prefer specific typed arrays)
 
 ***
 
-### records?
+### ttl?
 
-> `optional` **records**: (\{ `type`: `"A"`; `address`: `string`; `ttl?`: `number`; \} \| \{ `type`: `"AAAA"`; `address`: `string`; `ttl?`: `number`; \} \| \{ `type`: `"CNAME"`; `value`: `string`; \} \| \{ `type`: `"MX"`; `exchange`: `string`; `priority`: `number`; \} \| \{ `type`: `"NAPTR"`; `flags`: `string`; `service`: `string`; `regexp`: `string`; `replacement`: `string`; `order`: `number`; `preference`: `number`; \} \| \{ `type`: `"NS"`; `value`: `string`; \} \| \{ `type`: `"PTR"`; `value`: `string`; \} \| \{ `type`: `"SOA"`; `nsname`: `string`; `hostmaster`: `string`; `serial`: `number`; `refresh`: `number`; `retry`: `number`; `expire`: `number`; `minttl`: `number`; \} \| \{ `type`: `"SRV"`; `priority`: `number`; `weight`: `number`; `port`: `number`; `name`: `string`; \} \| \{ `type`: `"TLSA"`; `certUsage`: `number`; `selector`: `number`; `match`: `number`; `data`: `string` \| `ArrayBuffer`; \} \| \{ `type`: `"TXT"`; `entries`: `string`[]; \})[]
+> `optional` **ttl?**: `number`
 
-Defined in: [types.ts:388](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L388)
+Defined in: [types.ts:76](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L76)
 
-Optional collection of mixed record results (Node resolveAny style)
+Time to live in seconds (optional)
+
+#### Inherited from
+
+[`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)

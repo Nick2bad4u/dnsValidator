@@ -2,7 +2,7 @@
 
 > **isDNSKEYRecord**(`record`): `record is DNSKEYRecord`
 
-Defined in: [dnssec-validators.ts:64](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec-validators.ts#L64)
+Defined in: [dnssec-validators.ts:110](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec-validators.ts#L110)
 
 Validates a DNSKEY record
 

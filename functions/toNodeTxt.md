@@ -2,7 +2,7 @@
 
 > **toNodeTxt**(`records`): `string`[][]
 
-Defined in: [node-compat.ts:94](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/node-compat.ts#L94)
+Defined in: [node-compat.ts:148](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/node-compat.ts#L148)
 
 Convert internal TXTRecord[] to Node resolveTxt shape (string[][])
 
@@ -10,7 +10,7 @@ Convert internal TXTRecord[] to Node resolveTxt shape (string[][])
 
 ### records
 
-[`TXTRecord`](../interfaces/TXTRecord.md)[]
+readonly `Readonly`\<[`TXTRecord`](../interfaces/TXTRecord.md)\>[]
 
 ## Returns
 

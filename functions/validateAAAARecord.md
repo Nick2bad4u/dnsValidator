@@ -2,7 +2,7 @@
 
 > **validateAAAARecord**(`record`): [`ValidationResult`](../interfaces/ValidationResult.md)
 
-Defined in: [enhanced-validators.ts:60](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/enhanced-validators.ts#L60)
+Defined in: [enhanced-validators.ts:66](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/enhanced-validators.ts#L66)
 
 Enhanced AAAA record validation with detailed error messages
 

@@ -1,6 +1,6 @@
 # Class: ValidationPerformanceTracker
 
-Defined in: [performance.ts:189](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L189)
+Defined in: [performance.ts:206](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L206)
 
 Performance tracking for validation operations
 
@@ -16,31 +16,15 @@ Performance tracking for validation operations
 
 ## Methods
 
-### startValidation()
+### getMetrics()
 
-> **startValidation**(): () => `void`
+> **getMetrics**(): [`ValidationMetrics`](../interfaces/ValidationMetrics.md)
 
-Defined in: [performance.ts:200](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L200)
-
-#### Returns
-
-> (): `void`
-
-##### Returns
-
-`void`
-
-***
-
-### recordSuccess()
-
-> **recordSuccess**(): `void`
-
-Defined in: [performance.ts:215](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L215)
+Defined in: [performance.ts:217](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L217)
 
 #### Returns
 
-`void`
+[`ValidationMetrics`](../interfaces/ValidationMetrics.md)
 
 ***
 
@@ -48,7 +32,7 @@ Defined in: [performance.ts:215](https://github.com/Nick2bad4u/dnsValidator/blob
 
 > **recordCacheHit**(): `void`
 
-Defined in: [performance.ts:219](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L219)
+Defined in: [performance.ts:221](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L221)
 
 #### Returns
 
@@ -60,7 +44,7 @@ Defined in: [performance.ts:219](https://github.com/Nick2bad4u/dnsValidator/blob
 
 > **recordCacheMiss**(): `void`
 
-Defined in: [performance.ts:223](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L223)
+Defined in: [performance.ts:225](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L225)
 
 #### Returns
 
@@ -68,15 +52,15 @@ Defined in: [performance.ts:223](https://github.com/Nick2bad4u/dnsValidator/blob
 
 ***
 
-### getMetrics()
+### recordSuccess()
 
-> **getMetrics**(): [`ValidationMetrics`](../interfaces/ValidationMetrics.md)
+> **recordSuccess**(): `void`
 
-Defined in: [performance.ts:227](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L227)
+Defined in: [performance.ts:229](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L229)
 
 #### Returns
 
-[`ValidationMetrics`](../interfaces/ValidationMetrics.md)
+`void`
 
 ***
 
@@ -84,8 +68,20 @@ Defined in: [performance.ts:227](https://github.com/Nick2bad4u/dnsValidator/blob
 
 > **reset**(): `void`
 
-Defined in: [performance.ts:231](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L231)
+Defined in: [performance.ts:233](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L233)
 
 #### Returns
 
 `void`
+
+***
+
+### startValidation()
+
+> **startValidation**(): () => `void`
+
+Defined in: [performance.ts:244](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L244)
+
+#### Returns
+
+() => `void`

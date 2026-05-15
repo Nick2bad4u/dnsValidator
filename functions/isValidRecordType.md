@@ -2,7 +2,7 @@
 
 > **isValidRecordType**(`type`): `type is DNSRecordType`
 
-Defined in: [performance.ts:169](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L169)
+Defined in: [performance.ts:264](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L264)
 
 Fast record type validation
 

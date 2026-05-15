@@ -1,6 +1,6 @@
 # Class: InvalidQueryStructureError
 
-Defined in: [errors.ts:127](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L127)
+Defined in: [errors.ts:140](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L140)
 
 Error thrown when DNS query structure is invalid
 
@@ -14,7 +14,7 @@ Error thrown when DNS query structure is invalid
 
 > **new InvalidQueryStructureError**(`message`, `field?`): `InvalidQueryStructureError`
 
-Defined in: [errors.ts:128](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L128)
+Defined in: [errors.ts:141](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L141)
 
 #### Parameters
 
@@ -40,7 +40,7 @@ Defined in: [errors.ts:128](https://github.com/Nick2bad4u/dnsValidator/blob/main
 
 > `readonly` **code**: `string`
 
-Defined in: [errors.ts:9](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L9)
+Defined in: [errors.ts:22](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L22)
 
 #### Inherited from
 
@@ -52,7 +52,7 @@ Defined in: [errors.ts:9](https://github.com/Nick2bad4u/dnsValidator/blob/main/s
 
 > `readonly` **field**: `string` \| `undefined`
 
-Defined in: [errors.ts:10](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L10)
+Defined in: [errors.ts:23](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L23)
 
 #### Inherited from
 
@@ -64,7 +64,7 @@ Defined in: [errors.ts:10](https://github.com/Nick2bad4u/dnsValidator/blob/main/
 
 > `readonly` **value**: `unknown`
 
-Defined in: [errors.ts:11](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L11)
+Defined in: [errors.ts:24](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L24)
 
 #### Inherited from
 

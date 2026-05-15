@@ -2,7 +2,7 @@
 
 > **isSRVRecord**(`record`): `record is SRVRecord`
 
-Defined in: [validators.ts:309](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/validators.ts#L309)
+Defined in: [validators.ts:452](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/validators.ts#L452)
 
 Validates an SRV record
 

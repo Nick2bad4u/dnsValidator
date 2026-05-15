@@ -1,27 +1,31 @@
 # Function: trackPerformance()
 
-> **trackPerformance**\<`T`\>(`validationFn`, `tracker`): `T`
+> **trackPerformance**\<`Arguments`, `Return`\>(`validationFn`, `tracker?`): (...`args`) => `Return`
 
-Defined in: [performance.ts:252](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L252)
+Defined in: [performance.ts:277](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L277)
 
 Decorator for tracking validation performance
 
 ## Type Parameters
 
-### T
+### Arguments
 
-`T` *extends* (...`args`) => `any`
+`Arguments` *extends* `unknown`[]
+
+### Return
+
+`Return`
 
 ## Parameters
 
 ### validationFn
 
-`T`
+(...`args`) => `Return`
 
-### tracker
+### tracker?
 
 [`ValidationPerformanceTracker`](../classes/ValidationPerformanceTracker.md) = `globalPerformanceTracker`
 
 ## Returns
 
-`T`
+(...`args`) => `Return`

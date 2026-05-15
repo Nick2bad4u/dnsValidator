@@ -2,7 +2,7 @@
 
 > **fromNodeTxt**(`records`, `ttl?`): [`TXTRecord`](../interfaces/TXTRecord.md)[]
 
-Defined in: [node-compat.ts:85](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/node-compat.ts#L85)
+Defined in: [node-compat.ts:47](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/node-compat.ts#L47)
 
 Convert Node resolveTxt result (string[][]) to internal TXTRecord[]
 
@@ -10,7 +10,7 @@ Convert Node resolveTxt result (string[][]) to internal TXTRecord[]
 
 ### records
 
-`string`[][]
+readonly readonly `string`[][]
 
 ### ttl?
 

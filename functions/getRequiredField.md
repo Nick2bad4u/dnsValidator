@@ -1,22 +1,16 @@
 # Function: getRequiredField()
 
-> **getRequiredField**\<`T`\>(`obj`, `field`, `expectedType`): `T` \| `null`
+> **getRequiredField**(`obj`, `field`, `expectedType`): `unknown`
 
-Defined in: [performance.ts:102](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L102)
+Defined in: [performance.ts:123](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L123)
 
-Optimized field access with type checking
-
-## Type Parameters
-
-### T
-
-`T`
+Optimized field access with type checking.
 
 ## Parameters
 
 ### obj
 
-`Record`\<`string`, `unknown`\>
+`Readonly`\<`UnknownRecord`\>
 
 ### field
 
@@ -24,8 +18,8 @@ Optimized field access with type checking
 
 ### expectedType
 
-`"string"` | `"number"` | `"boolean"` | `"object"`
+`"string"` \| `"number"` \| `"boolean"` \| `"object"`
 
 ## Returns
 
-`T` \| `null`
+`unknown`

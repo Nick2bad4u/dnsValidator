@@ -1,22 +1,16 @@
 # Function: getOptionalField()
 
-> **getOptionalField**\<`T`\>(`obj`, `field`, `expectedType`): `T` \| `null` \| `undefined`
+> **getOptionalField**(`obj`, `field`, `expectedType`): `unknown`
 
-Defined in: [performance.ts:123](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L123)
+Defined in: [performance.ts:102](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L102)
 
-Optimized field access for optional fields
-
-## Type Parameters
-
-### T
-
-`T`
+Optimized field access for optional fields.
 
 ## Parameters
 
 ### obj
 
-`Record`\<`string`, `unknown`\>
+`Readonly`\<`UnknownRecord`\>
 
 ### field
 
@@ -24,8 +18,8 @@ Optimized field access for optional fields
 
 ### expectedType
 
-`"string"` | `"number"` | `"boolean"` | `"object"`
+`"string"` \| `"number"` \| `"boolean"` \| `"object"`
 
 ## Returns
 
-`T` \| `null` \| `undefined`
+`unknown`

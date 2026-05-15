@@ -2,7 +2,7 @@
 
 > **validateDNSResponse**(`result`): [`ValidationResult`](../interfaces/ValidationResult.md)
 
-Defined in: [utils.ts:104](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/utils.ts#L104)
+Defined in: [utils.ts:218](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/utils.ts#L218)
 
 Validates DNS query response completeness and consistency
 
@@ -10,7 +10,7 @@ Validates DNS query response completeness and consistency
 
 ### result
 
-[`DNSQueryResult`](../interfaces/DNSQueryResult.md)
+`Readonly`\<[`DNSQueryResult`](../interfaces/DNSQueryResult.md)\>
 
 ## Returns
 

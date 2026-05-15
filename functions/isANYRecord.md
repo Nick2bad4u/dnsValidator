@@ -2,7 +2,7 @@
 
 > **isANYRecord**(`record`): `record is ANYRecord`
 
-Defined in: [validators.ts:445](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/validators.ts#L445)
+Defined in: [validators.ts:131](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/validators.ts#L131)
 
 Validates an ANY record (can be any type)
 

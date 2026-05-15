@@ -1,6 +1,6 @@
 # Interface: AAAARecord
 
-Defined in: [types.ts:79](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L79)
+Defined in: [types.ts:18](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L18)
 
 AAAA record - Maps a domain name to an IPv6 address.
 
@@ -8,9 +8,9 @@ AAAA record - Maps a domain name to an IPv6 address.
 
 ```typescript
 const record: AAAARecord = {
-  type: 'AAAA',
-  address: '2001:db8::1',
-  ttl: 300
+    type: "AAAA",
+    address: "2001:db8::1",
+    ttl: 300,
 };
 ```
 
@@ -20,17 +20,13 @@ const record: AAAARecord = {
 
 ## Properties
 
-### ttl?
+### address
 
-> `optional` **ttl**: `number`
+> **address**: `string`
 
-Defined in: [types.ts:42](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L42)
+Defined in: [types.ts:20](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L20)
 
-Time to live in seconds (optional)
-
-#### Inherited from
-
-[`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
+IPv6 address in colon-separated hexadecimal notation
 
 ***
 
@@ -38,7 +34,7 @@ Time to live in seconds (optional)
 
 > **type**: `"AAAA"`
 
-Defined in: [types.ts:80](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L80)
+Defined in: [types.ts:21](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L21)
 
 The type of DNS record
 
@@ -48,10 +44,14 @@ The type of DNS record
 
 ***
 
-### address
+### ttl?
 
-> **address**: `string`
+> `optional` **ttl?**: `number`
 
-Defined in: [types.ts:82](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L82)
+Defined in: [types.ts:76](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L76)
 
-IPv6 address in colon-separated hexadecimal notation
+Time to live in seconds (optional)
+
+#### Inherited from
+
+[`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)

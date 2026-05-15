@@ -2,7 +2,7 @@
 
 > **isValidNAPTRFlags**(`flags`): `boolean`
 
-Defined in: [utils.ts:174](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/utils.ts#L174)
+Defined in: [utils.ts:139](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/utils.ts#L139)
 
 Validates if a NAPTR flags value is valid
 

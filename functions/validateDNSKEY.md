@@ -2,7 +2,7 @@
 
 > **validateDNSKEY**(`record`): [`DNSKEYRecord`](../interfaces/DNSKEYRecord.md)
 
-Defined in: [dnssec.ts:233](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L233)
+Defined in: [dnssec.ts:232](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L232)
 
 Validates a DNSKEY record
 
@@ -10,8 +10,12 @@ Validates a DNSKEY record
 
 ### record
 
-`any`
+`unknown`
 
 ## Returns
 
 [`DNSKEYRecord`](../interfaces/DNSKEYRecord.md)
+
+## Throws
+
+DNSValidationError When the DNSKEY record is invalid.
