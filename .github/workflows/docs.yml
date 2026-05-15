@@ -43,7 +43,8 @@ jobs:
             - name: Setup Node
               uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
               with:
-                  node-version: 22
+                  node-version-file: .node-version
+                  package-manager-cache: false
 
             - name: Upgrade npm
               working-directory: ${{ runner.temp }}
