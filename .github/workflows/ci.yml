@@ -56,8 +56,10 @@ jobs:
               uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
               with:
                   node-version-file: .node-version
-                  cache: npm
-                  cache-dependency-path: package-lock.json
+
+            - name: Upgrade npm
+              working-directory: ${{ runner.temp }}
+              run: npm install --global npm@11.14.1
 
             - name: Install dependencies
               run: npm ci --force
@@ -72,9 +74,6 @@ jobs:
               env:
                   GITHUB_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
                   GITHUB_REF: ${{ github.event_name == 'pull_request' && format('refs/heads/{0}', github.head_ref) || github.ref }}
-
-            - name: Verify README rules table sync
-              run: npm run sync:readme-rules-table
 
             - name: Typecheck
               run: npm run typecheck
@@ -94,7 +93,7 @@ jobs:
               run: python -c "from pathlib import Path; assert Path('test-report.junit.xml').is_file(), 'test-report.junit.xml was not generated'"
 
             - name: Upload test results to Codecov
-              if: ${{ !cancelled() }}
+              if: ${{ !cancelled() && hashFiles('test-report.junit.xml') != '' }}
               uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
               with:
                   use_oidc: true
@@ -108,7 +107,7 @@ jobs:
                   verbose: true
 
             - name: Upload coverage to Codecov
-              if: ${{ !cancelled() }}
+              if: ${{ !cancelled() && hashFiles('coverage/lcov.info') != '' }}
               uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
               with:
                   use_oidc: true

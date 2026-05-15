@@ -244,12 +244,12 @@
     },
     "packageManager": "npm@11.14.1",
     "engines": {
-        "node": ">=22.0.0"
+        "node": ">=22.9.0"
     },
     "devEngines": {
         "runtime": {
             "name": "node",
-            "version": ">=22.0.0",
+            "version": ">=22.9.0",
             "onFail": "error"
         },
         "packageManager": {

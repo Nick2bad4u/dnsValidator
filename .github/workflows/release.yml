@@ -109,8 +109,10 @@ jobs:
               with:
                   node-version-file: .node-version
                   registry-url: ${{ env.NPM_REGISTRY_URL }}
-                  cache: npm
-                  cache-dependency-path: package-lock.json
+
+            - name: Upgrade npm
+              working-directory: ${{ runner.temp }}
+              run: npm install --global npm@11.14.1
 
             - name: Install dependencies
               run: npm ci --force
