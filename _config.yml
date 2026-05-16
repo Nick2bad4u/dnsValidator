@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://json.schemastore.org/jekyll.json
+description: TypeScript library for validating DNS query results and individual DNS records
+plugins:
+    - jekyll-sitemap
+    - jekyll-seo-tag
+    - jekyll-paginate
+    - jekyll-feed
+    - jekyll-archives
+    - jekyll-language-plugin
+    - jekyll-algolia
+    - jekyll-mentions
+    - jekyll-admin
+    - jekyll-loading-lazy
+remote_theme: pages-themes/hacker@v0.2.0
+title: DNS Validator
+url: "https://nick2bad4u.github.io/dnsValidator" # the base hostname & protocol for your site
