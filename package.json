@@ -160,7 +160,7 @@
         "build:watch": "tsc -p tsconfig.build.json --watch",
         "changelog:generate": "git-cliff --config cliff.toml --output CHANGELOG.md",
         "changelog:preview": "git-cliff --config cliff.toml --unreleased",
-        "changelog:release-notes": "git-cliff --config cliff.toml --latest --strip all",
+        "changelog:release-notes": "git-cliff --config cliff.toml --current --strip all",
         "clean": "del-cli dist coverage .cache",
         "clean:cache": "del-cli .cache coverage",
         "clean:cache:eslint": "del-cli .cache/.eslintcache",

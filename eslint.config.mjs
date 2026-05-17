@@ -110,6 +110,12 @@ const config = [
             "markdown/no-empty-links": "off",
         },
     },
+    {
+        files: ["**/*.html"],
+        rules: {
+            "@stylistic/spaced-comment": "off",
+        },
+    },
 ];
 
 export default config;
