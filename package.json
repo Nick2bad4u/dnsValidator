@@ -202,7 +202,8 @@
         "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.build.json --noEmit && tsc -p tsconfig.eslint.json --noEmit && tsc -p tsconfig.js.json --noEmit",
         "typecheck:all": "npm run typecheck",
         "update-deps": "npx ncu -i --install never && npm update --force && npm install --force && npm run sync:node-version-files",
-        "validate": "npm run release:verify"
+        "validate": "npm run release:verify",
+        "update-actions": "npx actions-up --yes --style sha"
     },
     "dependencies": {
         "cli-table3": "^0.6.5",
