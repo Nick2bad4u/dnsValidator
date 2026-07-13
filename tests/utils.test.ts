@@ -250,7 +250,7 @@ describe("domain name system utility functions", () => {
                 expect(isValidPriority(-1)).toBeFalsy();
                 expect(isValidPriority(65_536)).toBeFalsy();
                 expect(isValidPriority(1.5)).toBeFalsy();
-                expect(isValidPriority(Number.NaN)).toBeFalsy();
+                expect(isValidPriority(NaN)).toBeFalsy();
                 expect(isValidPriority(Infinity)).toBeFalsy();
             });
         });
@@ -266,7 +266,7 @@ describe("domain name system utility functions", () => {
                 expect(isValidWeight(-1)).toBeFalsy();
                 expect(isValidWeight(65_536)).toBeFalsy();
                 expect(isValidWeight(2.5)).toBeFalsy();
-                expect(isValidWeight(Number.NaN)).toBeFalsy();
+                expect(isValidWeight(NaN)).toBeFalsy();
                 expect(isValidWeight(Infinity)).toBeFalsy();
             });
         });
@@ -282,7 +282,7 @@ describe("domain name system utility functions", () => {
                 expect(isValidCAAFlags(-1)).toBeFalsy();
                 expect(isValidCAAFlags(256)).toBeFalsy();
                 expect(isValidCAAFlags(1.5)).toBeFalsy();
-                expect(isValidCAAFlags(Number.NaN)).toBeFalsy();
+                expect(isValidCAAFlags(NaN)).toBeFalsy();
             });
         });
     });

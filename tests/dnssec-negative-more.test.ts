@@ -22,10 +22,7 @@ function expectError(fn: () => unknown, code?: string): void {
 
 describe("dnssec additional negative branches", () => {
     it("rRSIG field errors", () => {
-        expectError(
-            () => validateRRSIG(null as any),
-            "INVALID_RRSIG_STRUCTURE"
-        );
+        expectError(() => validateRRSIG(null), "INVALID_RRSIG_STRUCTURE");
         expectError(() => validateRRSIG({}), "INVALID_RRSIG_TYPE_COVERED");
         expectError(
             () => validateRRSIG({ typeCovered: "A" }),
@@ -152,10 +149,7 @@ describe("dnssec additional negative branches", () => {
     });
 
     it("dNSKEY field errors", () => {
-        expectError(
-            () => validateDNSKEY(null as any),
-            "INVALID_DNSKEY_STRUCTURE"
-        );
+        expectError(() => validateDNSKEY(null), "INVALID_DNSKEY_STRUCTURE");
         expectError(() => validateDNSKEY({}), "INVALID_DNSKEY_FLAGS");
         expectError(
             () => validateDNSKEY({ flags: 1 }),
@@ -182,7 +176,7 @@ describe("dnssec additional negative branches", () => {
     });
 
     it("dS field errors", () => {
-        expectError(() => validateDS(null as any), "INVALID_DS_STRUCTURE");
+        expectError(() => validateDS(null), "INVALID_DS_STRUCTURE");
         expectError(() => validateDS({}), "INVALID_DS_KEY_TAG");
         expectError(() => validateDS({ keyTag: 1 }), "INVALID_DS_ALGORITHM");
         expectError(
@@ -217,7 +211,7 @@ describe("dnssec additional negative branches", () => {
     });
 
     it("nSEC field errors", () => {
-        expectError(() => validateNSEC(null as any), "INVALID_NSEC_STRUCTURE");
+        expectError(() => validateNSEC(null), "INVALID_NSEC_STRUCTURE");
         expectError(() => validateNSEC({}), "INVALID_NSEC_NEXT_DOMAIN");
         expectError(
             () => validateNSEC({ nextDomainName: "bad_domain", types: [] }),
@@ -242,10 +236,7 @@ describe("dnssec additional negative branches", () => {
     });
 
     it("nSEC3 field errors", () => {
-        expectError(
-            () => validateNSEC3(null as any),
-            "INVALID_NSEC3_STRUCTURE"
-        );
+        expectError(() => validateNSEC3(null), "INVALID_NSEC3_STRUCTURE");
         expectError(() => validateNSEC3({}), "INVALID_NSEC3_HASH_ALGORITHM");
         expectError(
             () => validateNSEC3({ hashAlgorithm: 1 }),
@@ -319,7 +310,7 @@ describe("dnssec additional negative branches", () => {
 
     it("nSEC3PARAM field errors", () => {
         expectError(
-            () => validateNSEC3PARAM(null as any),
+            () => validateNSEC3PARAM(null),
             "INVALID_NSEC3PARAM_STRUCTURE"
         );
         expectError(

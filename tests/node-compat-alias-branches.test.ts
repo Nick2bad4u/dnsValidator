@@ -80,7 +80,7 @@ describe("node-compat alias branch coverage", () => {
     });
 
     it("toANYRecord simple passthrough", () => {
-        const anyRec = toANYRecord([{ type: "A", address: "1.1.1.1" } as any]);
+        const anyRec = toANYRecord([{ type: "A", address: "1.1.1.1" }]);
 
         expect(anyRec.type).toBe("ANY");
         expect(anyRec.records && anyRec.records.length > 0).toBeTruthy();

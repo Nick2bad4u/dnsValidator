@@ -62,17 +62,13 @@ const isValidDNSRecordShape = (record: unknown): record is DNSRecord => {
 
     // Optional TTL validation
     const ttl = candidate["ttl"];
-    if (
+    return !(
         isDefined(ttl) &&
         (typeof ttl !== "number" ||
             !isInteger(ttl) ||
             ttl < 0 ||
             ttl > 2_147_483_647)
-    ) {
-        return false;
-    }
-
-    return true;
+    );
 };
 
 /**

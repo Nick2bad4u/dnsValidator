@@ -125,7 +125,7 @@ export const DigestAlgorithm = {
 /**
  * DNSSEC digest algorithm number.
  */
-export type DigestAlgorithm = ValueOf<typeof DigestAlgorithm>; // eslint-disable-line @typescript-eslint/no-redeclare -- intentional value+type export pairing for ergonomic API
+export type DigestAlgorithm = ValueOf<typeof DigestAlgorithm>;
 
 /**
  * DNSSEC key flags
@@ -139,7 +139,7 @@ export const DNSKEYFlags = {
 /**
  * DNSKEY flag bitmask value.
  */
-export type DNSKEYFlags = ValueOf<typeof DNSKEYFlags>; // eslint-disable-line @typescript-eslint/no-redeclare -- intentional value+type export pairing for ergonomic API
+export type DNSKEYFlags = ValueOf<typeof DNSKEYFlags>;
 
 /**
  * DNSSEC algorithms as defined in RFC 8624
@@ -163,7 +163,7 @@ export const DNSSECAlgorithm = {
 /**
  * DNSSEC algorithm number.
  */
-export type DNSSECAlgorithm = ValueOf<typeof DNSSECAlgorithm>; // eslint-disable-line @typescript-eslint/no-redeclare -- intentional value+type export pairing for ergonomic API
+export type DNSSECAlgorithm = ValueOf<typeof DNSSECAlgorithm>;
 
 /**
  * NSEC3 hash algorithms
@@ -175,7 +175,7 @@ export const NSEC3HashAlgorithm = {
 /**
  * NSEC3 hash algorithm number.
  */
-export type NSEC3HashAlgorithm = ValueOf<typeof NSEC3HashAlgorithm>; // eslint-disable-line @typescript-eslint/no-redeclare -- intentional value+type export pairing for ergonomic API
+export type NSEC3HashAlgorithm = ValueOf<typeof NSEC3HashAlgorithm>;
 
 /**
  * Calculates DNSKEY key tag (RFC 4034 Appendix B)
@@ -188,7 +188,7 @@ export function calculateKeyTag(dnskey: Readonly<DNSKEYRecord>): number {
     const data = `${dnskey.flags}${dnskey.protocol}${dnskey.algorithm}${dnskey.publicKey}`;
     let tag = 0;
 
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < data.length; i += 1) {
         const codePoint = data.codePointAt(i) ?? 0;
         tag += i % 2 === 0 ? codePoint << 8 : codePoint;
     }
@@ -276,7 +276,6 @@ export function validateDNSKEY(record: unknown): DNSKEYRecord {
     );
 
     // Public key should be base64-encoded
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define -- helper intentionally kept with other local utilities
     if (!isBase64Text(publicKey)) {
         throw new DNSValidationError(
             "DNSKEY publicKey must be base64-encoded",
@@ -832,7 +831,6 @@ export function validateRRSIG(record: unknown): RRSIGRecord {
     );
 
     // Signature should be base64-encoded
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define -- helper intentionally kept with other local utilities
     if (!isBase64Text(signature)) {
         throw new DNSValidationError(
             "RRSIG signature must be base64-encoded",

@@ -16,12 +16,17 @@ function capture(argv: string[]) {
         .mockImplementation((...args) => {
             errs.push(args.join(" "));
         });
-    const exitSpy = vi.spyOn(process, "exit").mockImplementation(((
-        exitCode?: string | number | null | undefined
-    ) => {
-        code = typeof exitCode === "number" ? exitCode : 0;
-        return undefined as never;
-    }) as typeof process.exit);
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation(
+        (
+            exitCode?:
+                | string
+                | number
+                | null
+        ) => {
+            code = typeof exitCode === "number" ? exitCode : 0;
+            return undefined as never;
+        }
+    );
     try {
         runCLI(argv);
     } finally {

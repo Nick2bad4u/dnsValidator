@@ -38,7 +38,11 @@ export const testGetCachedRegex = (pattern: string, flags?: string): RegExp =>
 /**
  * Name of a precompiled validation pattern.
  */
-export type ValidationPatternName = "email" | "fqdn" | "hex" | "ipv4";
+export type ValidationPatternName =
+    | "email"
+    | "fqdn"
+    | "hex"
+    | "ipv4";
 
 /**
  * Pre-compiled regex patterns for common validations.
@@ -102,7 +106,11 @@ export function isPlainObject(value: unknown): value is UnknownRecord {
 export function getOptionalField(
     obj: Readonly<UnknownRecord>,
     field: Readonly<string>,
-    expectedType: "boolean" | "number" | "object" | "string"
+    expectedType:
+        | "boolean"
+        | "number"
+        | "object"
+        | "string"
 ): unknown {
     const value = obj[field];
 
@@ -123,7 +131,11 @@ export function getOptionalField(
 export function getRequiredField(
     obj: Readonly<UnknownRecord>,
     field: Readonly<string>,
-    expectedType: "boolean" | "number" | "object" | "string"
+    expectedType:
+        | "boolean"
+        | "number"
+        | "object"
+        | "string"
 ): unknown {
     const value = obj[field];
 
@@ -219,15 +231,15 @@ export class ValidationPerformanceTracker {
     }
 
     public recordCacheHit(): void {
-        this.metrics.cacheHits++;
+        this.metrics.cacheHits += 1;
     }
 
     public recordCacheMiss(): void {
-        this.metrics.cacheMisses++;
+        this.metrics.cacheMisses += 1;
     }
 
     public recordSuccess(): void {
-        this.metrics.successfulValidations++;
+        this.metrics.successfulValidations += 1;
     }
 
     public reset(): void {
@@ -251,7 +263,7 @@ export class ValidationPerformanceTracker {
     }
 
     private recordValidation(durationMs: number): void {
-        this.metrics.totalValidations++;
+        this.metrics.totalValidations += 1;
         this.totalTime += durationMs;
         this.metrics.averageTimeMs =
             this.totalTime / this.metrics.totalValidations;

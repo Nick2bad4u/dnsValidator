@@ -119,8 +119,8 @@
     "include": [
         "src/**/*.d.ts",
         "src/**/*.ts",
-        "test/**/*.d.ts",
-        "test/**/*.ts",
+        "tests/**/*.d.ts",
+        "tests/**/*.ts",
         "vite.config.ts"
     ],
     "typeAcquisition": {

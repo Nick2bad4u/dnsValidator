@@ -44,7 +44,10 @@ interface BasicValidationResult {
 interface CLIOptions {
     data?: string;
     file?: string;
-    format?: "csv" | "json" | "table";
+    format?:
+        | "csv"
+        | "json"
+        | "table";
     output?: string;
     strict?: boolean;
     type?: string;
@@ -145,7 +148,10 @@ const tableOutputFormatter = (
  */
 function formatOutput(
     results: readonly Readonly<CLIValidationResult>[],
-    format: "csv" | "json" | "table"
+    format:
+        | "csv"
+        | "json"
+        | "table"
 ): string {
     switch (format) {
         case "csv": {

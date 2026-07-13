@@ -16,7 +16,7 @@
  *
  * @packageDocumentation
  */
-/* eslint-disable perfectionist/sort-modules, @typescript-eslint/no-use-before-define -- keep validators grouped by DNS domain readability */
+/* eslint-disable perfectionist/sort-modules -- keep validators grouped by DNS domain readability */
 
 import type { UnknownRecord } from "type-fest";
 
@@ -664,4 +664,4 @@ export function validateDNSRecord(record: unknown): ValidationResult {
 function isRecordObject(value: unknown): value is UnknownRecord {
     return typeof value === "object" && value !== null;
 }
-/* eslint-enable perfectionist/sort-modules, @typescript-eslint/no-use-before-define -- restore global rule behavior outside this module */
+/* eslint-enable perfectionist/sort-modules -- restore global rule behavior outside this module */

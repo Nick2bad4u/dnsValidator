@@ -13,12 +13,17 @@ function invoke(args: string[]) {
     const errSpy = vi.spyOn(console, "error").mockImplementation((...m) => {
         errs.push(m.map(String).join(" "));
     });
-    const exitSpy = vi.spyOn(process, "exit").mockImplementation(((
-        code?: string | number | null | undefined
-    ) => {
-        exitCode = typeof code === "number" ? code : 0;
-        return undefined as never;
-    }) as typeof process.exit);
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation(
+        (
+            code?:
+                | string
+                | number
+                | null
+        ) => {
+            exitCode = typeof code === "number" ? code : 0;
+            return undefined as never;
+        }
+    );
     try {
         runCLI(args);
     } finally {

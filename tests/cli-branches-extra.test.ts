@@ -19,12 +19,17 @@ function captureRun(args: string[]): {
         .mockImplementation((...args) => {
             stderr += `${args.filter((value) => value !== undefined).join(" ")}\n`;
         });
-    const exitSpy = vi.spyOn(process, "exit").mockImplementation(((
-        exitCode?: string | number | null | undefined
-    ) => {
-        code = typeof exitCode === "number" ? exitCode : 0;
-        return undefined as never;
-    }) as typeof process.exit);
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation(
+        (
+            exitCode?:
+                | string
+                | number
+                | null
+        ) => {
+            code = typeof exitCode === "number" ? exitCode : 0;
+            return undefined as never;
+        }
+    );
     try {
         runCLI(args);
     } finally {
@@ -92,7 +97,7 @@ describe("command line extra branches", () => {
             "csv",
         ]);
 
-        expect(res.stdout.split("\n")[0]).toContain("Type");
+        expect(res.stdout.split("\n", 1)[0]).toContain("Type");
         // CSV escaping of quotes -> doubled inside JSON string, look for escaped sequence
         expect(res.stdout).toMatch(/a\\""b|a""b/);
     });

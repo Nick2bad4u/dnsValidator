@@ -791,6 +791,9 @@ coverage/
 **/*.swp
 
 # Generated content
+.docs/
+.lychee.report.md
+reports/
 **/generated/**
 **/auto-generated/**
 **/build/**

@@ -245,10 +245,12 @@ describe("dns validation performance benchmarks", () => {
             let totalRecords = 0;
 
             for (const query of queries) {
-                if (isValidDNSQueryResult(query)) {
-                    validQueries++;
-                    totalRecords += query.answers.length;
+                if (!isValidDNSQueryResult(query)) {
+                    continue;
                 }
+
+                validQueries++;
+                totalRecords += query.answers.length;
             }
 
             const endTime = performance.now();

@@ -22,7 +22,7 @@ describe("performance helpers extra coverage", () => {
     it("validationPerformanceTracker metrics update", () => {
         const tracker = new ValidationPerformanceTracker();
         const wrapped = trackPerformance<[boolean], { isValid: boolean }>(
-            (valid: boolean) => ({ isValid: valid }),
+            (isValid: boolean) => ({ isValid }),
             tracker
         );
         wrapped(true);

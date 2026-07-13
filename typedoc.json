@@ -1,5 +1,5 @@
 {
-    "categorizeByGroup": true,
+    "$schema": "https://typedoc-plugin-markdown.org/schema.json",
     "categoryOrder": [
         "Types",
         "Validators",
@@ -9,29 +9,21 @@
         "Performance",
         "Errors"
     ],
-    "entryPoints": ["./src"],
+    "entryPoints": [
+        "./src"
+    ],
     "exclude": [
         "**/*.test.ts",
         "**/*.spec.ts",
         "**/tests/**/*"
     ],
-    "excludeExternals": true,
-    "excludePrivate": true,
-    "excludeProtected": true,
+    "extends": [
+        "typedoc-config-nick2bad4u/typedoc.json"
+    ],
     "gitRevision": "main",
     "hideBreadcrumbs": true,
     "hidePageHeader": true,
-    "logLevel": "Warn",
     "name": "DNS Validator",
     "out": "docs",
-    "plugin": ["typedoc-plugin-markdown"],
-    "readme": "README.md",
-    "sort": ["source-order"],
-    "theme": "markdown",
-    "treatWarningsAsErrors": true,
-    "validation": {
-        "invalidLink": true,
-        "notDocumented": false,
-        "notExported": true
-    }
+    "readme": "README.md"
 }

@@ -25,7 +25,7 @@ Module enhanced-validators.ts:
 - validateARecord: branch where type mismatches returns early; ttl invalid branch
 - validateAAAARecord: same patterns
 - validateMXRecord: invalid exchange FQDN vs invalid priority vs invalid ttl
-  (Many already covered; confirm coverage after new tests.)
+  (Existing tests cover earlier branches; confirm coverage after new tests.)
 - getValidationSuggestions: default branch (unsupported type) plus specific branches (A, AAAA, MX, CNAME). Need ensure each case executed at least once.
 
 Module validators.ts:

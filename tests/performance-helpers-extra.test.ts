@@ -40,7 +40,7 @@ describe("performance helpers extra branches", () => {
     it("isValidRecordType negative and positive", () => {
         expect(isValidRecordType("A")).toBeTruthy();
         expect(isValidRecordType("UNKNOWN")).toBeFalsy();
-        expect(isValidRecordType(123 as unknown)).toBeFalsy();
+        expect(isValidRecordType(123)).toBeFalsy();
     });
 
     it("isPlainObject negative cases", () => {

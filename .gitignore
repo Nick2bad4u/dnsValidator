@@ -243,3 +243,6 @@ yarn-error.log*
 docs/docusaurus/static/img/coverage.json
 docs/docusaurus/static/img/coverage.svg
 dist/
+.lychee.report.md
+.lycheecache
+reports/jscpd/

@@ -19,7 +19,7 @@ describe("validators extra branches", () => {
         const result = validateDNSRecord({
             type: "UNSUPPORTED",
             foo: "bar",
-        } as any);
+        });
 
         expect(result.isValid).toBeFalsy();
         expect(
@@ -28,7 +28,7 @@ describe("validators extra branches", () => {
     });
 
     it("validateDNSRecord per-type suggestions A", () => {
-        const r = validateDNSRecord({ type: "A", address: "999.0.0.1" } as any);
+        const r = validateDNSRecord({ type: "A", address: "999.0.0.1" });
 
         expect(r.isValid).toBeFalsy();
         expect(
@@ -37,7 +37,7 @@ describe("validators extra branches", () => {
     });
 
     it("validateDNSRecord per-type suggestions MX", () => {
-        const r = validateDNSRecord({ type: "MX", priority: 10 } as any);
+        const r = validateDNSRecord({ type: "MX", priority: 10 });
 
         expect(r.isValid).toBeFalsy();
         expect(

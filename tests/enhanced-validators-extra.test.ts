@@ -10,7 +10,7 @@ describe("enhanced validators extra branches", () => {
         const res = validateAAAARecord({
             type: "A",
             address: "1.2.3.4",
-        } as any);
+        });
 
         expect(res.isValid).toBeFalsy();
         expect(res.errors[0]).toMatch(/Expected record type 'A{4}'/);
@@ -24,7 +24,7 @@ describe("enhanced validators extra branches", () => {
 
         expect(res.isValid).toBeFalsy();
         expect(
-            res.errors.some((e) => /Invalid IPv6 address/.test(e))
+            res.errors.some((e) => e.includes("Invalid IPv6 address"))
         ).toBeTruthy();
     });
 
@@ -36,7 +36,7 @@ describe("enhanced validators extra branches", () => {
         });
 
         expect(res.isValid).toBeFalsy();
-        expect(res.errors.some((e) => /Invalid TTL/.test(e))).toBeTruthy();
+        expect(res.errors.some((e) => e.includes("Invalid TTL"))).toBeTruthy();
     });
 
     it("validateMXRecord wrong type early return", () => {
@@ -44,7 +44,7 @@ describe("enhanced validators extra branches", () => {
             type: "A",
             exchange: "mail.example.com",
             priority: 10,
-        } as any);
+        });
 
         expect(res.isValid).toBeFalsy();
         expect(res.errors[0]).toMatch(/Expected record type 'MX'/);
@@ -59,7 +59,7 @@ describe("enhanced validators extra branches", () => {
 
         expect(res.isValid).toBeFalsy();
         expect(
-            res.errors.some((e) => /Invalid FQDN for exchange/.test(e))
+            res.errors.some((e) => e.includes("Invalid FQDN for exchange"))
         ).toBeTruthy();
     });
 
@@ -71,7 +71,9 @@ describe("enhanced validators extra branches", () => {
         });
 
         expect(res.isValid).toBeFalsy();
-        expect(res.errors.some((e) => /Invalid priority/.test(e))).toBeTruthy();
+        expect(
+            res.errors.some((e) => e.includes("Invalid priority"))
+        ).toBeTruthy();
     });
 
     it("validateMXRecord invalid ttl branch", () => {
@@ -84,29 +86,33 @@ describe("enhanced validators extra branches", () => {
 
         expect(res.isValid).toBeFalsy();
         expect(
-            res.errors.some((e) => /Invalid TTL value: -10/.test(e))
+            res.errors.some((e) => e.includes("Invalid TTL value: -10"))
         ).toBeTruthy();
     });
 
     // Added tests to cover missing address branches for A and AAAA records where address is not a string
     it("validateARecord missing address field type error", () => {
-        const res = validateARecord({ type: "A", address: 123 } as any);
+        const res = validateARecord({ type: "A", address: 123 });
 
         expect(res.isValid).toBeFalsy();
         expect(
             res.errors.some((e) =>
-                /A record must have a 'address' field of type string/.test(e)
+                e.includes(
+                    "A record must have a 'address' field of type string"
+                )
             )
         ).toBeTruthy();
     });
 
     it("validateAAAARecord missing address field type error", () => {
-        const res = validateAAAARecord({ type: "AAAA", address: 123 } as any);
+        const res = validateAAAARecord({ type: "AAAA", address: 123 });
 
         expect(res.isValid).toBeFalsy();
         expect(
             res.errors.some((e) =>
-                /AAAA record must have a 'address' field of type string/.test(e)
+                e.includes(
+                    "AAAA record must have a 'address' field of type string"
+                )
             )
         ).toBeTruthy();
     });

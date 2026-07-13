@@ -1,9 +1,10 @@
 import { describe, it, expect, vi } from "vitest";
 import { runCLI } from "../src/cli";
 import * as nodePath from "node:path";
+import { fileURLToPath } from "node:url";
 import { writeFileSync, unlinkSync, readFileSync } from "node:fs";
 
-const testDirectory = import.meta.dirname;
+const testDirectory = nodePath.dirname(fileURLToPath(import.meta.url));
 
 function capture(argv: string[]) {
     const logs: string[] = [];
@@ -17,12 +18,17 @@ function capture(argv: string[]) {
         .mockImplementation((...args) => {
             errs.push(args.join(" "));
         });
-    const exitSpy = vi.spyOn(process, "exit").mockImplementation(((
-        exitCode?: string | number | null | undefined
-    ) => {
-        code = typeof exitCode === "number" ? exitCode : undefined;
-        throw new Error("EXIT");
-    }) as typeof process.exit);
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation(
+        (
+            exitCode?:
+                | string
+                | number
+                | null
+        ) => {
+            code = typeof exitCode === "number" ? exitCode : undefined;
+            throw new Error("EXIT");
+        }
+    );
     try {
         runCLI(argv);
     } catch (error: unknown) {

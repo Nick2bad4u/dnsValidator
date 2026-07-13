@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { setTimeout as delay } from "node:timers/promises";
 import {
     ValidationPatterns,
     fastPreValidate,
@@ -256,9 +257,7 @@ describe("performance utilities", () => {
             const endTracking = tracker.startValidation();
 
             // Simulate some work
-            await new Promise<void>((resolve) => {
-                setTimeout(resolve, 10);
-            });
+            await delay(10);
 
             endTracking();
             tracker.recordSuccess();

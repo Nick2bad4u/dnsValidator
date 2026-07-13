@@ -5,7 +5,7 @@ describe("validators suggestions extra coverage", () => {
     // Array of [record, expectedRegex]
     const cases: [any, RegExp][] = [
         [{ type: "A", address: "999.999.999.999" }, /A records require/],
-        [{ type: "AAAA", address: "invalid::ip" }, /AAAA records require/],
+        [{ type: "AAAA", address: "invalid::ip" }, /A{4} records require/],
         [
             { type: "MX", exchange: "not_a_domain", priority: -1 },
             /MX records require/,

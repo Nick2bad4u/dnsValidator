@@ -2,8 +2,9 @@ import { describe, it, expect } from "vitest";
 import { spawnSync } from "node:child_process";
 import { writeFileSync, unlinkSync, readFileSync } from "node:fs";
 import * as nodePath from "node:path";
+import { fileURLToPath } from "node:url";
 
-const testDirectory = import.meta.dirname;
+const testDirectory = nodePath.dirname(fileURLToPath(import.meta.url));
 const cli = nodePath.join(testDirectory, "..", "dist", "cli.js");
 
 // Helper spawn
@@ -19,7 +20,7 @@ describe("command line integration", () => {
         const res = spawnSync(process.execPath, [cli], { encoding: "utf8" });
 
         expect(res.stdout + res.stderr).toMatch(
-            /Usage Examples|CLI tool for validating DNS/
+            /CLI tool for validating DNS|Usage Examples/
         );
         // Accept 0 or 0-like exit; commander may exit 0; if non-zero treat as acceptable if help shown.
         expect(res.status === 0 || res.status === 1).toBeTruthy();

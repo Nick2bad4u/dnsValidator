@@ -1,11 +1,11 @@
 import { describe, it, expect } from "vitest";
 import { spawnSync } from "node:child_process";
 import * as nodePath from "node:path";
-import { pathToFileURL } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { writeFileSync, mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 
-const testDirectory = import.meta.dirname;
+const testDirectory = nodePath.dirname(fileURLToPath(import.meta.url));
 
 describe("esm build entry", () => {
     const nodeCmd = process.execPath;

@@ -13,8 +13,9 @@ import {
 // (Removed unused readFileSync import)
 import { writeFileSync, unlinkSync } from "node:fs";
 import * as nodePath from "node:path";
+import { fileURLToPath } from "node:url";
 
-const testDirectory = import.meta.dirname;
+const testDirectory = nodePath.dirname(fileURLToPath(import.meta.url));
 
 // Helper to capture CLI without spawning for additional edge cases
 function capture(argv: string[]) {
@@ -29,12 +30,17 @@ function capture(argv: string[]) {
         .mockImplementation((...args) => {
             errs.push(args.join(" "));
         });
-    const exitSpy = vi.spyOn(process, "exit").mockImplementation(((
-        exitCode?: string | number | null | undefined
-    ) => {
-        code = typeof exitCode === "number" ? exitCode : undefined;
-        throw new Error("EXIT");
-    }) as typeof process.exit);
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation(
+        (
+            exitCode?:
+                | string
+                | number
+                | null
+        ) => {
+            code = typeof exitCode === "number" ? exitCode : undefined;
+            throw new Error("EXIT");
+        }
+    );
     try {
         runCLI(argv);
     } catch (error: unknown) {
@@ -66,7 +72,9 @@ describe("additional targeted coverage", () => {
 
         expect(res.code).toBe(1);
         expect(
-            res.errs.some((e) => /Must provide either --data or --file/.test(e))
+            res.errs.some((e) =>
+                e.includes("Must provide either --data or --file")
+            )
         ).toBeTruthy();
     });
 
@@ -75,7 +83,7 @@ describe("additional targeted coverage", () => {
 
         expect(res.code).toBe(1);
         expect(
-            res.errs.some((e) => /Must provide --file/.test(e))
+            res.errs.some((e) => e.includes("Must provide --file"))
         ).toBeTruthy();
     });
 

@@ -681,7 +681,10 @@ export interface TLSARecord extends BaseDNSRecord {
     /** Node.js compatible certificate usage */
     certUsage?: number;
     /** Node.js compatible data (hex/base64 string or Buffer) */
-    data?: ArrayBuffer | string | Uint8Array;
+    data?:
+        | ArrayBuffer
+        | string
+        | Uint8Array;
     /** Node.js compatible matching type */
     match?: number;
     /** Matching type (0-2) internal canonical (Node uses 'match') */

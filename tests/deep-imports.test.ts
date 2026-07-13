@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import packageJson from "../package.json";
+import packageJson from "../package.json" with { type: "json" };
 
 type RuntimeModule = Readonly<Record<string, unknown>> & {
     readonly default?: unknown;

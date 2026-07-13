@@ -55,7 +55,7 @@ function invokeCLI(args: string[]): CLIResult {
 describe("command line error handling and edge cases", () => {
     // Test for uncovered switch cases in validate-record
     describe("record command with unsupported types", () => {
-        it("should error in strict mode for unsupported record type", async () => {
+        it("should error in strict mode for unsupported record type", () => {
             const record = {
                 type: "UNSUPPORTED",
                 name: "test.com",
@@ -75,7 +75,7 @@ describe("command line error handling and edge cases", () => {
 
     // Test for JSON parsing errors
     describe("command line with invalid JSON input", () => {
-        it("should exit with an error for malformed JSON in record command", async () => {
+        it("should exit with an error for malformed JSON in record command", () => {
             const { exitCode, stderr } = invokeCLI([
                 "record",
                 "--data",
@@ -87,7 +87,7 @@ describe("command line error handling and edge cases", () => {
             expect(stderr).toContain("Unexpected token");
         });
 
-        it("should exit with an error for malformed JSON in query command", async () => {
+        it("should exit with an error for malformed JSON in query command", () => {
             const { exitCode, stderr } = invokeCLI([
                 "query",
                 "--data",
@@ -102,7 +102,7 @@ describe("command line error handling and edge cases", () => {
 
     // Test for file not found error
     describe("command line with non-existent file", () => {
-        it("should exit with an error if the file does not exist", async () => {
+        it("should exit with an error if the file does not exist", () => {
             const { exitCode, stderr } = invokeCLI([
                 "record",
                 "--file",
@@ -117,10 +117,11 @@ describe("command line error handling and edge cases", () => {
 
     // Test for process.exit(1) on bulk validation failure
     describe("bulk command with failures", () => {
-        it("should exit with code 1 if there are structural validation failures in strict mode", async () => {
+        it("should exit with code 1 if there are structural validation failures in strict mode", () => {
             const records = [
                 { type: "A", name: "valid.com", address: "1.1.1.1" },
-                // Missing address field -> isDNSRecord false, with --strict should produce thrown error => success false
+                // Missing address field -> isDNSRecord false,
+                // with --strict should produce thrown error => success false
                 { type: "A", name: "invalid.com" },
             ];
             const filePath = path.resolve("./test-bulk-records.json");
@@ -142,7 +143,7 @@ describe("command line error handling and edge cases", () => {
         });
     });
 
-    // Additional coverage: table and csv formats
+    // Additional coverage: table and CSV formats
     describe("output formats", () => {
         it("should render table format", () => {
             const rec = { type: "A", name: "ex.com", address: "1.2.3.4" };
@@ -170,7 +171,7 @@ describe("command line error handling and edge cases", () => {
 
             expect(exitCode).toBe(0);
             // Header cells are quoted in implementation
-            expect(stdout.split("\n")[0]).toBe(
+            expect(stdout.split("\n", 1)[0]).toBe(
                 '"Type","Success","Error","RecordData"'
             );
         });
