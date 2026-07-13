@@ -1,8 +1,10 @@
 # Function: isARecord()
 
-> **isARecord**(`record`): `record is ARecord`
+```ts
+function isARecord(record: unknown): record is ARecord;
+```
 
-Defined in: [validators.ts:178](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/validators.ts#L178)
+Defined in: [src/validators.ts:178](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/validators.ts#L178)
 
 Validates an A record (IPv4 address mapping).
 

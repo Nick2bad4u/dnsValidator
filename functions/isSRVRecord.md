@@ -1,8 +1,10 @@
 # Function: isSRVRecord()
 
-> **isSRVRecord**(`record`): `record is SRVRecord`
+```ts
+function isSRVRecord(record: unknown): record is SRVRecord;
+```
 
-Defined in: [validators.ts:452](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/validators.ts#L452)
+Defined in: [src/validators.ts:452](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/validators.ts#L452)
 
 Validates an SRV record
 

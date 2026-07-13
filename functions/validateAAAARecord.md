@@ -1,8 +1,10 @@
 # Function: validateAAAARecord()
 
-> **validateAAAARecord**(`record`): [`ValidationResult`](../interfaces/ValidationResult.md)
+```ts
+function validateAAAARecord(record: unknown): ValidationResult;
+```
 
-Defined in: [enhanced-validators.ts:66](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/enhanced-validators.ts#L66)
+Defined in: [src/enhanced-validators.ts:66](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/enhanced-validators.ts#L66)
 
 Enhanced AAAA record validation with detailed error messages
 

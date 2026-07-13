@@ -1,6 +1,6 @@
 # Interface: SRVRecord
 
-Defined in: [types.ts:614](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L614)
+Defined in: [src/types.ts:614](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L614)
 
 SRV record - Specifies the location of services within a domain.
 
@@ -8,83 +8,107 @@ SRV record - Specifies the location of services within a domain.
 
 ```typescript
 const record: SRVRecord = {
-    type: "SRV",
-    priority: 10,
-    weight: 5,
-    port: 443,
-    name: "server.example.com",
-    ttl: 3600,
+  type: "SRV",
+  priority: 10,
+  weight: 5,
+  port: 443,
+  name: "server.example.com",
+  ttl: 3600,
 };
 ```
 
 ## Extends
 
-- [`BaseDNSRecord`](BaseDNSRecord.md)
+- [`BaseDNSRecord`](./BaseDNSRecord.md)
 
 ## Properties
 
-### ttl?
+<a id="ttl"></a>
 
-> `optional` **ttl?**: `number`
+### ttl? {#ttl}
 
-Defined in: [types.ts:76](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L76)
+```ts
+optional ttl?: number;
+```
+
+Defined in: [src/types.ts:76](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L76)
 
 Time to live in seconds (optional)
 
 #### Inherited from
 
-[`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
+[`BaseDNSRecord`](./BaseDNSRecord.md).[`ttl`](./BaseDNSRecord.md#ttl)
 
-***
+---
 
-### name
+<a id="name"></a>
 
-> **name**: `string`
+### name {#name}
 
-Defined in: [types.ts:616](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L616)
+```ts
+name: string;
+```
+
+Defined in: [src/types.ts:616](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L616)
 
 Hostname of the target
 
-***
+---
 
-### port
+<a id="port"></a>
 
-> **port**: `number`
+### port {#port}
 
-Defined in: [types.ts:618](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L618)
+```ts
+port: number;
+```
+
+Defined in: [src/types.ts:618](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L618)
 
 Port number of the service
 
-***
+---
 
-### priority
+<a id="priority"></a>
 
-> **priority**: `number`
+### priority {#priority}
 
-Defined in: [types.ts:620](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L620)
+```ts
+priority: number;
+```
+
+Defined in: [src/types.ts:620](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L620)
 
 Priority of the target host (0-65535, lower values preferred)
 
-***
+---
 
-### type
+<a id="type"></a>
 
-> **type**: `"SRV"`
+### type {#type}
 
-Defined in: [types.ts:621](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L621)
+```ts
+type: "SRV";
+```
+
+Defined in: [src/types.ts:621](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L621)
 
 The type of DNS record
 
 #### Overrides
 
-[`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
+[`BaseDNSRecord`](./BaseDNSRecord.md).[`type`](./BaseDNSRecord.md#type)
 
-***
+---
 
-### weight
+<a id="weight"></a>
 
-> **weight**: `number`
+### weight {#weight}
 
-Defined in: [types.ts:623](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L623)
+```ts
+weight: number;
+```
+
+Defined in: [src/types.ts:623](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L623)
 
 Weight for load balancing among hosts with same priority

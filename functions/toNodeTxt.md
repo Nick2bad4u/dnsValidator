@@ -1,17 +1,19 @@
 # Function: toNodeTxt()
 
-> **toNodeTxt**(`records`): `string`[][]
+```ts
+function toNodeTxt(records: readonly Readonly<TXTRecord>[]): string[][];
+```
 
-Defined in: [node-compat.ts:148](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/node-compat.ts#L148)
+Defined in: [src/node-compat.ts:148](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/node-compat.ts#L148)
 
-Convert internal TXTRecord[] to Node resolveTxt shape (string[][])
+Convert internal TXTRecord\[] to Node resolveTxt shape (string\[]\[])
 
 ## Parameters
 
 ### records
 
-readonly `Readonly`\<[`TXTRecord`](../interfaces/TXTRecord.md)\>[]
+readonly [`Readonly`](../type-aliases/Readonly.md)<[`TXTRecord`](../interfaces/TXTRecord.md)>\[]
 
 ## Returns
 
-`string`[][]
+`string`\[]\[]

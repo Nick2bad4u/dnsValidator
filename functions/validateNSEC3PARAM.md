@@ -1,8 +1,10 @@
 # Function: validateNSEC3PARAM()
 
-> **validateNSEC3PARAM**(`record`): [`NSEC3PARAMRecord`](../interfaces/NSEC3PARAMRecord.md)
+```ts
+function validateNSEC3PARAM(record: unknown): NSEC3PARAMRecord;
+```
 
-Defined in: [dnssec.ts:677](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L677)
+Defined in: [src/dnssec.ts:676](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L676)
 
 Validates an NSEC3PARAM record
 

@@ -1,8 +1,10 @@
 # Function: getValidationSuggestions()
 
-> **getValidationSuggestions**(`recordType`): `string`[]
+```ts
+function getValidationSuggestions(recordType: string): string[];
+```
 
-Defined in: [enhanced-validators.ts:19](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/enhanced-validators.ts#L19)
+Defined in: [src/enhanced-validators.ts:19](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/enhanced-validators.ts#L19)
 
 Provides suggestions for common DNS record validation issues
 
@@ -14,4 +16,4 @@ Provides suggestions for common DNS record validation issues
 
 ## Returns
 
-`string`[]
+`string`\[]

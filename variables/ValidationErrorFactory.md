@@ -1,16 +1,37 @@
 # Variable: ValidationErrorFactory
 
-> `const` **ValidationErrorFactory**: `object`
+```ts
+const ValidationErrorFactory: {
+  invalidEmail: (email: string) => InvalidFieldValueError;
+  invalidFQDN: (domain: string) => InvalidFieldValueError;
+  invalidHexString: (value: string) => InvalidFieldValueError;
+  invalidIPAddress: (address: string, version: 4 | 6) => InvalidFieldValueError;
+  invalidPort: (port: number) => InvalidFieldValueError;
+  invalidPriority: (priority: number) => InvalidFieldValueError;
+  invalidRecordType: (type: unknown) => InvalidRecordTypeError;
+  invalidTTL: (ttl: number) => InvalidFieldValueError;
+  invalidWeight: (weight: number) => InvalidFieldValueError;
+  malformedRecord: (message: string) => MalformedRecordError;
+  missingRequiredField: (
+    field: string,
+    recordType: string,
+  ) => MissingRequiredFieldError;
+};
+```
 
-Defined in: [errors.ts:251](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L251)
+Defined in: [src/errors.ts:251](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L251)
 
 Factory functions for creating validation errors with consistent messaging
 
 ## Type Declaration
 
-### invalidEmail
+<a id="invalidemail"></a>
 
-> `readonly` **invalidEmail**: (`email`) => [`InvalidFieldValueError`](../classes/InvalidFieldValueError.md)
+### invalidEmail {#invalidemail}
+
+```ts
+readonly invalidEmail: (email: string) => InvalidFieldValueError;
+```
 
 #### Parameters
 
@@ -22,9 +43,13 @@ Factory functions for creating validation errors with consistent messaging
 
 [`InvalidFieldValueError`](../classes/InvalidFieldValueError.md)
 
-### invalidFQDN
+<a id="invalidfqdn"></a>
 
-> `readonly` **invalidFQDN**: (`domain`) => [`InvalidFieldValueError`](../classes/InvalidFieldValueError.md)
+### invalidFQDN {#invalidfqdn}
+
+```ts
+readonly invalidFQDN: (domain: string) => InvalidFieldValueError;
+```
 
 #### Parameters
 
@@ -36,9 +61,13 @@ Factory functions for creating validation errors with consistent messaging
 
 [`InvalidFieldValueError`](../classes/InvalidFieldValueError.md)
 
-### invalidHexString
+<a id="invalidhexstring"></a>
 
-> `readonly` **invalidHexString**: (`value`) => [`InvalidFieldValueError`](../classes/InvalidFieldValueError.md)
+### invalidHexString {#invalidhexstring}
+
+```ts
+readonly invalidHexString: (value: string) => InvalidFieldValueError;
+```
 
 #### Parameters
 
@@ -50,9 +79,13 @@ Factory functions for creating validation errors with consistent messaging
 
 [`InvalidFieldValueError`](../classes/InvalidFieldValueError.md)
 
-### invalidIPAddress
+<a id="invalidipaddress"></a>
 
-> `readonly` **invalidIPAddress**: (`address`, `version`) => [`InvalidFieldValueError`](../classes/InvalidFieldValueError.md)
+### invalidIPAddress {#invalidipaddress}
+
+```ts
+readonly invalidIPAddress: (address: string, version: 4 | 6) => InvalidFieldValueError;
+```
 
 #### Parameters
 
@@ -62,15 +95,19 @@ Factory functions for creating validation errors with consistent messaging
 
 ##### version
 
-`4` \| `6`
+`4` | `6`
 
 #### Returns
 
 [`InvalidFieldValueError`](../classes/InvalidFieldValueError.md)
 
-### invalidPort
+<a id="invalidport"></a>
 
-> `readonly` **invalidPort**: (`port`) => [`InvalidFieldValueError`](../classes/InvalidFieldValueError.md)
+### invalidPort {#invalidport}
+
+```ts
+readonly invalidPort: (port: number) => InvalidFieldValueError;
+```
 
 #### Parameters
 
@@ -82,9 +119,13 @@ Factory functions for creating validation errors with consistent messaging
 
 [`InvalidFieldValueError`](../classes/InvalidFieldValueError.md)
 
-### invalidPriority
+<a id="invalidpriority"></a>
 
-> `readonly` **invalidPriority**: (`priority`) => [`InvalidFieldValueError`](../classes/InvalidFieldValueError.md)
+### invalidPriority {#invalidpriority}
+
+```ts
+readonly invalidPriority: (priority: number) => InvalidFieldValueError;
+```
 
 #### Parameters
 
@@ -96,9 +137,13 @@ Factory functions for creating validation errors with consistent messaging
 
 [`InvalidFieldValueError`](../classes/InvalidFieldValueError.md)
 
-### invalidRecordType
+<a id="invalidrecordtype"></a>
 
-> `readonly` **invalidRecordType**: (`type`) => [`InvalidRecordTypeError`](../classes/InvalidRecordTypeError.md)
+### invalidRecordType {#invalidrecordtype}
+
+```ts
+readonly invalidRecordType: (type: unknown) => InvalidRecordTypeError;
+```
 
 #### Parameters
 
@@ -110,9 +155,13 @@ Factory functions for creating validation errors with consistent messaging
 
 [`InvalidRecordTypeError`](../classes/InvalidRecordTypeError.md)
 
-### invalidTTL
+<a id="invalidttl"></a>
 
-> `readonly` **invalidTTL**: (`ttl`) => [`InvalidFieldValueError`](../classes/InvalidFieldValueError.md)
+### invalidTTL {#invalidttl}
+
+```ts
+readonly invalidTTL: (ttl: number) => InvalidFieldValueError;
+```
 
 #### Parameters
 
@@ -124,9 +173,13 @@ Factory functions for creating validation errors with consistent messaging
 
 [`InvalidFieldValueError`](../classes/InvalidFieldValueError.md)
 
-### invalidWeight
+<a id="invalidweight"></a>
 
-> `readonly` **invalidWeight**: (`weight`) => [`InvalidFieldValueError`](../classes/InvalidFieldValueError.md)
+### invalidWeight {#invalidweight}
+
+```ts
+readonly invalidWeight: (weight: number) => InvalidFieldValueError;
+```
 
 #### Parameters
 
@@ -138,9 +191,13 @@ Factory functions for creating validation errors with consistent messaging
 
 [`InvalidFieldValueError`](../classes/InvalidFieldValueError.md)
 
-### malformedRecord
+<a id="malformedrecord"></a>
 
-> `readonly` **malformedRecord**: (`message`) => [`MalformedRecordError`](../classes/MalformedRecordError.md)
+### malformedRecord {#malformedrecord}
+
+```ts
+readonly malformedRecord: (message: string) => MalformedRecordError;
+```
 
 #### Parameters
 
@@ -152,9 +209,13 @@ Factory functions for creating validation errors with consistent messaging
 
 [`MalformedRecordError`](../classes/MalformedRecordError.md)
 
-### missingRequiredField
+<a id="missingrequiredfield"></a>
 
-> `readonly` **missingRequiredField**: (`field`, `recordType`) => [`MissingRequiredFieldError`](../classes/MissingRequiredFieldError.md)
+### missingRequiredField {#missingrequiredfield}
+
+```ts
+readonly missingRequiredField: (field: string, recordType: string) => MissingRequiredFieldError;
+```
 
 #### Parameters
 

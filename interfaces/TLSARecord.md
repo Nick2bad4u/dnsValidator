@@ -1,6 +1,6 @@
 # Interface: TLSARecord
 
-Defined in: [types.ts:675](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L675)
+Defined in: [src/types.ts:675](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L675)
 
 TLSA record - DNS-based Authentication of Named Entities (DANE).
 
@@ -11,114 +11,153 @@ found.
 
 ```typescript
 const record: TLSARecord = {
-    type: "TLSA",
-    usage: 3,
-    selector: 1,
-    matchingType: 1,
-    certificate: "abcdef1234567890...",
-    ttl: 86400,
+  type: "TLSA",
+  usage: 3,
+  selector: 1,
+  matchingType: 1,
+  certificate: "abcdef1234567890...",
+  ttl: 86400,
 };
 ```
 
 ## Extends
 
-- [`BaseDNSRecord`](BaseDNSRecord.md)
+- [`BaseDNSRecord`](./BaseDNSRecord.md)
 
 ## Properties
 
-### ttl?
+<a id="ttl"></a>
 
-> `optional` **ttl?**: `number`
+### ttl? {#ttl}
 
-Defined in: [types.ts:76](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L76)
+```ts
+optional ttl?: number;
+```
+
+Defined in: [src/types.ts:76](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L76)
 
 Time to live in seconds (optional)
 
 #### Inherited from
 
-[`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
+[`BaseDNSRecord`](./BaseDNSRecord.md).[`ttl`](./BaseDNSRecord.md#ttl)
 
-***
+---
 
-### certificate?
+<a id="certificate"></a>
 
-> `optional` **certificate?**: `string`
+### certificate? {#certificate}
 
-Defined in: [types.ts:680](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L680)
+```ts
+optional certificate?: string;
+```
+
+Defined in: [src/types.ts:680](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L680)
 
 Certificate association data internal canonical (Node uses 'data' as
 ArrayBuffer/Buffer)
 
-***
+---
 
-### certUsage?
+<a id="certusage"></a>
 
-> `optional` **certUsage?**: `number`
+### certUsage? {#certusage}
 
-Defined in: [types.ts:682](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L682)
+```ts
+optional certUsage?: number;
+```
+
+Defined in: [src/types.ts:682](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L682)
 
 Node.js compatible certificate usage
 
-***
+---
 
-### data?
+<a id="data"></a>
 
-> `optional` **data?**: `string` \| `ArrayBuffer` \| `Uint8Array`\<`ArrayBufferLike`\>
+### data? {#data}
 
-Defined in: [types.ts:684](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L684)
+```ts
+optional data?:
+  | string
+  | ArrayBuffer
+  | Uint8Array<ArrayBufferLike>;
+```
+
+Defined in: [src/types.ts:684](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L684)
 
 Node.js compatible data (hex/base64 string or Buffer)
 
-***
+---
 
-### match?
+<a id="match"></a>
 
-> `optional` **match?**: `number`
+### match? {#match}
 
-Defined in: [types.ts:686](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L686)
+```ts
+optional match?: number;
+```
+
+Defined in: [src/types.ts:689](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L689)
 
 Node.js compatible matching type
 
-***
+---
 
-### matchingType?
+<a id="matchingtype"></a>
 
-> `optional` **matchingType?**: `number`
+### matchingType? {#matchingtype}
 
-Defined in: [types.ts:688](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L688)
+```ts
+optional matchingType?: number;
+```
+
+Defined in: [src/types.ts:691](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L691)
 
 Matching type (0-2) internal canonical (Node uses 'match')
 
-***
+---
 
-### selector
+<a id="selector"></a>
 
-> **selector**: `number`
+### selector {#selector}
 
-Defined in: [types.ts:690](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L690)
+```ts
+selector: number;
+```
+
+Defined in: [src/types.ts:693](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L693)
 
 Selector (0-1)
 
-***
+---
 
-### type
+<a id="type"></a>
 
-> **type**: `"TLSA"`
+### type {#type}
 
-Defined in: [types.ts:691](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L691)
+```ts
+type: "TLSA";
+```
+
+Defined in: [src/types.ts:694](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L694)
 
 The type of DNS record
 
 #### Overrides
 
-[`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
+[`BaseDNSRecord`](./BaseDNSRecord.md).[`type`](./BaseDNSRecord.md#type)
 
-***
+---
 
-### usage?
+<a id="usage"></a>
 
-> `optional` **usage?**: `number`
+### usage? {#usage}
 
-Defined in: [types.ts:693](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L693)
+```ts
+optional usage?: number;
+```
+
+Defined in: [src/types.ts:696](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L696)
 
 Certificate usage (0-3) internal canonical (Node uses 'certUsage')

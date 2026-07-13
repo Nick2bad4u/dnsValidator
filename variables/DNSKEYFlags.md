@@ -1,21 +1,39 @@
 # Variable: DNSKEYFlags
 
-> `const` **DNSKEYFlags**: `object`
+```ts
+const DNSKEYFlags: {
+  SEP: 1;
+  REVOKE: 128;
+  ZONE_KEY: 256;
+};
+```
 
-Defined in: [dnssec.ts:133](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L133)
+Defined in: [src/dnssec.ts:133](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L133)
 
 DNSSEC key flags
 
 ## Type Declaration
 
-### SEP
+<a id="sep"></a>
 
-> `readonly` **SEP**: `1` = `0x00_01`
+### SEP {#sep}
 
-### REVOKE
+```ts
+readonly SEP: 1 = 0x00_01;
+```
 
-> `readonly` **REVOKE**: `128` = `0x00_80`
+<a id="revoke"></a>
 
-### ZONE\_KEY
+### REVOKE {#revoke}
 
-> `readonly` **ZONE\_KEY**: `256` = `0x01_00`
+```ts
+readonly REVOKE: 128 = 0x00_80;
+```
+
+<a id="zone_key"></a>
+
+### ZONE\_KEY {#zone\_key}
+
+```ts
+readonly ZONE_KEY: 256 = 0x01_00;
+```

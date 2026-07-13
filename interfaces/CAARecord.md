@@ -1,6 +1,6 @@
 # Interface: CAARecord
 
-Defined in: [types.ts:100](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L100)
+Defined in: [src/types.ts:100](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L100)
 
 CAA record - Certification Authority Authorization.
 
@@ -11,101 +11,133 @@ a domain.
 
 ```typescript
 const record: CAARecord = {
-    type: "CAA",
-    critical: 0,
-    issue: "letsencrypt.org",
-    ttl: 86400,
+  type: "CAA",
+  critical: 0,
+  issue: "letsencrypt.org",
+  ttl: 86400,
 };
 ```
 
 ## Extends
 
-- [`BaseDNSRecord`](BaseDNSRecord.md)
+- [`BaseDNSRecord`](./BaseDNSRecord.md)
 
 ## Properties
 
-### ttl?
+<a id="ttl"></a>
 
-> `optional` **ttl?**: `number`
+### ttl? {#ttl}
 
-Defined in: [types.ts:76](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L76)
+```ts
+optional ttl?: number;
+```
+
+Defined in: [src/types.ts:76](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L76)
 
 Time to live in seconds (optional)
 
 #### Inherited from
 
-[`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
+[`BaseDNSRecord`](./BaseDNSRecord.md).[`ttl`](./BaseDNSRecord.md#ttl)
 
-***
+---
 
-### contactemail?
+<a id="contactemail"></a>
 
-> `optional` **contactemail?**: `string`
+### contactemail? {#contactemail}
 
-Defined in: [types.ts:102](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L102)
+```ts
+optional contactemail?: string;
+```
+
+Defined in: [src/types.ts:102](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L102)
 
 Contact email for the domain
 
-***
+---
 
-### contactphone?
+<a id="contactphone"></a>
 
-> `optional` **contactphone?**: `string`
+### contactphone? {#contactphone}
 
-Defined in: [types.ts:104](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L104)
+```ts
+optional contactphone?: string;
+```
+
+Defined in: [src/types.ts:104](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L104)
 
 Contact phone for the domain
 
-***
+---
 
-### critical
+<a id="critical"></a>
 
-> **critical**: `number`
+### critical {#critical}
 
-Defined in: [types.ts:106](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L106)
+```ts
+critical: number;
+```
+
+Defined in: [src/types.ts:106](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L106)
 
 Critical flag (0 or 128)
 
-***
+---
 
-### iodef?
+<a id="iodef"></a>
 
-> `optional` **iodef?**: `string`
+### iodef? {#iodef}
 
-Defined in: [types.ts:108](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L108)
+```ts
+optional iodef?: string;
+```
+
+Defined in: [src/types.ts:108](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L108)
 
 URL for reporting certificate authority violations
 
-***
+---
 
-### issue?
+<a id="issue"></a>
 
-> `optional` **issue?**: `string`
+### issue? {#issue}
 
-Defined in: [types.ts:110](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L110)
+```ts
+optional issue?: string;
+```
+
+Defined in: [src/types.ts:110](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L110)
 
 CA authorized to issue certificates
 
-***
+---
 
-### issuewild?
+<a id="issuewild"></a>
 
-> `optional` **issuewild?**: `string`
+### issuewild? {#issuewild}
 
-Defined in: [types.ts:112](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L112)
+```ts
+optional issuewild?: string;
+```
+
+Defined in: [src/types.ts:112](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L112)
 
 CA authorized to issue wildcard certificates
 
-***
+---
 
-### type
+<a id="type"></a>
 
-> **type**: `"CAA"`
+### type {#type}
 
-Defined in: [types.ts:113](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L113)
+```ts
+type: "CAA";
+```
+
+Defined in: [src/types.ts:113](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L113)
 
 The type of DNS record
 
 #### Overrides
 
-[`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
+[`BaseDNSRecord`](./BaseDNSRecord.md).[`type`](./BaseDNSRecord.md#type)

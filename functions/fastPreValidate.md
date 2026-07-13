@@ -1,8 +1,13 @@
 # Function: fastPreValidate()
 
-> **fastPreValidate**(`value`, `pattern`): `boolean` \| `null`
+```ts
+function fastPreValidate(
+  value: string,
+  pattern: ValidationPatternName,
+): boolean | null;
+```
 
-Defined in: [performance.ts:70](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L70)
+Defined in: [src/performance.ts:74](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L74)
 
 Fast pre-validation using regex patterns Returns null if validation should
 proceed, or false if definitely invalid
@@ -19,4 +24,4 @@ proceed, or false if definitely invalid
 
 ## Returns
 
-`boolean` \| `null`
+`boolean` | `null`

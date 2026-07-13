@@ -1,8 +1,10 @@
 # Function: validateNSEC3()
 
-> **validateNSEC3**(`record`): [`NSEC3Record`](../interfaces/NSEC3Record.md)
+```ts
+function validateNSEC3(record: unknown): NSEC3Record;
+```
 
-Defined in: [dnssec.ts:505](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L505)
+Defined in: [src/dnssec.ts:504](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L504)
 
 Validates an NSEC3 record
 

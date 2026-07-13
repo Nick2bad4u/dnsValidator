@@ -1,6 +1,6 @@
 # Interface: NSRecord
 
-Defined in: [types.ts:467](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L467)
+Defined in: [src/types.ts:467](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L467)
 
 NS record - Specifies authoritative name servers for a domain.
 
@@ -8,50 +8,62 @@ NS record - Specifies authoritative name servers for a domain.
 
 ```typescript
 const record: NSRecord = {
-    type: "NS",
-    value: "ns1.example.com",
-    ttl: 86400,
+  type: "NS",
+  value: "ns1.example.com",
+  ttl: 86400,
 };
 ```
 
 ## Extends
 
-- [`BaseDNSRecord`](BaseDNSRecord.md)
+- [`BaseDNSRecord`](./BaseDNSRecord.md)
 
 ## Properties
 
-### ttl?
+<a id="ttl"></a>
 
-> `optional` **ttl?**: `number`
+### ttl? {#ttl}
 
-Defined in: [types.ts:76](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L76)
+```ts
+optional ttl?: number;
+```
+
+Defined in: [src/types.ts:76](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L76)
 
 Time to live in seconds (optional)
 
 #### Inherited from
 
-[`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
+[`BaseDNSRecord`](./BaseDNSRecord.md).[`ttl`](./BaseDNSRecord.md#ttl)
 
-***
+---
 
-### type
+<a id="type"></a>
 
-> **type**: `"NS"`
+### type {#type}
 
-Defined in: [types.ts:468](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L468)
+```ts
+type: "NS";
+```
+
+Defined in: [src/types.ts:468](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L468)
 
 The type of DNS record
 
 #### Overrides
 
-[`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
+[`BaseDNSRecord`](./BaseDNSRecord.md).[`type`](./BaseDNSRecord.md#type)
 
-***
+---
 
-### value
+<a id="value"></a>
 
-> **value**: `string`
+### value {#value}
 
-Defined in: [types.ts:470](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L470)
+```ts
+value: string;
+```
+
+Defined in: [src/types.ts:470](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L470)
 
 Name server hostname

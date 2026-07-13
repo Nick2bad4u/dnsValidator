@@ -1,8 +1,10 @@
 # Function: isValidDNSQueryResult()
 
-> **isValidDNSQueryResult**(`result`): `result is DNSQueryResult`
+```ts
+function isValidDNSQueryResult(result: unknown): result is DNSQueryResult;
+```
 
-Defined in: [utils.ts:81](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/utils.ts#L81)
+Defined in: [src/utils.ts:77](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/utils.ts#L77)
 
 Validates if a DNS query result structure is valid
 

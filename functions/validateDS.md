@@ -1,8 +1,10 @@
 # Function: validateDS()
 
-> **validateDS**(`record`): [`DSRecord`](../interfaces/DSRecord.md)
+```ts
+function validateDS(record: unknown): DSRecord;
+```
 
-Defined in: [dnssec.ts:303](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L303)
+Defined in: [src/dnssec.ts:302](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L302)
 
 Validates a DS record
 

@@ -1,8 +1,10 @@
 # Function: isSOARecord()
 
-> **isSOARecord**(`record`): `record is SOARecord`
+```ts
+function isSOARecord(record: unknown): record is SOARecord;
+```
 
-Defined in: [validators.ts:425](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/validators.ts#L425)
+Defined in: [src/validators.ts:425](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/validators.ts#L425)
 
 Validates an SOA record.
 

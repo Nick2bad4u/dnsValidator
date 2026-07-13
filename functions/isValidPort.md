@@ -1,8 +1,10 @@
 # Function: isValidPort()
 
-> **isValidPort**(`port`): `boolean`
+```ts
+function isValidPort(port: number): boolean;
+```
 
-Defined in: [utils.ts:153](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/utils.ts#L153)
+Defined in: [src/utils.ts:149](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/utils.ts#L149)
 
 Validates if a number is within a valid port range
 

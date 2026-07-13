@@ -1,13 +1,21 @@
 # Variable: NSEC3HashAlgorithm
 
-> `const` **NSEC3HashAlgorithm**: `object`
+```ts
+const NSEC3HashAlgorithm: {
+  SHA1: 1;
+};
+```
 
-Defined in: [dnssec.ts:171](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L171)
+Defined in: [src/dnssec.ts:171](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L171)
 
 NSEC3 hash algorithms
 
 ## Type Declaration
 
-### SHA1
+<a id="sha1"></a>
 
-> `readonly` **SHA1**: `1` = `1`
+### SHA1 {#sha1}
+
+```ts
+readonly SHA1: 1 = 1;
+```

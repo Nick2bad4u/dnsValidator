@@ -1,8 +1,10 @@
 # Function: isValidHexString()
 
-> **isValidHexString**(`hex`): `boolean`
+```ts
+function isValidHexString(hex: string): boolean;
+```
 
-Defined in: [utils.ts:132](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/utils.ts#L132)
+Defined in: [src/utils.ts:128](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/utils.ts#L128)
 
 Validates if a string is a valid hexadecimal string
 

@@ -1,7 +1,9 @@
 # Type Alias: DNSSECAlgorithm
 
-> **DNSSECAlgorithm** = `ValueOf`\<*typeof* [`DNSSECAlgorithm`](../variables/DNSSECAlgorithm.md)\>
+```ts
+type DNSSECAlgorithm = ValueOf<typeof DNSSECAlgorithm>;
+```
 
-Defined in: [dnssec.ts:147](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L147)
+Defined in: [src/dnssec.ts:147](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L147)
 
 DNSSEC algorithm number.

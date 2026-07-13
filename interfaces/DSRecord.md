@@ -1,6 +1,6 @@
 # Interface: DSRecord
 
-Defined in: [types.ts:281](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L281)
+Defined in: [src/types.ts:281](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L281)
 
 DS record - Delegation Signer, used to secure delegations between DNS zones.
 
@@ -8,83 +8,107 @@ DS record - Delegation Signer, used to secure delegations between DNS zones.
 
 ```typescript
 const record: DSRecord = {
-    type: "DS",
-    keyTag: 12345,
-    algorithm: 8, // RSA/SHA-256
-    digestType: 2, // SHA-256
-    digest: "A1B2C3D4E5F6...",
-    ttl: 86400,
+  type: "DS",
+  keyTag: 12345,
+  algorithm: 8, // RSA/SHA-256
+  digestType: 2, // SHA-256
+  digest: "A1B2C3D4E5F6...",
+  ttl: 86400,
 };
 ```
 
 ## Extends
 
-- [`BaseDNSRecord`](BaseDNSRecord.md)
+- [`BaseDNSRecord`](./BaseDNSRecord.md)
 
 ## Properties
 
-### ttl?
+<a id="ttl"></a>
 
-> `optional` **ttl?**: `number`
+### ttl? {#ttl}
 
-Defined in: [types.ts:76](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L76)
+```ts
+optional ttl?: number;
+```
+
+Defined in: [src/types.ts:76](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L76)
 
 Time to live in seconds (optional)
 
 #### Inherited from
 
-[`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
+[`BaseDNSRecord`](./BaseDNSRecord.md).[`ttl`](./BaseDNSRecord.md#ttl)
 
-***
+---
 
-### algorithm
+<a id="algorithm"></a>
 
-> **algorithm**: `number`
+### algorithm {#algorithm}
 
-Defined in: [types.ts:283](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L283)
+```ts
+algorithm: number;
+```
+
+Defined in: [src/types.ts:283](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L283)
 
 Cryptographic algorithm of the referenced key
 
-***
+---
 
-### digest
+<a id="digest"></a>
 
-> **digest**: `string`
+### digest {#digest}
 
-Defined in: [types.ts:285](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L285)
+```ts
+digest: string;
+```
+
+Defined in: [src/types.ts:285](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L285)
 
 Hexadecimal digest of the DNSKEY record
 
-***
+---
 
-### digestType
+<a id="digesttype"></a>
 
-> **digestType**: `number`
+### digestType {#digesttype}
 
-Defined in: [types.ts:287](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L287)
+```ts
+digestType: number;
+```
+
+Defined in: [src/types.ts:287](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L287)
 
 Digest algorithm used to create the digest
 
-***
+---
 
-### keyTag
+<a id="keytag"></a>
 
-> **keyTag**: `number`
+### keyTag {#keytag}
 
-Defined in: [types.ts:289](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L289)
+```ts
+keyTag: number;
+```
+
+Defined in: [src/types.ts:289](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L289)
 
 Key tag of the referenced DNSKEY record
 
-***
+---
 
-### type
+<a id="type"></a>
 
-> **type**: `"DS"`
+### type {#type}
 
-Defined in: [types.ts:290](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L290)
+```ts
+type: "DS";
+```
+
+Defined in: [src/types.ts:290](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L290)
 
 The type of DNS record
 
 #### Overrides
 
-[`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
+[`BaseDNSRecord`](./BaseDNSRecord.md).[`type`](./BaseDNSRecord.md#type)

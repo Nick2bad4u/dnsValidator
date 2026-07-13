@@ -1,8 +1,10 @@
 # Function: isCNAMERecord()
 
-> **isCNAMERecord**(`record`): `record is CNAMERecord`
+```ts
+function isCNAMERecord(record: unknown): record is CNAMERecord;
+```
 
-Defined in: [validators.ts:255](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/validators.ts#L255)
+Defined in: [src/validators.ts:255](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/validators.ts#L255)
 
 Validates a CNAME record (canonical name alias).
 
@@ -27,9 +29,9 @@ True if the record is a valid CNAME record
 
 ```typescript
 const record = {
-    type: "CNAME",
-    value: "canonical.example.com",
-    ttl: 300,
+  type: "CNAME",
+  value: "canonical.example.com",
+  ttl: 300,
 };
 console.log(isCNAMERecord(record)); // true
 

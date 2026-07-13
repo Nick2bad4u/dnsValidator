@@ -1,8 +1,10 @@
 # Function: isValidTLSASelector()
 
-> **isValidTLSASelector**(`selector`): `boolean`
+```ts
+function isValidTLSASelector(selector: number): boolean;
+```
 
-Defined in: [utils.ts:190](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/utils.ts#L190)
+Defined in: [src/utils.ts:186](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/utils.ts#L186)
 
 Validates if a TLSA selector value is valid
 

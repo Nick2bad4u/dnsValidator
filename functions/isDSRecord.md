@@ -1,8 +1,10 @@
 # Function: isDSRecord()
 
-> **isDSRecord**(`record`): `record is DSRecord`
+```ts
+function isDSRecord(record: unknown): record is DSRecord;
+```
 
-Defined in: [dnssec-validators.ts:135](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec-validators.ts#L135)
+Defined in: [src/dnssec-validators.ts:135](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec-validators.ts#L135)
 
 Validates a DS record
 

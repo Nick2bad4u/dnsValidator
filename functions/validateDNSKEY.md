@@ -1,8 +1,10 @@
 # Function: validateDNSKEY()
 
-> **validateDNSKEY**(`record`): [`DNSKEYRecord`](../interfaces/DNSKEYRecord.md)
+```ts
+function validateDNSKEY(record: unknown): DNSKEYRecord;
+```
 
-Defined in: [dnssec.ts:232](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L232)
+Defined in: [src/dnssec.ts:232](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L232)
 
 Validates a DNSKEY record
 

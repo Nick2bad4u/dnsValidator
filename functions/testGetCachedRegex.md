@@ -1,8 +1,10 @@
 # Function: testGetCachedRegex()
 
-> **testGetCachedRegex**(`pattern`, `flags?`): `RegExp`
+```ts
+function testGetCachedRegex(pattern: string, flags?: string): RegExp;
+```
 
-Defined in: [performance.ts:35](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L35)
+Defined in: [src/performance.ts:35](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L35)
 
 **`Internal`**
 
@@ -20,4 +22,4 @@ Test hook for exercising cache miss/hit branches.
 
 ## Returns
 
-`RegExp`
+[`RegExp`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp)

@@ -1,8 +1,10 @@
 # Function: isMXRecord()
 
-> **isMXRecord**(`record`): `record is MXRecord`
+```ts
+function isMXRecord(record: unknown): record is MXRecord;
+```
 
-Defined in: [validators.ts:274](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/validators.ts#L274)
+Defined in: [src/validators.ts:274](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/validators.ts#L274)
 
 Validates an MX record
 

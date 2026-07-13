@@ -1,37 +1,53 @@
 # Interface: DetailedValidationResult
 
-Defined in: [errors.ts:111](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L111)
+Defined in: [src/errors.ts:111](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L111)
 
 Enhanced validation result with detailed error information
 
 ## Properties
 
-### errors
+<a id="errors"></a>
 
-> **errors**: [`DNSValidationError`](../classes/DNSValidationError.md)[]
+### errors {#errors}
 
-Defined in: [errors.ts:112](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L112)
+```ts
+errors: DNSValidationError[];
+```
 
-***
+Defined in: [src/errors.ts:112](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L112)
 
-### isValid
+---
 
-> **isValid**: `boolean`
+<a id="isvalid"></a>
 
-Defined in: [errors.ts:113](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L113)
+### isValid {#isvalid}
 
-***
+```ts
+isValid: boolean;
+```
 
-### suggestions
+Defined in: [src/errors.ts:113](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L113)
 
-> **suggestions**: `string`[] \| `undefined`
+---
 
-Defined in: [errors.ts:114](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L114)
+<a id="suggestions"></a>
 
-***
+### suggestions {#suggestions}
 
-### warnings
+```ts
+suggestions: string[] | undefined;
+```
 
-> **warnings**: `string`[]
+Defined in: [src/errors.ts:114](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L114)
 
-Defined in: [errors.ts:115](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L115)
+---
+
+<a id="warnings"></a>
+
+### warnings {#warnings}
+
+```ts
+warnings: string[];
+```
+
+Defined in: [src/errors.ts:115](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/errors.ts#L115)

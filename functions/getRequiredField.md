@@ -1,8 +1,14 @@
 # Function: getRequiredField()
 
-> **getRequiredField**(`obj`, `field`, `expectedType`): `unknown`
+```ts
+function getRequiredField(
+  obj: Readonly<UnknownRecord>,
+  field: string,
+  expectedType: "string" | "number" | "boolean" | "object",
+): unknown;
+```
 
-Defined in: [performance.ts:123](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L123)
+Defined in: [src/performance.ts:131](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L131)
 
 Optimized field access with type checking.
 
@@ -10,7 +16,7 @@ Optimized field access with type checking.
 
 ### obj
 
-`Readonly`\<`UnknownRecord`\>
+[`Readonly`](../type-aliases/Readonly.md)<[`UnknownRecord`](../type-aliases/UnknownRecord.md)>
 
 ### field
 
@@ -18,7 +24,7 @@ Optimized field access with type checking.
 
 ### expectedType
 
-`"string"` \| `"number"` \| `"boolean"` \| `"object"`
+`"string"` | `"number"` | `"boolean"` | `"object"`
 
 ## Returns
 

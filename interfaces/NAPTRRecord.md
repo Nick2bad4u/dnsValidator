@@ -1,6 +1,6 @@
 # Interface: NAPTRRecord
 
-Defined in: [types.ts:340](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L340)
+Defined in: [src/types.ts:340](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L340)
 
 NAPTR record - Naming Authority Pointer.
 
@@ -11,105 +11,137 @@ applications.
 
 ```typescript
 const record: NAPTRRecord = {
-    type: "NAPTR",
-    order: 100,
-    preference: 50,
-    flags: "u",
-    service: "E2U+sip",
-    regexp: "!^.*$!sip:info@example.com!",
-    replacement: "",
-    ttl: 3600,
+  type: "NAPTR",
+  order: 100,
+  preference: 50,
+  flags: "u",
+  service: "E2U+sip",
+  regexp: "!^.*$!sip:info@example.com!",
+  replacement: "",
+  ttl: 3600,
 };
 ```
 
 ## Extends
 
-- [`BaseDNSRecord`](BaseDNSRecord.md)
+- [`BaseDNSRecord`](./BaseDNSRecord.md)
 
 ## Properties
 
-### ttl?
+<a id="ttl"></a>
 
-> `optional` **ttl?**: `number`
+### ttl? {#ttl}
 
-Defined in: [types.ts:76](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L76)
+```ts
+optional ttl?: number;
+```
+
+Defined in: [src/types.ts:76](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L76)
 
 Time to live in seconds (optional)
 
 #### Inherited from
 
-[`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
+[`BaseDNSRecord`](./BaseDNSRecord.md).[`ttl`](./BaseDNSRecord.md#ttl)
 
-***
+---
 
-### flags
+<a id="flags"></a>
 
-> **flags**: `string`
+### flags {#flags}
 
-Defined in: [types.ts:342](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L342)
+```ts
+flags: string;
+```
+
+Defined in: [src/types.ts:342](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L342)
 
 Flags controlling processing
 
-***
+---
 
-### order
+<a id="order"></a>
 
-> **order**: `number`
+### order {#order}
 
-Defined in: [types.ts:344](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L344)
+```ts
+order: number;
+```
+
+Defined in: [src/types.ts:344](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L344)
 
 Order value for processing sequence
 
-***
+---
 
-### preference
+<a id="preference"></a>
 
-> **preference**: `number`
+### preference {#preference}
 
-Defined in: [types.ts:346](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L346)
+```ts
+preference: number;
+```
+
+Defined in: [src/types.ts:346](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L346)
 
 Preference value within same order
 
-***
+---
 
-### regexp
+<a id="regexp"></a>
 
-> **regexp**: `string`
+### regexp {#regexp}
 
-Defined in: [types.ts:348](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L348)
+```ts
+regexp: string;
+```
+
+Defined in: [src/types.ts:348](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L348)
 
 Regular expression for URI construction
 
-***
+---
 
-### replacement
+<a id="replacement"></a>
 
-> **replacement**: `string`
+### replacement {#replacement}
 
-Defined in: [types.ts:350](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L350)
+```ts
+replacement: string;
+```
+
+Defined in: [src/types.ts:350](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L350)
 
 Replacement domain name
 
-***
+---
 
-### service
+<a id="service"></a>
 
-> **service**: `string`
+### service {#service}
 
-Defined in: [types.ts:352](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L352)
+```ts
+service: string;
+```
+
+Defined in: [src/types.ts:352](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L352)
 
 Service parameters
 
-***
+---
 
-### type
+<a id="type"></a>
 
-> **type**: `"NAPTR"`
+### type {#type}
 
-Defined in: [types.ts:353](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L353)
+```ts
+type: "NAPTR";
+```
+
+Defined in: [src/types.ts:353](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L353)
 
 The type of DNS record
 
 #### Overrides
 
-[`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
+[`BaseDNSRecord`](./BaseDNSRecord.md).[`type`](./BaseDNSRecord.md#type)

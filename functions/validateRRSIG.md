@@ -1,8 +1,10 @@
 # Function: validateRRSIG()
 
-> **validateRRSIG**(`record`): [`RRSIGRecord`](../interfaces/RRSIGRecord.md)
+```ts
+function validateRRSIG(record: unknown): RRSIGRecord;
+```
 
-Defined in: [dnssec.ts:745](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L745)
+Defined in: [src/dnssec.ts:744](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L744)
 
 Validates a RRSIG record
 

@@ -1,8 +1,10 @@
 # Function: isDNSKEYRecord()
 
-> **isDNSKEYRecord**(`record`): `record is DNSKEYRecord`
+```ts
+function isDNSKEYRecord(record: unknown): record is DNSKEYRecord;
+```
 
-Defined in: [dnssec-validators.ts:110](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec-validators.ts#L110)
+Defined in: [src/dnssec-validators.ts:110](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec-validators.ts#L110)
 
 Validates a DNSKEY record
 

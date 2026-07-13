@@ -1,6 +1,6 @@
 # Interface: SOARecord
 
-Defined in: [types.ts:561](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L561)
+Defined in: [src/types.ts:561](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L561)
 
 SOA record - Contains administrative information about a DNS zone.
 
@@ -8,159 +8,211 @@ SOA record - Contains administrative information about a DNS zone.
 
 ```typescript
 const record: SOARecord = {
-    type: "SOA",
-    primary: "ns1.example.com",
-    admin: "admin.example.com",
-    serial: 2023010101,
-    refresh: 3600,
-    retry: 1800,
-    expiration: 604800,
-    minimum: 86400,
-    ttl: 86400,
+  type: "SOA",
+  primary: "ns1.example.com",
+  admin: "admin.example.com",
+  serial: 2023010101,
+  refresh: 3600,
+  retry: 1800,
+  expiration: 604800,
+  minimum: 86400,
+  ttl: 86400,
 };
 ```
 
 ## Extends
 
-- [`BaseDNSRecord`](BaseDNSRecord.md)
+- [`BaseDNSRecord`](./BaseDNSRecord.md)
 
 ## Properties
 
-### ttl?
+<a id="ttl"></a>
 
-> `optional` **ttl?**: `number`
+### ttl? {#ttl}
 
-Defined in: [types.ts:76](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L76)
+```ts
+optional ttl?: number;
+```
+
+Defined in: [src/types.ts:76](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L76)
 
 Time to live in seconds (optional)
 
 #### Inherited from
 
-[`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
+[`BaseDNSRecord`](./BaseDNSRecord.md).[`ttl`](./BaseDNSRecord.md#ttl)
 
-***
+---
 
-### admin?
+<a id="admin"></a>
 
-> `optional` **admin?**: `string`
+### admin? {#admin}
 
-Defined in: [types.ts:566](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L566)
+```ts
+optional admin?: string;
+```
+
+Defined in: [src/types.ts:566](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L566)
 
 Administrator email (with the at sign replaced by .) (internal canonical
 field, Node uses 'hostmaster')
 
-***
+---
 
-### expiration?
+<a id="expiration"></a>
 
-> `optional` **expiration?**: `number`
+### expiration? {#expiration}
 
-Defined in: [types.ts:568](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L568)
+```ts
+optional expiration?: number;
+```
+
+Defined in: [src/types.ts:568](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L568)
 
 Expiration time in seconds (internal canonical field, Node uses 'expire')
 
-***
+---
 
-### expire?
+<a id="expire"></a>
 
-> `optional` **expire?**: `number`
+### expire? {#expire}
 
-Defined in: [types.ts:570](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L570)
+```ts
+optional expire?: number;
+```
+
+Defined in: [src/types.ts:570](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L570)
 
 Node.js compatible expiration field
 
-***
+---
 
-### hostmaster?
+<a id="hostmaster"></a>
 
-> `optional` **hostmaster?**: `string`
+### hostmaster? {#hostmaster}
 
-Defined in: [types.ts:572](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L572)
+```ts
+optional hostmaster?: string;
+```
+
+Defined in: [src/types.ts:572](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L572)
 
 Node.js compatible field name for administrator email
 
-***
+---
 
-### minimum?
+<a id="minimum"></a>
 
-> `optional` **minimum?**: `number`
+### minimum? {#minimum}
 
-Defined in: [types.ts:577](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L577)
+```ts
+optional minimum?: number;
+```
+
+Defined in: [src/types.ts:577](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L577)
 
 Minimum TTL for negative caching (internal canonical field, Node uses
 'minttl')
 
-***
+---
 
-### minttl?
+<a id="minttl"></a>
 
-> `optional` **minttl?**: `number`
+### minttl? {#minttl}
 
-Defined in: [types.ts:579](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L579)
+```ts
+optional minttl?: number;
+```
+
+Defined in: [src/types.ts:579](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L579)
 
 Node.js compatible minimum TTL field
 
-***
+---
 
-### nsname?
+<a id="nsname"></a>
 
-> `optional` **nsname?**: `string`
+### nsname? {#nsname}
 
-Defined in: [types.ts:581](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L581)
+```ts
+optional nsname?: string;
+```
+
+Defined in: [src/types.ts:581](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L581)
 
 Node.js compatible field name for primary name server
 
-***
+---
 
-### primary?
+<a id="primary"></a>
 
-> `optional` **primary?**: `string`
+### primary? {#primary}
 
-Defined in: [types.ts:586](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L586)
+```ts
+optional primary?: string;
+```
+
+Defined in: [src/types.ts:586](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L586)
 
 Primary name server (internal canonical field, Node.js dns.resolveSoa
 uses 'nsname')
 
-***
+---
 
-### refresh
+<a id="refresh"></a>
 
-> **refresh**: `number`
+### refresh {#refresh}
 
-Defined in: [types.ts:588](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L588)
+```ts
+refresh: number;
+```
+
+Defined in: [src/types.ts:588](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L588)
 
 Refresh interval in seconds
 
-***
+---
 
-### retry
+<a id="retry"></a>
 
-> **retry**: `number`
+### retry {#retry}
 
-Defined in: [types.ts:590](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L590)
+```ts
+retry: number;
+```
+
+Defined in: [src/types.ts:590](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L590)
 
 Retry interval in seconds
 
-***
+---
 
-### serial
+<a id="serial"></a>
 
-> **serial**: `number`
+### serial {#serial}
 
-Defined in: [types.ts:592](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L592)
+```ts
+serial: number;
+```
+
+Defined in: [src/types.ts:592](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L592)
 
 Serial number for zone transfers
 
-***
+---
 
-### type
+<a id="type"></a>
 
-> **type**: `"SOA"`
+### type {#type}
 
-Defined in: [types.ts:593](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L593)
+```ts
+type: "SOA";
+```
+
+Defined in: [src/types.ts:593](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L593)
 
 The type of DNS record
 
 #### Overrides
 
-[`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
+[`BaseDNSRecord`](./BaseDNSRecord.md).[`type`](./BaseDNSRecord.md#type)

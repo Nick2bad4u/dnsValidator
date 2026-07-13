@@ -1,7 +1,9 @@
 # Variable: ValidationPatterns
 
-> `const` **ValidationPatterns**: `Readonly`\<`Record`\<[`ValidationPatternName`](../type-aliases/ValidationPatternName.md), `RegExp`\>\>
+```ts
+const ValidationPatterns: Readonly<Record<ValidationPatternName, RegExp>>;
+```
 
-Defined in: [performance.ts:46](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L46)
+Defined in: [src/performance.ts:50](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L50)
 
 Pre-compiled regex patterns for common validations.

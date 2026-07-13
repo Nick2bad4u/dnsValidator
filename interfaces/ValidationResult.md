@@ -1,6 +1,6 @@
 # Interface: ValidationResult
 
-Defined in: [types.ts:732](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L732)
+Defined in: [src/types.ts:735](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L735)
 
 Basic validation result interface.
 
@@ -8,38 +8,50 @@ Basic validation result interface.
 
 ```typescript
 const result: ValidationResult = {
-    isValid: false,
-    errors: ["Invalid IP address format"],
-    warnings: ["TTL value is very low"],
+  isValid: false,
+  errors: ["Invalid IP address format"],
+  warnings: ["TTL value is very low"],
 };
 ```
 
 ## Properties
 
-### errors
+<a id="errors"></a>
 
-> **errors**: `string`[]
+### errors {#errors}
 
-Defined in: [types.ts:734](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L734)
+```ts
+errors: string[];
+```
+
+Defined in: [src/types.ts:737](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L737)
 
 Array of validation error messages
 
-***
+---
 
-### isValid
+<a id="isvalid"></a>
 
-> **isValid**: `boolean`
+### isValid {#isvalid}
 
-Defined in: [types.ts:736](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L736)
+```ts
+isValid: boolean;
+```
+
+Defined in: [src/types.ts:739](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L739)
 
 Whether the validation passed
 
-***
+---
 
-### warnings
+<a id="warnings"></a>
 
-> **warnings**: `string`[]
+### warnings {#warnings}
 
-Defined in: [types.ts:738](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L738)
+```ts
+warnings: string[];
+```
+
+Defined in: [src/types.ts:741](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L741)
 
 Array of validation warning messages

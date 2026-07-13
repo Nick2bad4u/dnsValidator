@@ -1,8 +1,10 @@
 # Function: fromNodeResolveAny()
 
-> **fromNodeResolveAny**(`arr`): [`ANYRecord`](../interfaces/ANYRecord.md)
+```ts
+function fromNodeResolveAny(arr: readonly unknown[]): ANYRecord;
+```
 
-Defined in: [node-compat.ts:38](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/node-compat.ts#L38)
+Defined in: [src/node-compat.ts:38](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/node-compat.ts#L38)
 
 Convert Node resolveAny array to internal ANYRecord
 
@@ -10,7 +12,7 @@ Convert Node resolveAny array to internal ANYRecord
 
 ### arr
 
-readonly `unknown`[]
+readonly `unknown`\[]
 
 ## Returns
 

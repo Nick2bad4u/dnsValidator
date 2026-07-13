@@ -1,8 +1,14 @@
 # Function: isValidIntegerInRange()
 
-> **isValidIntegerInRange**(`value`, `min`, `max`): `value is number`
+```ts
+function isValidIntegerInRange(
+  value: unknown,
+  min: number,
+  max: number,
+): value is number;
+```
 
-Defined in: [performance.ts:154](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L154)
+Defined in: [src/performance.ts:166](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L166)
 
 Fast integer range validation
 

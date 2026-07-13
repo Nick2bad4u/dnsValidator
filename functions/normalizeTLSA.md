@@ -1,8 +1,10 @@
 # Function: normalizeTLSA()
 
-> **normalizeTLSA**(`record`): [`TLSARecord`](../interfaces/TLSARecord.md)
+```ts
+function normalizeTLSA(record: Readonly<TLSARecord>): TLSARecord;
+```
 
-Defined in: [node-compat.ts:115](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/node-compat.ts#L115)
+Defined in: [src/node-compat.ts:115](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/node-compat.ts#L115)
 
 Normalize a TLSA record to include both internal and Node field names
 
@@ -10,7 +12,7 @@ Normalize a TLSA record to include both internal and Node field names
 
 ### record
 
-`Readonly`\<[`TLSARecord`](../interfaces/TLSARecord.md)\>
+[`Readonly`](../type-aliases/Readonly.md)<[`TLSARecord`](../interfaces/TLSARecord.md)>
 
 ## Returns
 

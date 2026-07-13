@@ -1,61 +1,129 @@
 # Variable: DNSSECAlgorithm
 
-> `const` **DNSSECAlgorithm**: `object`
+```ts
+const DNSSECAlgorithm: {
+  RSAMD5: 1;
+  DH: 2;
+  DSA: 3;
+  RSASHA1: 5;
+  DSA_NSEC3_SHA1: 6;
+  RSASHA1_NSEC3_SHA1: 7;
+  RSASHA256: 8;
+  RSASHA512: 10;
+  ECC_GOST: 12;
+  ECDSAP256SHA256: 13;
+  ECDSAP384SHA384: 14;
+  ED25519: 15;
+  ED448: 16;
+};
+```
 
-Defined in: [dnssec.ts:147](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L147)
+Defined in: [src/dnssec.ts:147](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L147)
 
 DNSSEC algorithms as defined in RFC 8624
 
 ## Type Declaration
 
-### RSAMD5
+<a id="rsamd5"></a>
 
-> `readonly` **RSAMD5**: `1` = `1`
+### RSAMD5 {#rsamd5}
 
-### DH
+```ts
+readonly RSAMD5: 1 = 1;
+```
 
-> `readonly` **DH**: `2` = `2`
+<a id="dh"></a>
 
-### DSA
+### DH {#dh}
 
-> `readonly` **DSA**: `3` = `3`
+```ts
+readonly DH: 2 = 2;
+```
 
-### RSASHA1
+<a id="dsa"></a>
 
-> `readonly` **RSASHA1**: `5` = `5`
+### DSA {#dsa}
 
-### DSA\_NSEC3\_SHA1
+```ts
+readonly DSA: 3 = 3;
+```
 
-> `readonly` **DSA\_NSEC3\_SHA1**: `6` = `6`
+<a id="rsasha1"></a>
 
-### RSASHA1\_NSEC3\_SHA1
+### RSASHA1 {#rsasha1}
 
-> `readonly` **RSASHA1\_NSEC3\_SHA1**: `7` = `7`
+```ts
+readonly RSASHA1: 5 = 5;
+```
 
-### RSASHA256
+<a id="dsa_nsec3_sha1"></a>
 
-> `readonly` **RSASHA256**: `8` = `8`
+### DSA\_NSEC3\_SHA1 {#dsa\_nsec3\_sha1}
 
-### RSASHA512
+```ts
+readonly DSA_NSEC3_SHA1: 6 = 6;
+```
 
-> `readonly` **RSASHA512**: `10` = `10`
+<a id="rsasha1_nsec3_sha1"></a>
 
-### ECC\_GOST
+### RSASHA1\_NSEC3\_SHA1 {#rsasha1\_nsec3\_sha1}
 
-> `readonly` **ECC\_GOST**: `12` = `12`
+```ts
+readonly RSASHA1_NSEC3_SHA1: 7 = 7;
+```
 
-### ECDSAP256SHA256
+<a id="rsasha256"></a>
 
-> `readonly` **ECDSAP256SHA256**: `13` = `13`
+### RSASHA256 {#rsasha256}
 
-### ECDSAP384SHA384
+```ts
+readonly RSASHA256: 8 = 8;
+```
 
-> `readonly` **ECDSAP384SHA384**: `14` = `14`
+<a id="rsasha512"></a>
 
-### ED25519
+### RSASHA512 {#rsasha512}
 
-> `readonly` **ED25519**: `15` = `15`
+```ts
+readonly RSASHA512: 10 = 10;
+```
 
-### ED448
+<a id="ecc_gost"></a>
 
-> `readonly` **ED448**: `16` = `16`
+### ECC\_GOST {#ecc\_gost}
+
+```ts
+readonly ECC_GOST: 12 = 12;
+```
+
+<a id="ecdsap256sha256"></a>
+
+### ECDSAP256SHA256 {#ecdsap256sha256}
+
+```ts
+readonly ECDSAP256SHA256: 13 = 13;
+```
+
+<a id="ecdsap384sha384"></a>
+
+### ECDSAP384SHA384 {#ecdsap384sha384}
+
+```ts
+readonly ECDSAP384SHA384: 14 = 14;
+```
+
+<a id="ed25519"></a>
+
+### ED25519 {#ed25519}
+
+```ts
+readonly ED25519: 15 = 15;
+```
+
+<a id="ed448"></a>
+
+### ED448 {#ed448}
+
+```ts
+readonly ED448: 16 = 16;
+```

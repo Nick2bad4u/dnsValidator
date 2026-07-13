@@ -1,8 +1,10 @@
 # Function: isAAAARecord()
 
-> **isAAAARecord**(`record`): `record is AAAARecord`
+```ts
+function isAAAARecord(record: unknown): record is AAAARecord;
+```
 
-Defined in: [validators.ts:112](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/validators.ts#L112)
+Defined in: [src/validators.ts:112](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/validators.ts#L112)
 
 Validates an AAAA record (IPv6 address mapping).
 

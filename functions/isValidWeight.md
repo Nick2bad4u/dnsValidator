@@ -1,8 +1,10 @@
 # Function: isValidWeight()
 
-> **isValidWeight**(`weight`): `boolean`
+```ts
+function isValidWeight(weight: number): boolean;
+```
 
-Defined in: [utils.ts:211](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/utils.ts#L211)
+Defined in: [src/utils.ts:207](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/utils.ts#L207)
 
 Validates if a number is a valid weight value
 

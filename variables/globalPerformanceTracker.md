@@ -1,7 +1,9 @@
 # Variable: globalPerformanceTracker
 
-> `const` **globalPerformanceTracker**: [`ValidationPerformanceTracker`](../classes/ValidationPerformanceTracker.md)
+```ts
+const globalPerformanceTracker: ValidationPerformanceTracker;
+```
 
-Defined in: [performance.ts:271](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L271)
+Defined in: [src/performance.ts:283](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L283)
 
 Global performance tracker instance

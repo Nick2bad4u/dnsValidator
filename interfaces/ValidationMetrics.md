@@ -1,45 +1,65 @@
 # Interface: ValidationMetrics
 
-Defined in: [performance.ts:195](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L195)
+Defined in: [src/performance.ts:207](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L207)
 
 Validation performance metrics
 
 ## Properties
 
-### averageTimeMs
+<a id="averagetimems"></a>
 
-> **averageTimeMs**: `number`
+### averageTimeMs {#averagetimems}
 
-Defined in: [performance.ts:196](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L196)
+```ts
+averageTimeMs: number;
+```
 
-***
+Defined in: [src/performance.ts:208](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L208)
 
-### cacheHits
+---
 
-> **cacheHits**: `number`
+<a id="cachehits"></a>
 
-Defined in: [performance.ts:197](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L197)
+### cacheHits {#cachehits}
 
-***
+```ts
+cacheHits: number;
+```
 
-### cacheMisses
+Defined in: [src/performance.ts:209](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L209)
 
-> **cacheMisses**: `number`
+---
 
-Defined in: [performance.ts:198](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L198)
+<a id="cachemisses"></a>
 
-***
+### cacheMisses {#cachemisses}
 
-### successfulValidations
+```ts
+cacheMisses: number;
+```
 
-> **successfulValidations**: `number`
+Defined in: [src/performance.ts:210](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L210)
 
-Defined in: [performance.ts:199](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L199)
+---
 
-***
+<a id="successfulvalidations"></a>
 
-### totalValidations
+### successfulValidations {#successfulvalidations}
 
-> **totalValidations**: `number`
+```ts
+successfulValidations: number;
+```
 
-Defined in: [performance.ts:200](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L200)
+Defined in: [src/performance.ts:211](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L211)
+
+---
+
+<a id="totalvalidations"></a>
+
+### totalValidations {#totalvalidations}
+
+```ts
+totalValidations: number;
+```
+
+Defined in: [src/performance.ts:212](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L212)

@@ -1,8 +1,10 @@
 # Function: isValidRecordType()
 
-> **isValidRecordType**(`type`): `type is DNSRecordType`
+```ts
+function isValidRecordType(type: unknown): type is DNSRecordType;
+```
 
-Defined in: [performance.ts:264](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L264)
+Defined in: [src/performance.ts:276](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L276)
 
 Fast record type validation
 

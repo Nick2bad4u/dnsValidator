@@ -1,8 +1,12 @@
 # Function: validateDNSResponse()
 
-> **validateDNSResponse**(`result`): [`ValidationResult`](../interfaces/ValidationResult.md)
+```ts
+function validateDNSResponse(
+  result: Readonly<DNSQueryResult>,
+): ValidationResult;
+```
 
-Defined in: [utils.ts:218](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/utils.ts#L218)
+Defined in: [src/utils.ts:214](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/utils.ts#L214)
 
 Validates DNS query response completeness and consistency
 
@@ -10,7 +14,7 @@ Validates DNS query response completeness and consistency
 
 ### result
 
-`Readonly`\<[`DNSQueryResult`](../interfaces/DNSQueryResult.md)\>
+[`Readonly`](../type-aliases/Readonly.md)<[`DNSQueryResult`](../interfaces/DNSQueryResult.md)>
 
 ## Returns
 

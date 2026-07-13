@@ -1,6 +1,6 @@
 # Interface: RRSIGRecord
 
-Defined in: [types.ts:518](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L518)
+Defined in: [src/types.ts:518](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L518)
 
 RRSIG record - Resource Record Signature, contains DNSSEC signature for a
 resource record set.
@@ -9,138 +9,182 @@ resource record set.
 
 ```typescript
 const record: RRSIGRecord = {
-    type: "RRSIG",
-    typeCovered: "A",
-    algorithm: 8, // RSA/SHA-256
-    labels: 2,
-    originalTTL: 300,
-    signatureExpiration: 1640995200,
-    signatureInception: 1640908800,
-    keyTag: 12345,
-    signerName: "example.com",
-    signature: "ABCDEF123456...",
-    ttl: 300,
+  type: "RRSIG",
+  typeCovered: "A",
+  algorithm: 8, // RSA/SHA-256
+  labels: 2,
+  originalTTL: 300,
+  signatureExpiration: 1640995200,
+  signatureInception: 1640908800,
+  keyTag: 12345,
+  signerName: "example.com",
+  signature: "ABCDEF123456...",
+  ttl: 300,
 };
 ```
 
 ## Extends
 
-- [`BaseDNSRecord`](BaseDNSRecord.md)
+- [`BaseDNSRecord`](./BaseDNSRecord.md)
 
 ## Properties
 
-### ttl?
+<a id="ttl"></a>
 
-> `optional` **ttl?**: `number`
+### ttl? {#ttl}
 
-Defined in: [types.ts:76](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L76)
+```ts
+optional ttl?: number;
+```
+
+Defined in: [src/types.ts:76](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L76)
 
 Time to live in seconds (optional)
 
 #### Inherited from
 
-[`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
+[`BaseDNSRecord`](./BaseDNSRecord.md).[`ttl`](./BaseDNSRecord.md#ttl)
 
-***
+---
 
-### algorithm
+<a id="algorithm"></a>
 
-> **algorithm**: `number`
+### algorithm {#algorithm}
 
-Defined in: [types.ts:520](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L520)
+```ts
+algorithm: number;
+```
+
+Defined in: [src/types.ts:520](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L520)
 
 Cryptographic algorithm used
 
-***
+---
 
-### keyTag
+<a id="keytag"></a>
 
-> **keyTag**: `number`
+### keyTag {#keytag}
 
-Defined in: [types.ts:522](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L522)
+```ts
+keyTag: number;
+```
+
+Defined in: [src/types.ts:522](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L522)
 
 Key tag of the DNSKEY RR that validates this signature
 
-***
+---
 
-### labels
+<a id="labels"></a>
 
-> **labels**: `number`
+### labels {#labels}
 
-Defined in: [types.ts:524](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L524)
+```ts
+labels: number;
+```
+
+Defined in: [src/types.ts:524](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L524)
 
 Number of labels in the original RRSIG RR owner name
 
-***
+---
 
-### originalTTL
+<a id="originalttl"></a>
 
-> **originalTTL**: `number`
+### originalTTL {#originalttl}
 
-Defined in: [types.ts:526](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L526)
+```ts
+originalTTL: number;
+```
+
+Defined in: [src/types.ts:526](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L526)
 
 Original TTL of the covered RRset
 
-***
+---
 
-### signature
+<a id="signature"></a>
 
-> **signature**: `string`
+### signature {#signature}
 
-Defined in: [types.ts:528](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L528)
+```ts
+signature: string;
+```
+
+Defined in: [src/types.ts:528](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L528)
 
 Base64-encoded signature
 
-***
+---
 
-### signatureExpiration
+<a id="signatureexpiration"></a>
 
-> **signatureExpiration**: `number`
+### signatureExpiration {#signatureexpiration}
 
-Defined in: [types.ts:530](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L530)
+```ts
+signatureExpiration: number;
+```
+
+Defined in: [src/types.ts:530](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L530)
 
 Signature expiration time (Unix timestamp)
 
-***
+---
 
-### signatureInception
+<a id="signatureinception"></a>
 
-> **signatureInception**: `number`
+### signatureInception {#signatureinception}
 
-Defined in: [types.ts:532](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L532)
+```ts
+signatureInception: number;
+```
+
+Defined in: [src/types.ts:532](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L532)
 
 Signature inception time (Unix timestamp)
 
-***
+---
 
-### signerName
+<a id="signername"></a>
 
-> **signerName**: `string`
+### signerName {#signername}
 
-Defined in: [types.ts:534](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L534)
+```ts
+signerName: string;
+```
+
+Defined in: [src/types.ts:534](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L534)
 
 Domain name of the signer
 
-***
+---
 
-### type
+<a id="type"></a>
 
-> **type**: `"RRSIG"`
+### type {#type}
 
-Defined in: [types.ts:535](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L535)
+```ts
+type: "RRSIG";
+```
+
+Defined in: [src/types.ts:535](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L535)
 
 The type of DNS record
 
 #### Overrides
 
-[`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
+[`BaseDNSRecord`](./BaseDNSRecord.md).[`type`](./BaseDNSRecord.md#type)
 
-***
+---
 
-### typeCovered
+<a id="typecovered"></a>
 
-> **typeCovered**: `string`
+### typeCovered {#typecovered}
 
-Defined in: [types.ts:537](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L537)
+```ts
+typeCovered: string;
+```
+
+Defined in: [src/types.ts:537](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L537)
 
 Type of RRset covered by this signature

@@ -1,6 +1,6 @@
 # Interface: NSEC3Record
 
-Defined in: [types.ts:407](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L407)
+Defined in: [src/types.ts:407](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L407)
 
 NSEC3 record - Next Secure version 3, provides authenticated denial of
 existence with hashed names.
@@ -9,116 +9,152 @@ existence with hashed names.
 
 ```typescript
 const record: NSEC3Record = {
-    type: "NSEC3",
-    hashAlgorithm: 1, // SHA-1
-    flags: 0,
-    iterations: 12,
-    salt: "aabbccdd",
-    nextHashedOwnerName: "p0llp5g0r78e008k65jk5u69i5smp0n8",
-    typeBitMaps: ["A", "RRSIG"],
-    ttl: 86400,
+  type: "NSEC3",
+  hashAlgorithm: 1, // SHA-1
+  flags: 0,
+  iterations: 12,
+  salt: "aabbccdd",
+  nextHashedOwnerName: "p0llp5g0r78e008k65jk5u69i5smp0n8",
+  typeBitMaps: ["A", "RRSIG"],
+  ttl: 86400,
 };
 ```
 
 ## Extends
 
-- [`BaseDNSRecord`](BaseDNSRecord.md)
+- [`BaseDNSRecord`](./BaseDNSRecord.md)
 
 ## Properties
 
-### ttl?
+<a id="ttl"></a>
 
-> `optional` **ttl?**: `number`
+### ttl? {#ttl}
 
-Defined in: [types.ts:76](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L76)
+```ts
+optional ttl?: number;
+```
+
+Defined in: [src/types.ts:76](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L76)
 
 Time to live in seconds (optional)
 
 #### Inherited from
 
-[`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
+[`BaseDNSRecord`](./BaseDNSRecord.md).[`ttl`](./BaseDNSRecord.md#ttl)
 
-***
+---
 
-### flags
+<a id="flags"></a>
 
-> **flags**: `number`
+### flags {#flags}
 
-Defined in: [types.ts:409](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L409)
+```ts
+flags: number;
+```
+
+Defined in: [src/types.ts:409](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L409)
 
 Flags field
 
-***
+---
 
-### hashAlgorithm
+<a id="hashalgorithm"></a>
 
-> **hashAlgorithm**: `number`
+### hashAlgorithm {#hashalgorithm}
 
-Defined in: [types.ts:411](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L411)
+```ts
+hashAlgorithm: number;
+```
+
+Defined in: [src/types.ts:411](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L411)
 
 Hash algorithm used
 
-***
+---
 
-### iterations
+<a id="iterations"></a>
 
-> **iterations**: `number`
+### iterations {#iterations}
 
-Defined in: [types.ts:413](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L413)
+```ts
+iterations: number;
+```
+
+Defined in: [src/types.ts:413](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L413)
 
 Number of hash iterations
 
-***
+---
 
-### nextHashedOwnerName
+<a id="nexthashedownername"></a>
 
-> **nextHashedOwnerName**: `string`
+### nextHashedOwnerName {#nexthashedownername}
 
-Defined in: [types.ts:415](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L415)
+```ts
+nextHashedOwnerName: string;
+```
+
+Defined in: [src/types.ts:415](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L415)
 
 Next hashed owner name in base32hex
 
-***
+---
 
-### salt
+<a id="salt"></a>
 
-> **salt**: `string`
+### salt {#salt}
 
-Defined in: [types.ts:417](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L417)
+```ts
+salt: string;
+```
+
+Defined in: [src/types.ts:417](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L417)
 
 Salt value in hexadecimal
 
-***
+---
 
-### type
+<a id="type"></a>
 
-> **type**: `"NSEC3"`
+### type {#type}
 
-Defined in: [types.ts:418](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L418)
+```ts
+type: "NSEC3";
+```
+
+Defined in: [src/types.ts:418](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L418)
 
 The type of DNS record
 
 #### Overrides
 
-[`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
+[`BaseDNSRecord`](./BaseDNSRecord.md).[`type`](./BaseDNSRecord.md#type)
 
-***
+---
 
-### typeBitMaps
+<a id="typebitmaps"></a>
 
-> **typeBitMaps**: `string`[]
+### typeBitMaps {#typebitmaps}
 
-Defined in: [types.ts:420](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L420)
+```ts
+typeBitMaps: string[];
+```
+
+Defined in: [src/types.ts:420](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L420)
 
 Array of record types that exist at this name
 
-***
+---
 
-### ~~types?~~
+<a id="types"></a>
 
-> `optional` **types?**: `string`[]
+### ~~types?~~ {#types}
 
-Defined in: [types.ts:422](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L422)
+```ts
+optional types?: string[];
+```
+
+Defined in: [src/types.ts:422](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L422)
 
 #### Deprecated
 

@@ -1,8 +1,14 @@
 # Function: validateSignatureTimestamps()
 
-> **validateSignatureTimestamps**(`inception`, `expiration`, `clockSkew?`): `boolean`
+```ts
+function validateSignatureTimestamps(
+  inception: number,
+  expiration: number,
+  clockSkew?: number,
+): boolean;
+```
 
-Defined in: [dnssec.ts:862](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L862)
+Defined in: [src/dnssec.ts:860](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L860)
 
 Validates DNSSEC signature timestamps
 

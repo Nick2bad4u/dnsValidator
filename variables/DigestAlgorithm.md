@@ -1,25 +1,48 @@
 # Variable: DigestAlgorithm
 
-> `const` **DigestAlgorithm**: `object`
+```ts
+const DigestAlgorithm: {
+  SHA1: 1;
+  SHA256: 2;
+  GOST: 3;
+  SHA384: 4;
+};
+```
 
-Defined in: [dnssec.ts:118](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L118)
+Defined in: [src/dnssec.ts:118](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/dnssec.ts#L118)
 
 DNSSEC digest algorithms
 
 ## Type Declaration
 
-### SHA1
+<a id="sha1"></a>
 
-> `readonly` **SHA1**: `1` = `1`
+### SHA1 {#sha1}
 
-### SHA256
+```ts
+readonly SHA1: 1 = 1;
+```
 
-> `readonly` **SHA256**: `2` = `2`
+<a id="sha256"></a>
 
-### GOST
+### SHA256 {#sha256}
 
-> `readonly` **GOST**: `3` = `3`
+```ts
+readonly SHA256: 2 = 2;
+```
 
-### SHA384
+<a id="gost"></a>
 
-> `readonly` **SHA384**: `4` = `4`
+### GOST {#gost}
+
+```ts
+readonly GOST: 3 = 3;
+```
+
+<a id="sha384"></a>
+
+### SHA384 {#sha384}
+
+```ts
+readonly SHA384: 4 = 4;
+```

@@ -1,8 +1,13 @@
 # Function: trackPerformance()
 
-> **trackPerformance**\<`Arguments`, `Return`\>(`validationFn`, `tracker?`): (...`args`) => `Return`
+```ts
+function trackPerformance<Arguments, Return>(
+  validationFn: (...args: Arguments) => Return,
+  tracker?: ValidationPerformanceTracker,
+): (...args: Arguments) => Return;
+```
 
-Defined in: [performance.ts:277](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L277)
+Defined in: [src/performance.ts:289](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/performance.ts#L289)
 
 Decorator for tracking validation performance
 
@@ -10,7 +15,7 @@ Decorator for tracking validation performance
 
 ### Arguments
 
-`Arguments` *extends* `unknown`[]
+`Arguments` _extends_ `unknown`\[]
 
 ### Return
 
@@ -20,7 +25,7 @@ Decorator for tracking validation performance
 
 ### validationFn
 
-(...`args`) => `Return`
+(...`args`: `Arguments`) => `Return`
 
 ### tracker?
 
@@ -28,4 +33,4 @@ Decorator for tracking validation performance
 
 ## Returns
 
-(...`args`) => `Return`
+(...`args`: `Arguments`) => `Return`

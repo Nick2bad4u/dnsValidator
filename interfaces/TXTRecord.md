@@ -1,6 +1,6 @@
 # Interface: TXTRecord
 
-Defined in: [types.ts:711](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L711)
+Defined in: [src/types.ts:714](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L714)
 
 TXT record - Contains arbitrary text data.
 
@@ -8,50 +8,62 @@ TXT record - Contains arbitrary text data.
 
 ```typescript
 const record: TXTRecord = {
-    type: "TXT",
-    entries: ["v=spf1 include:_spf.google.com ~all"],
-    ttl: 300,
+  type: "TXT",
+  entries: ["v=spf1 include:_spf.google.com ~all"],
+  ttl: 300,
 };
 ```
 
 ## Extends
 
-- [`BaseDNSRecord`](BaseDNSRecord.md)
+- [`BaseDNSRecord`](./BaseDNSRecord.md)
 
 ## Properties
 
-### ttl?
+<a id="ttl"></a>
 
-> `optional` **ttl?**: `number`
+### ttl? {#ttl}
 
-Defined in: [types.ts:76](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L76)
+```ts
+optional ttl?: number;
+```
+
+Defined in: [src/types.ts:76](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L76)
 
 Time to live in seconds (optional)
 
 #### Inherited from
 
-[`BaseDNSRecord`](BaseDNSRecord.md).[`ttl`](BaseDNSRecord.md#ttl)
+[`BaseDNSRecord`](./BaseDNSRecord.md).[`ttl`](./BaseDNSRecord.md#ttl)
 
-***
+---
 
-### entries
+<a id="entries"></a>
 
-> **entries**: `string`[]
+### entries {#entries}
 
-Defined in: [types.ts:713](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L713)
+```ts
+entries: string[];
+```
+
+Defined in: [src/types.ts:716](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L716)
 
 Array of text strings
 
-***
+---
 
-### type
+<a id="type"></a>
 
-> **type**: `"TXT"`
+### type {#type}
 
-Defined in: [types.ts:714](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L714)
+```ts
+type: "TXT";
+```
+
+Defined in: [src/types.ts:717](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/types.ts#L717)
 
 The type of DNS record
 
 #### Overrides
 
-[`BaseDNSRecord`](BaseDNSRecord.md).[`type`](BaseDNSRecord.md#type)
+[`BaseDNSRecord`](./BaseDNSRecord.md).[`type`](./BaseDNSRecord.md#type)

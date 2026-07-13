@@ -1,8 +1,10 @@
 # Function: isCAARecord()
 
-> **isCAARecord**(`record`): `record is CAARecord`
+```ts
+function isCAARecord(record: unknown): record is CAARecord;
+```
 
-Defined in: [validators.ts:197](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/validators.ts#L197)
+Defined in: [src/validators.ts:197](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/validators.ts#L197)
 
 Validates a CAA record
 

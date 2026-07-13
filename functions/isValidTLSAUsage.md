@@ -1,8 +1,10 @@
 # Function: isValidTLSAUsage()
 
-> **isValidTLSAUsage**(`usage`): `boolean`
+```ts
+function isValidTLSAUsage(usage: number): boolean;
+```
 
-Defined in: [utils.ts:197](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/utils.ts#L197)
+Defined in: [src/utils.ts:193](https://github.com/Nick2bad4u/dnsValidator/blob/main/src/utils.ts#L193)
 
 Validates if a TLSA usage value is valid
 
